@@ -40,9 +40,9 @@ function Content() {
           <p style={{ fontSize: "2.5vh" }}>Ron and Jen!</p>
         </div>
         <div id="weather-container">
-          <p >Singapore</p>
-          <p >Thursday 9am</p>
-          <p >Mostly Cloudy</p>
+          <p style={{ fontSize: "2vh" }}>Singapore</p>
+          <p>Thursday 9am</p>
+          <p>Mostly Cloudy</p>
           <p style={{ fontWeight: "bold" }}>28 °C</p>
         </div>
       </div>
@@ -72,8 +72,12 @@ function Content() {
         <div className="recent-item">
           <img src={require("./images/greystatus.png")} alt="Status"></img>
           <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373" }}>Row 2</p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5" }}>Status</p>
+            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
+              Row 2
+            </p>
+            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+              Status
+            </p>
           </div>
           <p
             style={{
@@ -91,8 +95,12 @@ function Content() {
         <div className="recent-item">
           <img src={require("./images/greystatus.png")} alt="Status"></img>
           <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373" }}>Row 5</p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5" }}>Status</p>
+            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
+              Row 5
+            </p>
+            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+              Status
+            </p>
           </div>
           <p
             style={{
@@ -110,8 +118,12 @@ function Content() {
         <div className="recent-item">
           <img src={require("./images/greycamera.png")} alt="Camera"></img>
           <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373" }}>Row 2</p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5" }}>Camera</p>
+            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
+              Row 2
+            </p>
+            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+              Camera
+            </p>
           </div>
           <p
             style={{
@@ -125,7 +137,6 @@ function Content() {
             &gt;
           </p>
         </div>
-
       </div>
     </div>
   );
