@@ -1,13 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import React, { useState, useEffect } from "react";
 import "../index.css";
-import {
-  Link,
-  Routes,
-  Route,
-  BrowserRouter,
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function HomeMonitoringTop() {
   return (
@@ -19,13 +12,47 @@ function HomeMonitoringTop() {
           alt=""
         ></img>
       </div>
-      <p className="top-title">Home Monitoring</p>
+      <p className="top-title">HOME MONITORING</p>
     </div>
   );
 }
 
 function HomeMonitoringContent() {
   const navigate = useNavigate();
+  const [weatherData, setWeatherData] = useState({
+    name: "",
+    sys: { country: "" },
+    dt: 0,
+    weather: [{ description: "" }],
+    main: { temp: 0 },
+  });
+
+  useEffect(() => {
+    const apiKey = "662c2df70979465f90b101456566dea2";
+    const city = "Singapore";
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        const adjustedTimeStamp = data.dt  + 4 * 60  ;
+        setWeatherData({ ...data, dt: adjustedTimeStamp });
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching weather data:", error);
+      });
+  }, []);
+
+  const formattedDate = new Date(weatherData.dt * 1000).toLocaleDateString(
+    "en-US",
+    {
+      weekday: "long",
+      hour: "numeric",
+      minute: "numeric",
+      timeZone: 'Asia/Singapore',
+    }
+  );
 
   return (
     <div id="content" className="content">
@@ -36,16 +63,22 @@ function HomeMonitoringContent() {
           <p style={{ fontSize: "2.5vh" }}>Ron and Jen!</p>
         </div>
         <div id="weather-container">
-          <p style={{ fontSize: "2vh" }}>Singapore</p>
-          <p>Thursday 9am</p>
-          <p>Mostly Cloudy</p>
-          <p style={{ fontWeight: "bold" }}>28 °C</p>
+          <p style={{ fontSize: "2vh" }}>
+            {weatherData.name}, {weatherData.sys.country}
+          </p>
+          <p>{formattedDate}</p>
+          <p>{weatherData.weather[0].description}</p>
+          <p style={{ fontWeight: "bold" }}>{weatherData.main.temp} °C</p>
         </div>
       </div>
 
       {/* Box Feature Section */}
       <div id="feature-container">
-        <div className="feature-item" id="feature1" onClick={() => navigate("/row")}>
+        <div
+          className="feature-item"
+          id="feature1"
+          onClick={() => navigate("/row")}
+        >
           <img src={require("../images/greenstatus.png")} alt="Status"></img>
           <img
             src={require("../images/whitestatus.png")}
@@ -70,7 +103,11 @@ function HomeMonitoringContent() {
           <p style={{ color: "#8793AE" }}> Camera</p>
         </div>
 
-        <div className="feature-item" id="feature3" onClick={() => navigate("/settings")}>
+        <div
+          className="feature-item"
+          id="feature3"
+          onClick={() => navigate("/settings")}
+        >
           <img src={require("../images/settings.png")} alt="Settings"></img>
           <img
             src={require("../images/whitesettings.png")}
@@ -104,7 +141,7 @@ function HomeMonitoringContent() {
               marginBottom: "0",
               paddingRight: "2%",
               fontSize: "3.5vh",
-              color:"#C8C8C8"
+              color: "#C8C8C8",
             }}
           >
             &gt;
@@ -128,7 +165,7 @@ function HomeMonitoringContent() {
               marginBottom: "0",
               paddingRight: "2%",
               fontSize: "3.5vh",
-              color:"#C8C8C8"
+              color: "#C8C8C8",
             }}
           >
             &gt;
@@ -152,7 +189,7 @@ function HomeMonitoringContent() {
               marginBottom: "0",
               paddingRight: "2%",
               fontSize: "3.5vh",
-              color:"#C8C8C8"
+              color: "#C8C8C8",
             }}
           >
             &gt;

@@ -64,7 +64,7 @@ function StatusContent() {
             {Status[i]}
           </p>
           <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-            Overall Status : GOOD
+            Status : GOOD, Value: 
           </p>
         </div>
         <div style={{ width: "10%" }}>
