@@ -45,7 +45,7 @@ function HomeMonitoringContent() {
 
       {/* Box Feature Section */}
       <div id="feature-container">
-        <div className="feature-item" id="feature1" onClick={() => navigate("/status")}>
+        <div className="feature-item" id="feature1" onClick={() => navigate("/row")}>
           <img src={require("../images/greenstatus.png")} alt="Status"></img>
           <img
             src={require("../images/whitestatus.png")}
@@ -59,7 +59,7 @@ function HomeMonitoringContent() {
           className="feature-item"
           style={{ marginRight: "15%" }}
           id="feature2"
-          onClick={() => navigate("/camera")}
+          onClick={() => navigate("/row")}
         >
           <img src={require("../images/camera.png")} alt="Camera"></img>
           <img
@@ -104,6 +104,7 @@ function HomeMonitoringContent() {
               marginBottom: "0",
               paddingRight: "2%",
               fontSize: "3.5vh",
+              color:"#C8C8C8"
             }}
           >
             &gt;
@@ -127,6 +128,7 @@ function HomeMonitoringContent() {
               marginBottom: "0",
               paddingRight: "2%",
               fontSize: "3.5vh",
+              color:"#C8C8C8"
             }}
           >
             &gt;
@@ -150,6 +152,7 @@ function HomeMonitoringContent() {
               marginBottom: "0",
               paddingRight: "2%",
               fontSize: "3.5vh",
+              color:"#C8C8C8"
             }}
           >
             &gt;

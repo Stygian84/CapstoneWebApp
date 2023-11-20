@@ -47,9 +47,10 @@ body {
 }
 
 .top-title {
-  margin-left: 15vw;
+  margin-left: 17.5vw;
   font-size: 2.5vh;
   color: #7aa0b8;
+  font-weight: 500;
 }
 
 a:hover,

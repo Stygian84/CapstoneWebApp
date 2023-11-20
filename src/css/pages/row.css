@@ -1,0 +1,33 @@
+/* Recent CSS */
+
+#recent-header {
+  margin-left: 5vw;
+}
+
+#status-container {
+  margin: 0 5vw 0 5vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: row;
+  background: white;
+  align-items: center;
+  margin-bottom: 2vh;
+
+  border-radius: 20px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+
+
+.status-row-status {
+  display: flex;
+  flex-direction: column;
+  padding: 4% 0 4% 0;
+}
+.status-row-status p {
+  margin: 0;
+}
