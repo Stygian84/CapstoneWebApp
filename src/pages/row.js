@@ -15,7 +15,7 @@ function RowTop() {
           alt=""
         ></img>
       </div>
-      <p className="top-title">Row Selection</p>
+      <p className="top-title">ROW SELECTION</p>
     </div>
   );
 }

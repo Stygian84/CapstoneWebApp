@@ -1,11 +1,18 @@
 import React from "react";
 import "../index.css";
 import "../css/pages/status.css";
-import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  BrowserRouter,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 
 function StatusTop() {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const { index } = location.state || {}; // Extract the index from the state
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
@@ -15,7 +22,7 @@ function StatusTop() {
           alt=""
         ></img>
       </div>
-      <p className="top-title">Row Selection</p>
+      <p className="top-title">ROW {index} STATUS</p>
     </div>
   );
 }
@@ -24,27 +31,37 @@ function StatusContent() {
   const navigate = useNavigate();
 
   let StatusRow = [];
-
-  for (let i = 1; i <= 12; i++) {
+  let Status = [
+    "LIGHTS",
+    "AIR TEMPERATURE",
+    "SOIL MOISTURE",
+    "HUMIDITY",
+    "SOIL pH",
+    "LIGHT INTENSITY",
+    "AIR QUALITY",
+  ];
+  for (let i = 0; i < Status.length; i++) {
+    
     StatusRow.push(
       <div
         className="status-item"
-        onClick={() => navigate("/status", { state: { index: i } })}
         key={i}
       >
-        <div
+        <img
           style={{
-            margin: "0 0 0 10%",
+            margin: "3% 0 3% 3%",
+            padding: "3%",
             width: "10%",
           }}
-        >
-          <p style={{ fontSize: "2vh", color: "#7AA0B8" }}>{i}</p>
-        </div>
+          src={require(`../images/${Status[i]}.png`)}
+          alt="Status"
+        ></img>
+
         <div className="status-row-status" style={{ width: "70%" }}>
           <p
             style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}
           >
-            ROW {i}
+            {Status[i]}
           </p>
           <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
             Overall Status : GOOD
