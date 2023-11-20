@@ -11,11 +11,7 @@ function CameraTop() {
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
-        <img
-          src={require("../images/arrow.png")}
-          style={{ width: "15.5vw" }}
-          alt=""
-        ></img>
+        <img src={require("../images/arrow.png")} style={{ width: "15.5vw" }} alt=""></img>
       </div>
       <p className="top-title">ROW {index} CAMERA</p>
     </div>
@@ -25,21 +21,13 @@ function CameraContent() {
   addVisitedPage(window.location.href);
   const location = useLocation();
   const { index } = location.state || {};
-  
+
   return (
     <div id="content" className="content">
       {/* Box Feature Section */}
       <div id="camera-container">
-        <div
-          className="camera"
-          id="camera1"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <img
-            src={require("../images/placeholder.png")}
-            alt="Status"
-            style={{ width: "90vw" }}
-          ></img>
+        <div className="camera" id="camera1" style={{ display: "flex", justifyContent: "center" }}>
+          <img src={require("../images/placeholder.png")} alt="Status" style={{ width: "90vw" }}></img>
         </div>
       </div>
       <div
@@ -50,9 +38,7 @@ function CameraContent() {
           alignItems: "center",
         }}
       >
-        <p style={{ fontWeight: "bold", color: "#737373" }}>
-          CAMERA ROW {index}
-        </p>
+        <p style={{ fontWeight: "bold", color: "#737373" }}>CAMERA ROW {index}</p>
       </div>
 
       {/* Camera item Section */}
@@ -125,10 +111,7 @@ function CameraContent() {
           </div>
         </div>
 
-        <div
-          className="camera-item"
-          style={{ height: "7vh", backgroundColor: "#7AA0B8" }}
-        >
+        <div className="camera-item" style={{ height: "7vh", backgroundColor: "#7AA0B8" }}>
           <div id="water-the-plant">
             <p
               style={{

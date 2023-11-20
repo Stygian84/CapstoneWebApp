@@ -3,10 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
-import {
-  HomeMonitoringContent,
-  HomeMonitoringTop,
-} from "./pages/homemonitoring";
+import { HomeMonitoringContent, HomeMonitoringTop } from "./pages/homemonitoring";
 import { CameraContent, CameraTop } from "./pages/camera";
 import { RowContent, RowTop } from "./pages/row";
 import { StatusContent, StatusTop } from "./pages/status";
@@ -37,7 +34,6 @@ function Top() {
 }
 
 function Content() {
-  
   return (
     <Routes>
       <Route path="/" exact element={<HomeMonitoringContent />} />

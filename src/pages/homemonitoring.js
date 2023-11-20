@@ -7,11 +7,7 @@ function HomeMonitoringTop() {
   return (
     <div id="top" className="top">
       <div className="img-container">
-        <img
-          src={require("../images/bars.png")}
-          style={{ width: "15.5vw" }}
-          alt=""
-        ></img>
+        <img src={require("../images/bars.png")} style={{ width: "15.5vw" }} alt=""></img>
       </div>
       <p className="top-title">HOME MONITORING</p>
     </div>
@@ -43,15 +39,12 @@ function HomeMonitoringContent() {
           setWeatherData({ ...data, dt: adjustedTimeStamp });
           console.log(data);
 
-          const newFormattedDate = new Date(data.dt * 1000).toLocaleDateString(
-            "en-US",
-            {
-              weekday: "long",
-              hour: "numeric",
-              minute: "numeric",
-              timeZone: "Asia/Singapore",
-            }
-          );
+          const newFormattedDate = new Date(data.dt * 1000).toLocaleDateString("en-US", {
+            weekday: "long",
+            hour: "numeric",
+            minute: "numeric",
+            timeZone: "Asia/Singapore",
+          });
           setFormattedDate(newFormattedDate);
         })
         .catch((error) => {
@@ -65,39 +58,33 @@ function HomeMonitoringContent() {
 
   // For Recent Items logic
   const storedPages = JSON.parse(localStorage.getItem("visitedPages")) || [];
-  console.log(storedPages);
   const lastTwoSegmentsArray = storedPages.map((storedPages) => {
     const segments = storedPages.split("/").filter(Boolean);
     return segments.slice(-2);
   });
-  console.log(lastTwoSegmentsArray); //[['camera','1'], ['status','1']]
 
   let Recent = [];
   for (let i = 0; i < lastTwoSegmentsArray.length; i++) {
-    if (lastTwoSegmentsArray[i][0] == "camera") {
+    
+    let name = lastTwoSegmentsArray[i][0];
+    let idx = lastTwoSegmentsArray[i][1];
+
+    if (name == "camera") {
       Recent.push(
         <div
           className="recent-item"
           onClick={() => {
-            navigate(`/camera/${lastTwoSegmentsArray[i][1]}`, {
-              state: { index: lastTwoSegmentsArray[i][1] },
+            navigate(`/camera/${idx}`, {
+              state: { index: idx },
             });
           }}
           key={i}
         >
           <img src={require("../images/greycamera.png")} alt="Camera"></img>
-          <img
-            src={require("../images/whitecamera.png")}
-            className="new-image"
-            alt="Status"
-          ></img>
+          <img src={require("../images/whitecamera.png")} className="new-image" alt="Status"></img>
           <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
-              Row {lastTwoSegmentsArray[i][1]}
-            </p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-              Camera
-            </p>
+            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>Row {idx}</p>
+            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Camera</p>
           </div>
           <p
             style={{
@@ -118,25 +105,17 @@ function HomeMonitoringContent() {
         <div
           className="recent-item"
           onClick={() => {
-            navigate(`/status/${lastTwoSegmentsArray[i][1]}`, {
-              state: { index: lastTwoSegmentsArray[i][1] },
+            navigate(`/status/${idx}`, {
+              state: { index: idx },
             });
           }}
           key={i}
         >
           <img src={require("../images/greystatus.png")} alt="Status"></img>
-          <img
-            src={require("../images/whitestatus.png")}
-            className="new-image"
-            alt="Status"
-          ></img>
+          <img src={require("../images/whitestatus.png")} className="new-image" alt="Status"></img>
           <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
-              Row {lastTwoSegmentsArray[i][1]}
-            </p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-              Status
-            </p>
+            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>Row {idx}</p>
+            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status</p>
           </div>
           <p
             style={{
@@ -175,17 +154,9 @@ function HomeMonitoringContent() {
 
       {/* Box Feature Section */}
       <div id="feature-container">
-        <div
-          className="feature-item"
-          id="feature1"
-          onClick={() => navigate("/row", { state: { prev: "Status" } })}
-        >
+        <div className="feature-item" id="feature1" onClick={() => navigate("/row", { state: { prev: "Status" } })}>
           <img src={require("../images/greenstatus.png")} alt="Status"></img>
-          <img
-            src={require("../images/whitestatus.png")}
-            className="new-image"
-            alt="Status"
-          ></img>
+          <img src={require("../images/whitestatus.png")} className="new-image" alt="Status"></img>
           <p style={{ color: "#8FA586" }}>Status</p>
         </div>
 
@@ -196,25 +167,13 @@ function HomeMonitoringContent() {
           onClick={() => navigate("/row", { state: { prev: "Camera" } })}
         >
           <img src={require("../images/camera.png")} alt="Camera"></img>
-          <img
-            src={require("../images/whitecamera.png")}
-            className="new-image"
-            alt="Status"
-          ></img>
+          <img src={require("../images/whitecamera.png")} className="new-image" alt="Status"></img>
           <p style={{ color: "#8793AE" }}> Camera</p>
         </div>
 
-        <div
-          className="feature-item"
-          id="feature3"
-          onClick={() => navigate("/settings")}
-        >
+        <div className="feature-item" id="feature3" onClick={() => navigate("/settings")}>
           <img src={require("../images/settings.png")} alt="Settings"></img>
-          <img
-            src={require("../images/whitesettings.png")}
-            className="new-image"
-            alt="Status"
-          ></img>
+          <img src={require("../images/whitesettings.png")} className="new-image" alt="Status"></img>
           <p style={{ color: "#7A9E95" }}>Settings</p>
         </div>
         <div></div>
