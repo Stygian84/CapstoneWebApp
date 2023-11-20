@@ -1,7 +1,7 @@
 import React from "react";
 import "../index.css";
 import "../css/pages/row.css";
-import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function RowTop() {
   const navigate = useNavigate();
@@ -22,14 +22,21 @@ function RowTop() {
 
 function RowContent() {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const {prev}  = location.state ;
   let Row = [];
 
   for (let i = 1; i <= 12; i++) {
     Row.push(
       <div
         className="status-item"
-        onClick={() => navigate("/status", { state: { index: i } })}
+        onClick={() => {
+          if (prev === "Status") {
+            navigate("/status", { state: { index: i } });
+          } else if (prev === "Camera") {
+            navigate("/camera", { state: { index: i } });
+          }
+        }}
         key={i}
       >
         <div

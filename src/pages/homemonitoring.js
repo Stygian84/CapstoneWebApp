@@ -54,7 +54,7 @@ function HomeMonitoringContent() {
         .catch((error) => {
           console.error("Error fetching weather data:", error);
         });
-    }; 
+    };
     fetchData();
     const intervalId = setInterval(fetchData, 60 * 1000);
     return () => clearInterval(intervalId);
@@ -83,7 +83,9 @@ function HomeMonitoringContent() {
         <div
           className="feature-item"
           id="feature1"
-          onClick={() => navigate("/row")}
+          onClick={() =>
+            navigate("/row", { state: {  prev: "Status" } })
+          }
         >
           <img src={require("../images/greenstatus.png")} alt="Status"></img>
           <img
@@ -98,7 +100,9 @@ function HomeMonitoringContent() {
           className="feature-item"
           style={{ marginRight: "15%" }}
           id="feature2"
-          onClick={() => navigate("/row")}
+          onClick={() =>
+            navigate("/row", { state: { prev: "Camera" } })
+          }
         >
           <img src={require("../images/camera.png")} alt="Camera"></img>
           <img

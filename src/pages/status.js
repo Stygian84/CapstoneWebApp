@@ -1,18 +1,12 @@
 import React from "react";
 import "../index.css";
 import "../css/pages/status.css";
-import {
-  Routes,
-  Route,
-  BrowserRouter,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function StatusTop() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { index } = location.state || {}; // Extract the index from the state
+  const { index } = location.state || {};
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
@@ -41,12 +35,8 @@ function StatusContent() {
     "AIR QUALITY",
   ];
   for (let i = 0; i < Status.length; i++) {
-    
     StatusRow.push(
-      <div
-        className="status-item"
-        key={i}
-      >
+      <div className="status-item" key={i}>
         <img
           style={{
             margin: "3% 0 3% 3%",
@@ -64,7 +54,7 @@ function StatusContent() {
             {Status[i]}
           </p>
           <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-            Status : GOOD, Value: 
+            Status : GOOD, Value:
           </p>
         </div>
         <div style={{ width: "10%" }}>
