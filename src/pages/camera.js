@@ -1,10 +1,7 @@
 import React from "react";
 import "../index.css";
 import "../css/pages/camera.css";
-import {
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function CameraTop() {
   const navigate = useNavigate();
@@ -12,7 +9,7 @@ function CameraTop() {
   const { index } = location.state || {};
   return (
     <div id="top" className="top">
-      <div className="img-container">
+      <div className="img-container" onClick={() => navigate(-1)}>
         <img
           src={require("../images/arrow.png")}
           style={{ width: "15.5vw" }}
@@ -24,96 +21,121 @@ function CameraTop() {
   );
 }
 function CameraContent() {
+  const location = useLocation();
+  const { index } = location.state || {};
   return (
     <div id="content" className="content">
-      
       {/* Box Feature Section */}
-      <div id="feature-container">
-        <div className="feature-item" id="feature1">
-          <img src={require("../images/greenstatus.png")} alt="Status"></img>
+      <div id="camera-container">
+        <div
+          className="camera"
+          id="camera1"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
           <img
-            src={require("../images/whitestatus.png")}
-            className="new-image"
+            src={require("../images/placeholder.png")}
             alt="Status"
+            style={{ width: "90vw" }}
           ></img>
-          <p style={{ color: "#8FA586" }}>Status</p>
         </div>
-        
       </div>
-      <div id="recent-header">
-        <p style={{ fontWeight: "bold" }}>Recent</p>
+      <div
+        id="camera-content-header"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <p style={{ fontWeight: "bold", color: "#737373" }}>
+          CAMERA ROW {index}
+        </p>
       </div>
 
-      {/* Recent item Section */}
-      <div id="recent-container">
-        <div className="recent-item">
-          <img src={require("../images/greystatus.png")} alt="Status"></img>
+      {/* Camera item Section */}
+      <div id="camera-item-container">
+        <div className="camera-item">
+          <div>
+            <img src={require("../images/bluestatus.png")} alt="Status"></img>
+          </div>
           <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
-              Row 2
-            </p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-              Status
+            <p
+              style={{
+                fontSize: "1.75vh",
+                color: "#A5A5A5",
+                fontWeight: "500",
+              }}
+            >
+              Overall Status: <span style={{color:"#03A400"}}>GOOD</span>
             </p>
           </div>
-          <p
-            style={{
-              marginLeft: "auto",
-              marginTop: "0",
-              marginBottom: "0",
-              paddingRight: "2%",
-              fontSize: "3.5vh",
-            }}
-          >
-            &gt;
-          </p>
         </div>
 
-        <div className="recent-item">
-          <img src={require("../images/greystatus.png")} alt="Status"></img>
+        <div className="camera-item">
+          <div>
+            <img src={require("../images/bluesoilph.png")} alt="Status"></img>
+          </div>
           <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
-              Row 5
-            </p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-              Status
+            <p
+              style={{
+                fontSize: "1.75vh",
+                color: "#A5A5A5",
+                fontWeight: "500",
+              }}
+            >
+              Soil pH: <span style={{color:"#03A400"}}>7.2</span>
             </p>
           </div>
-          <p
-            style={{
-              marginLeft: "auto",
-              marginTop: "0",
-              marginBottom: "0",
-              paddingRight: "2%",
-              fontSize: "3.5vh",
-            }}
-          >
-            &gt;
-          </p>
         </div>
 
-        <div className="recent-item">
-          <img src={require("../images/greycamera.png")} alt="Camera"></img>
+        <div className="camera-item">
+          <div>
+            <img src={require("../images/bluemoisture.png")} alt="Status"></img>
+          </div>
           <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
-              Row 2
-            </p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-              Camera
+            <p
+              style={{
+                fontSize: "1.75vh",
+                color: "#A5A5A5",
+                fontWeight: "500",
+              }}
+            >
+              Soil Moisture: <span style={{color:"#FF6C02"}}>72%</span>
             </p>
           </div>
-          <p
-            style={{
-              marginLeft: "auto",
-              marginTop: "0",
-              marginBottom: "0",
-              paddingRight: "2%",
-              fontSize: "3.5vh",
-            }}
-          >
-            &gt;
-          </p>
         </div>
+
+        <div className="camera-item">
+          <div>
+            <img src={require("../images/bluehumidity.png")} alt="Status"></img>
+          </div>
+          <div className="row-status">
+            <p
+              style={{
+                fontSize: "1.75vh",
+                color: "#A5A5A5",
+                fontWeight: "500",
+              }}
+            >
+              Humidity: <span style={{color:"#03A400"}}>51%</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="camera-item" style={{height:"7vh", backgroundColor:"#7AA0B8"}}>
+          <div id="water-the-plant" >
+            <p
+              style={{
+                fontSize: "2.25vh",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              WATER THE PLANT
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   );

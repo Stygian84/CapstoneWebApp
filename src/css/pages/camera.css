@@ -1,0 +1,36 @@
+#camera-item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.camera-item {
+  display: flex;
+  flex-direction: row;
+  background: white;
+  align-items: center;
+  margin-bottom: 1.5vh;
+  width: 90%;
+  height: 6.5vh;
+
+  border-radius: 20px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.camera-item div:nth-child(1) {
+  margin-left: 3%;
+  padding: 3%;
+  height: 70%;
+  width: 11%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#water-the-plant {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
