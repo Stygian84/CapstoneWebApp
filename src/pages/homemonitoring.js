@@ -26,33 +26,39 @@ function HomeMonitoringContent() {
     weather: [{ description: "" }],
     main: { temp: 0 },
   });
-
+  const [formattedDate, setFormattedDate] = useState("");
   useEffect(() => {
     const apiKey = "662c2df70979465f90b101456566dea2";
     const city = "Singapore";
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+    const fetchData = () => {
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
 
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        const adjustedTimeStamp = data.dt  + 4 * 60  ;
-        setWeatherData({ ...data, dt: adjustedTimeStamp });
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching weather data:", error);
-      });
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          const adjustedTimeStamp = data.dt + 9 * 60;
+          setWeatherData({ ...data, dt: adjustedTimeStamp });
+          console.log(data);
+
+          const newFormattedDate = new Date(data.dt * 1000).toLocaleDateString(
+            "en-US",
+            {
+              weekday: "long",
+              hour: "numeric",
+              minute: "numeric",
+              timeZone: "Asia/Singapore",
+            }
+          );
+          setFormattedDate(newFormattedDate);
+        })
+        .catch((error) => {
+          console.error("Error fetching weather data:", error);
+        });
+    }; 
+    fetchData();
+    const intervalId = setInterval(fetchData, 60 * 1000);
+    return () => clearInterval(intervalId);
   }, []);
-
-  const formattedDate = new Date(weatherData.dt * 1000).toLocaleDateString(
-    "en-US",
-    {
-      weekday: "long",
-      hour: "numeric",
-      minute: "numeric",
-      timeZone: 'Asia/Singapore',
-    }
-  );
 
   return (
     <div id="content" className="content">
