@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "../index.css";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-
-
+import {
+  Link,
+  Routes,
+  Route,
+  BrowserRouter,
+  useNavigate,
+} from "react-router-dom";
 
 function HomeMonitoringTop() {
   return (
@@ -19,7 +23,10 @@ function HomeMonitoringTop() {
     </div>
   );
 }
+
 function HomeMonitoringContent() {
+  const navigate = useNavigate();
+
   return (
     <div id="content" className="content">
       {/* Header Section */}
@@ -38,7 +45,7 @@ function HomeMonitoringContent() {
 
       {/* Box Feature Section */}
       <div id="feature-container">
-        <div className="feature-item" id="feature1">
+        <div className="feature-item" id="feature1" onClick={() => navigate("/status")}>
           <img src={require("../images/greenstatus.png")} alt="Status"></img>
           <img
             src={require("../images/whitestatus.png")}
@@ -47,10 +54,12 @@ function HomeMonitoringContent() {
           ></img>
           <p style={{ color: "#8FA586" }}>Status</p>
         </div>
+
         <div
           className="feature-item"
           style={{ marginRight: "15%" }}
           id="feature2"
+          onClick={() => navigate("/camera")}
         >
           <img src={require("../images/camera.png")} alt="Camera"></img>
           <img
@@ -60,7 +69,8 @@ function HomeMonitoringContent() {
           ></img>
           <p style={{ color: "#8793AE" }}> Camera</p>
         </div>
-        <div className="feature-item" id="feature3">
+
+        <div className="feature-item" id="feature3" onClick={() => navigate("/settings")}>
           <img src={require("../images/settings.png")} alt="Settings"></img>
           <img
             src={require("../images/whitesettings.png")}
