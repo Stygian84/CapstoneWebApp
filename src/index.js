@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
@@ -29,20 +29,21 @@ function Top() {
     <Routes>
       <Route path="/" exact element={<HomeMonitoringTop />} />
       <Route path="/row" element={<RowTop />} />
-      <Route path="/camera" element={<CameraTop />} />
-      <Route path="/status" element={<StatusTop />} />
+      <Route path="/camera/*" element={<CameraTop />} />
+      <Route path="/status/*" element={<StatusTop />} />
       <Route path="/settings" element={<SettingsTop />} />
     </Routes>
   );
 }
 
 function Content() {
+  
   return (
     <Routes>
       <Route path="/" exact element={<HomeMonitoringContent />} />
       <Route path="/row" element={<RowContent />} />
-      <Route path="/camera" element={<CameraContent />} />
-      <Route path="/status" element={<StatusContent />} />
+      <Route path="/camera/*" element={<CameraContent />} />
+      <Route path="/status/*" element={<StatusContent />} />
       <Route path="/settings" element={<SettingsContent />} />
     </Routes>
   );

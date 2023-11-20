@@ -200,3 +200,22 @@ a:active {
 .feature-item img.new-image {
   display: none;
 }
+
+.recent-item img {
+  transition: all 0.1s ease;
+}
+.recent-item:hover:active {
+  background-color: #7aa0b8;
+}
+.recent-item:hover:active p {
+  color: white !important;
+}
+.recent-item:hover:active img {
+  display: none;
+}
+.recent-item:hover:active img.new-image {
+  display: block;
+}
+.recent-item img.new-image {
+  display: none;
+}

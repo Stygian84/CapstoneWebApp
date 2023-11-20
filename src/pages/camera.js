@@ -2,6 +2,7 @@ import React from "react";
 import "../index.css";
 import "../css/pages/camera.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import { addVisitedPage } from "../javascript/utils";
 
 function CameraTop() {
   const navigate = useNavigate();
@@ -21,8 +22,10 @@ function CameraTop() {
   );
 }
 function CameraContent() {
+  addVisitedPage(window.location.href);
   const location = useLocation();
   const { index } = location.state || {};
+  
   return (
     <div id="content" className="content">
       {/* Box Feature Section */}
@@ -66,7 +69,7 @@ function CameraContent() {
                 fontWeight: "500",
               }}
             >
-              Overall Status: <span style={{color:"#03A400"}}>GOOD</span>
+              Overall Status: <span style={{ color: "#03A400" }}>GOOD</span>
             </p>
           </div>
         </div>
@@ -83,7 +86,7 @@ function CameraContent() {
                 fontWeight: "500",
               }}
             >
-              Soil pH: <span style={{color:"#03A400"}}>7.2</span>
+              Soil pH: <span style={{ color: "#03A400" }}>7.2</span>
             </p>
           </div>
         </div>
@@ -100,7 +103,7 @@ function CameraContent() {
                 fontWeight: "500",
               }}
             >
-              Soil Moisture: <span style={{color:"#FF6C02"}}>72%</span>
+              Soil Moisture: <span style={{ color: "#FF6C02" }}>72%</span>
             </p>
           </div>
         </div>
@@ -117,13 +120,16 @@ function CameraContent() {
                 fontWeight: "500",
               }}
             >
-              Humidity: <span style={{color:"#03A400"}}>51%</span>
+              Humidity: <span style={{ color: "#03A400" }}>51%</span>
             </p>
           </div>
         </div>
 
-        <div className="camera-item" style={{height:"7vh", backgroundColor:"#7AA0B8"}}>
-          <div id="water-the-plant" >
+        <div
+          className="camera-item"
+          style={{ height: "7vh", backgroundColor: "#7AA0B8" }}
+        >
+          <div id="water-the-plant">
             <p
               style={{
                 fontSize: "2.25vh",
@@ -135,7 +141,6 @@ function CameraContent() {
             </p>
           </div>
         </div>
-
       </div>
     </div>
   );

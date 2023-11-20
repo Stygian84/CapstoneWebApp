@@ -2,11 +2,13 @@ import React from "react";
 import "../index.css";
 import "../css/pages/status.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import { addVisitedPage } from "../javascript/utils";
 
 function StatusTop() {
   const navigate = useNavigate();
   const location = useLocation();
   const { index } = location.state || {};
+
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
@@ -22,6 +24,7 @@ function StatusTop() {
 }
 
 function StatusContent() {
+  addVisitedPage(window.location.href);
   const navigate = useNavigate();
 
   let StatusRow = [];

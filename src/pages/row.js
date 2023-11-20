@@ -32,9 +32,9 @@ function RowContent() {
         className="status-item"
         onClick={() => {
           if (prev === "Status") {
-            navigate("/status", { state: { index: i } });
+            navigate(`/status/${i}`, { state: { index: i } });
           } else if (prev === "Camera") {
-            navigate("/camera", { state: { index: i } });
+            navigate(`/camera/${i}`, { state: { index: i } });
           }
         }}
         key={i}

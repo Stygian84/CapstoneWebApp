@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
+import { addVisitedPage } from "../javascript/utils";
 
 function HomeMonitoringTop() {
   return (
@@ -19,6 +20,8 @@ function HomeMonitoringTop() {
 
 function HomeMonitoringContent() {
   const navigate = useNavigate();
+
+  // For Weather and Date
   const [weatherData, setWeatherData] = useState({
     name: "",
     sys: { country: "" },
@@ -60,6 +63,98 @@ function HomeMonitoringContent() {
     return () => clearInterval(intervalId);
   }, []);
 
+  // For Recent Items logic
+  const storedPages = JSON.parse(localStorage.getItem("visitedPages")) || [];
+  console.log(storedPages);
+  const lastTwoSegmentsArray = storedPages.map((storedPages) => {
+    const segments = storedPages.split("/").filter(Boolean);
+    return segments.slice(-2);
+  });
+  console.log(lastTwoSegmentsArray); //[['camera','1'], ['status','1']]
+
+  let Recent = [];
+  for (let i = 0; i < lastTwoSegmentsArray.length; i++) {
+    if (lastTwoSegmentsArray[i][0] == "camera") {
+      Recent.push(
+        <div
+          className="recent-item"
+          onClick={() => {
+            navigate(`/camera/${lastTwoSegmentsArray[i][1]}`, {
+              state: { index: lastTwoSegmentsArray[i][1] },
+            });
+          }}
+          key={i}
+        >
+          <img src={require("../images/greycamera.png")} alt="Camera"></img>
+          <img
+            src={require("../images/whitecamera.png")}
+            className="new-image"
+            alt="Status"
+          ></img>
+          <div className="row-status">
+            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
+              Row {lastTwoSegmentsArray[i][1]}
+            </p>
+            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+              Camera
+            </p>
+          </div>
+          <p
+            style={{
+              marginLeft: "auto",
+              marginTop: "0",
+              marginBottom: "0",
+              paddingRight: "2%",
+              fontSize: "3.5vh",
+              color: "#C8C8C8",
+            }}
+          >
+            &gt;
+          </p>
+        </div>
+      );
+    } else {
+      Recent.push(
+        <div
+          className="recent-item"
+          onClick={() => {
+            navigate(`/status/${lastTwoSegmentsArray[i][1]}`, {
+              state: { index: lastTwoSegmentsArray[i][1] },
+            });
+          }}
+          key={i}
+        >
+          <img src={require("../images/greystatus.png")} alt="Status"></img>
+          <img
+            src={require("../images/whitestatus.png")}
+            className="new-image"
+            alt="Status"
+          ></img>
+          <div className="row-status">
+            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
+              Row {lastTwoSegmentsArray[i][1]}
+            </p>
+            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+              Status
+            </p>
+          </div>
+          <p
+            style={{
+              marginLeft: "auto",
+              marginTop: "0",
+              marginBottom: "0",
+              paddingRight: "2%",
+              fontSize: "3.5vh",
+              color: "#C8C8C8",
+            }}
+          >
+            &gt;
+          </p>
+        </div>
+      );
+    }
+  }
+
   return (
     <div id="content" className="content">
       {/* Header Section */}
@@ -83,9 +178,7 @@ function HomeMonitoringContent() {
         <div
           className="feature-item"
           id="feature1"
-          onClick={() =>
-            navigate("/row", { state: {  prev: "Status" } })
-          }
+          onClick={() => navigate("/row", { state: { prev: "Status" } })}
         >
           <img src={require("../images/greenstatus.png")} alt="Status"></img>
           <img
@@ -100,9 +193,7 @@ function HomeMonitoringContent() {
           className="feature-item"
           style={{ marginRight: "15%" }}
           id="feature2"
-          onClick={() =>
-            navigate("/row", { state: { prev: "Camera" } })
-          }
+          onClick={() => navigate("/row", { state: { prev: "Camera" } })}
         >
           <img src={require("../images/camera.png")} alt="Camera"></img>
           <img
@@ -133,79 +224,7 @@ function HomeMonitoringContent() {
       </div>
 
       {/* Recent item Section */}
-      <div id="recent-container">
-        <div className="recent-item">
-          <img src={require("../images/greystatus.png")} alt="Status"></img>
-          <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
-              Row 2
-            </p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-              Status
-            </p>
-          </div>
-          <p
-            style={{
-              marginLeft: "auto",
-              marginTop: "0",
-              marginBottom: "0",
-              paddingRight: "2%",
-              fontSize: "3.5vh",
-              color: "#C8C8C8",
-            }}
-          >
-            &gt;
-          </p>
-        </div>
-
-        <div className="recent-item">
-          <img src={require("../images/greystatus.png")} alt="Status"></img>
-          <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
-              Row 5
-            </p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-              Status
-            </p>
-          </div>
-          <p
-            style={{
-              marginLeft: "auto",
-              marginTop: "0",
-              marginBottom: "0",
-              paddingRight: "2%",
-              fontSize: "3.5vh",
-              color: "#C8C8C8",
-            }}
-          >
-            &gt;
-          </p>
-        </div>
-
-        <div className="recent-item">
-          <img src={require("../images/greycamera.png")} alt="Camera"></img>
-          <div className="row-status">
-            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
-              Row 2
-            </p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-              Camera
-            </p>
-          </div>
-          <p
-            style={{
-              marginLeft: "auto",
-              marginTop: "0",
-              marginBottom: "0",
-              paddingRight: "2%",
-              fontSize: "3.5vh",
-              color: "#C8C8C8",
-            }}
-          >
-            &gt;
-          </p>
-        </div>
-      </div>
+      <div id="recent-container">{Recent}</div>
     </div>
   );
 }
