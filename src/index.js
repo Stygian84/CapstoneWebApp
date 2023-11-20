@@ -49,16 +49,35 @@ function Content() {
 
       {/* Box Feature Section */}
       <div id="feature-container">
-        <div className="feature-item">
+        <div className="feature-item" id="feature1">
           <img src={require("./images/greenstatus.png")} alt="Status"></img>
+          <img
+            src={require("./images/whitestatus.png")}
+            className="new-image"
+            alt="Status"
+          ></img>
           <p style={{ color: "#8FA586" }}>Status</p>
         </div>
-        <div className="feature-item" style={{ marginRight: "15%" }}>
+        <div
+          className="feature-item"
+          style={{ marginRight: "15%" }}
+          id="feature2"
+        >
           <img src={require("./images/camera.png")} alt="Camera"></img>
+          <img
+            src={require("./images/whitecamera.png")}
+            className="new-image"
+            alt="Status"
+          ></img>
           <p style={{ color: "#8793AE" }}> Camera</p>
         </div>
-        <div className="feature-item">
+        <div className="feature-item" id="feature3">
           <img src={require("./images/settings.png")} alt="Settings"></img>
+          <img
+            src={require("./images/whitesettings.png")}
+            className="new-image"
+            alt="Status"
+          ></img>
           <p style={{ color: "#7A9E95" }}>Settings</p>
         </div>
         <div></div>

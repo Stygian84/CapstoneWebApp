@@ -103,7 +103,6 @@ a:active {
   text-align: right;
 }
 
-
 /* Feature Box CSS */
 #feature-container {
   display: grid;
@@ -143,20 +142,19 @@ a:active {
   margin: 0;
 }
 
-
 /* Recent CSS */
 
-#recent-header{
+#recent-header {
   margin-left: 5vw;
 }
 
-#recent-container{
+#recent-container {
   margin: 0 5vw 0 5vw;
   display: flex;
   flex-direction: column;
 }
 
-.recent-item{
+.recent-item {
   display: flex;
   flex-direction: row;
   background: white;
@@ -167,17 +165,37 @@ a:active {
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
 }
 
-.recent-item img{
-  margin-left:3%;
+.recent-item img {
+  margin-left: 3%;
   padding: 3%;
-  width:10%;
+  width: 10%;
 }
 
-.row-status{
+.row-status {
   display: flex;
   flex-direction: column;
-  padding:2% 0 2% 0;
+  padding: 2% 0 2% 0;
 }
-.row-status p{
-  margin:0;
+.row-status p {
+  margin: 0;
+}
+
+/* Animation */
+.feature-item img {
+  transition: transform 0.1s ease;
+}
+.feature-item:hover:active {
+  background-color: #7aa0b8;
+}
+.feature-item:hover:active p {
+  color: white !important;
+}
+.feature-item:hover:active img {
+  display: none;
+}
+.feature-item:hover:active img.new-image {
+  display: block;
+}
+.feature-item img.new-image {
+  display: none;
 }
