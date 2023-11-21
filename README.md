@@ -13,6 +13,7 @@ Targeted Device : IPhone 13 & 14 (390px x 844px)
 
 # Notable Features
 1. Recent visited pages in the homepage.
+2. Real-time Weather.
 
 # Future Improvement
 1. Make HollowCircle on Status page to be adjustable based on data. 
