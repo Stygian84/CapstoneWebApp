@@ -69,6 +69,7 @@ a:active {
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 }
 
 /* Header CSS */

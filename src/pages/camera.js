@@ -13,7 +13,7 @@ function CameraTop() {
       <div className="img-container" onClick={() => navigate(-1)}>
         <img src={require("../images/arrow.png")} style={{ width: "15.5vw" }} alt=""></img>
       </div>
-      <p className="top-title">ROW {index} CAMERA</p>
+      <p className="top-title" style={{marginLeft:"15.5vw"}}>ROW {index} CAMERA</p>
     </div>
   );
 }

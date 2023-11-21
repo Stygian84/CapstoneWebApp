@@ -25,7 +25,7 @@ function RowContent() {
   for (let i = 1; i <= 12; i++) {
     Row.push(
       <div
-        className="status-item"
+        className="row-selection-item"
         onClick={() => {
           if (prev === "Status") {
             navigate(`/status/${i}`, { state: { index: i } });
@@ -43,7 +43,7 @@ function RowContent() {
         >
           <p style={{ fontSize: "2vh", color: "#7AA0B8" }}>{i}</p>
         </div>
-        <div className="status-row-status" style={{ width: "70%" }}>
+        <div className="row-selection-status" style={{ width: "70%" }}>
           <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>ROW {i}</p>
           <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Overall Status : GOOD</p>
         </div>
@@ -67,7 +67,7 @@ function RowContent() {
 
   return (
     <div id="content" className="content">
-      <div id="status-container">{Row}</div>
+      <div id="row-selection-container">{Row}</div>
     </div>
   );
 }
