@@ -1,6 +1,7 @@
 import React from "react";
 import "../index.css";
 import "../css/pages/status.css";
+import "../css/components/HollowCircle.css"
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
@@ -82,19 +83,8 @@ function StatusItem(props) {
           <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status : GOOD, Value:</p>
         </div>
 
-        <div style={{ width: "30%", height: "90%", display: "flex", alignItems: "center" }}>
-          <p
-            style={{
-              marginLeft: "auto",
-              marginTop: "0",
-              marginBottom: "0",
-              paddingRight: "25%",
-              fontSize: "3.5vh",
-              color: "#C8C8C8",
-            }}
-          >
-            &gt;
-          </p>
+        <div style={{ width: "30%", height: "90%", display: "flex", alignItems: "center" ,justifyContent:"center"}}>
+          <span className="inner-circle"></span>
         </div>
       </div>
     );
