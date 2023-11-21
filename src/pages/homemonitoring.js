@@ -125,67 +125,37 @@ function HomeMonitoringContent() {
 
 function RecentItem(props) {
   const navigate = useNavigate();
-  if (props.type === "camera") {
-    return (
-      <div
-        className="recent-item"
-        onClick={() => {
-          navigate(`/camera/${props.idx}`, {
-            state: { index: props.idx },
-          });
-        }}
-      >
-        <img src={require("../images/greycamera.png")} alt="Camera"></img>
-        <img src={require("../images/whitecamera.png")} className="new-image" alt="Status"></img>
-        <div className="row-status">
-          <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>Row {props.idx}</p>
-          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Camera</p>
-        </div>
-        <p
-          style={{
-            marginLeft: "auto",
-            marginTop: "0",
-            marginBottom: "0",
-            paddingRight: "2%",
-            fontSize: "3.5vh",
-            color: "#C8C8C8",
-          }}
-        >
-          &gt;
+  return (
+    <div
+      className="recent-item"
+      onClick={() => {
+        navigate(`/${props.type}/${props.idx}`, {
+          state: { index: props.idx },
+        });
+      }}
+    >
+      <img src={require(`../images/grey${props.type}.png`)} alt={props.type}></img>
+      <img src={require(`../images/white${props.type}.png`)} className="new-image" alt="Status"></img>
+      <div className="row-status">
+        <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>Row {props.idx}</p>
+        <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+          {props.type.charAt(0).toUpperCase() + props.type.slice(1)}
         </p>
       </div>
-    );
-  } else if (props.type === "status") {
-    return (
-      <div
-        className="recent-item"
-        onClick={() => {
-          navigate(`/status/${props.idx}`, {
-            state: { index: props.idx },
-          });
+      <p
+        style={{
+          marginLeft: "auto",
+          marginTop: "0",
+          marginBottom: "0",
+          paddingRight: "2%",
+          fontSize: "3.5vh",
+          color: "#C8C8C8",
         }}
       >
-        <img src={require("../images/greystatus.png")} alt="Status"></img>
-        <img src={require("../images/whitestatus.png")} className="new-image" alt="Status"></img>
-        <div className="row-status">
-          <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>Row {props.idx}</p>
-          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status</p>
-        </div>
-        <p
-          style={{
-            marginLeft: "auto",
-            marginTop: "0",
-            marginBottom: "0",
-            paddingRight: "2%",
-            fontSize: "3.5vh",
-            color: "#C8C8C8",
-          }}
-        >
-          &gt;
-        </p>
-      </div>
-    );
-  }
+        &gt;
+      </p>
+    </div>
+  );
 }
 
 export { HomeMonitoringContent, HomeMonitoringTop };
