@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
-import { addVisitedPage } from "../javascript/utils";
 
 function HomeMonitoringTop() {
   return (
@@ -126,7 +125,7 @@ function HomeMonitoringContent() {
 
 function RecentItem(props) {
   const navigate = useNavigate();
-  if (props.type == "camera") {
+  if (props.type === "camera") {
     return (
       <div
         className="recent-item"
@@ -135,7 +134,6 @@ function RecentItem(props) {
             state: { index: props.idx },
           });
         }}
-        key={props.key}
       >
         <img src={require("../images/greycamera.png")} alt="Camera"></img>
         <img src={require("../images/whitecamera.png")} className="new-image" alt="Status"></img>
@@ -157,7 +155,7 @@ function RecentItem(props) {
         </p>
       </div>
     );
-  } else if (props.type == "status") {
+  } else if (props.type === "status") {
     return (
       <div
         className="recent-item"
@@ -166,7 +164,6 @@ function RecentItem(props) {
             state: { index: props.idx },
           });
         }}
-        key={props.key}
       >
         <img src={require("../images/greystatus.png")} alt="Status"></img>
         <img src={require("../images/whitestatus.png")} className="new-image" alt="Status"></img>
