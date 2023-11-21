@@ -34,3 +34,11 @@
   margin: 0;
   padding: 0;
 }
+
+/*Animation*/
+.camera-item:has(#water-the-plant):hover:active {
+  background-color: white !important;
+}
+.camera-item:has(#water-the-plant):hover:active p {
+  color: #7aa0b8 !important;
+}
