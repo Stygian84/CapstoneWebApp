@@ -9,7 +9,7 @@
 Targeted Device : IPhone 13 & 14 (390px x 844px)
 
 # Demo
-![](https://github.com/Stygian84/CapstoneWebApp/blob/master/docs/image/Desktop%202023.11.22%20-%2003.36.08.03.gif)
+![](https://github.com/Stygian84/CapstoneWebApp/blob/master/docs/image/Desktop%202023.11.22%20-%2011.27.21.01.gif)
 
 # Notable Features
 1. Recent visited pages in the homepage.
