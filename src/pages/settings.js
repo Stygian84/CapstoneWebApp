@@ -1,7 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import "../index.css";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 function SettingsTop() {
   return (
@@ -9,7 +7,7 @@ function SettingsTop() {
       <div className="img-container">
         <img src={require("../images/bars.png")} style={{ width: "15.5vw" }} alt=""></img>
       </div>
-      <p className="top-title">Home settings</p>
+      <p className="top-title">Settings not developed yet - TODO </p>
     </div>
   );
 }

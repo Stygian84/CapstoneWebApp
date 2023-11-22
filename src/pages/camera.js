@@ -13,7 +13,9 @@ function CameraTop() {
       <div className="img-container" onClick={() => navigate(-1)}>
         <img src={require("../images/arrow.png")} style={{ width: "15.5vw" }} alt=""></img>
       </div>
-      <p className="top-title" style={{marginLeft:"15.5vw"}}>ROW {index} CAMERA</p>
+      <p className="top-title" style={{ marginLeft: "15.5vw" }}>
+        ROW {index} CAMERA
+      </p>
     </div>
   );
 }
@@ -47,14 +49,8 @@ function CameraContent() {
           <div>
             <img src={require("../images/bluestatus.png")} alt="Status"></img>
           </div>
-          <div className="row-status">
-            <p
-              style={{
-                fontSize: "1.75vh",
-                color: "#A5A5A5",
-                fontWeight: "500",
-              }}
-            >
+          <div className="camera-row-status">
+            <p>
               Overall Status: <span style={{ color: "#03A400" }}>GOOD</span>
             </p>
           </div>
@@ -64,14 +60,8 @@ function CameraContent() {
           <div>
             <img src={require("../images/bluesoilph.png")} alt="Status"></img>
           </div>
-          <div className="row-status">
-            <p
-              style={{
-                fontSize: "1.75vh",
-                color: "#A5A5A5",
-                fontWeight: "500",
-              }}
-            >
+          <div className="camera-row-status">
+            <p>
               Soil pH: <span style={{ color: "#03A400" }}>7.2</span>
             </p>
           </div>
@@ -81,14 +71,8 @@ function CameraContent() {
           <div>
             <img src={require("../images/bluemoisture.png")} alt="Status"></img>
           </div>
-          <div className="row-status">
-            <p
-              style={{
-                fontSize: "1.75vh",
-                color: "#A5A5A5",
-                fontWeight: "500",
-              }}
-            >
+          <div className="camera-row-status">
+            <p>
               Soil Moisture: <span style={{ color: "#FF6C02" }}>72%</span>
             </p>
           </div>
@@ -98,14 +82,8 @@ function CameraContent() {
           <div>
             <img src={require("../images/bluehumidity.png")} alt="Status"></img>
           </div>
-          <div className="row-status">
-            <p
-              style={{
-                fontSize: "1.75vh",
-                color: "#A5A5A5",
-                fontWeight: "500",
-              }}
-            >
+          <div className="camera-row-status">
+            <p>
               Humidity: <span style={{ color: "#03A400" }}>51%</span>
             </p>
           </div>

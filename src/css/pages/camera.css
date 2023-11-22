@@ -28,6 +28,18 @@
   align-items: center;
 }
 
+.camera-row-status {
+  display: flex;
+  flex-direction: column;
+  padding: 2% 0 2% 0;
+}
+.camera-row-status p {
+  margin: 0;
+  font-size: 1.75vh;
+  color: #A5A5A5;
+  font-weight: "500";
+}
+
 #water-the-plant {
   display: flex;
   width: 100%;
