@@ -75,7 +75,7 @@ function HomeMonitoringContent() {
       <div id="header-container">
         <div id="morning">
           <p style={{ fontSize: "3vh" }}>Good Morning,</p>
-          <p style={{ fontSize: "2.5vh" }}>Ron and Jen!</p>
+          <p style={{ fontSize: "2.5vh" }}>XX and XX!</p>
         </div>
         <div id="weather-container">
           <p style={{ fontSize: "2vh" }}>
