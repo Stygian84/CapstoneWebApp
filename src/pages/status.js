@@ -5,6 +5,7 @@ import "../css/components/HollowCircle.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
+import HollowCircle from "../components/HollowCircle";
 
 function StatusTop() {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ function StatusItem(props) {
         </div>
 
         <div style={{ width: "30%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <span className="inner-circle"></span>
+          <HollowCircle value="70" max="360"/>
         </div>
       </div>
     );
