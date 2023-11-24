@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../index.css";
 import "../css/pages/status.css";
 import "../css/components/HollowCircle.css";
@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
 import CircularSlider from "@fseehawer/react-circular-slider";
+import { statusLightGreen, statusLightRed, statusLightYellow } from "../javascript/colors";
 
 function StatusTop() {
   const navigate = useNavigate();
@@ -27,21 +28,62 @@ function StatusTop() {
 function StatusContent() {
   addVisitedPage(window.location.href);
 
-  let StatusRow = [];
-  let Status = ["LIGHTS", "AIR TEMPERATURE", "SOIL MOISTURE", "HUMIDITY", "SOIL pH", "LIGHT INTENSITY", "AIR QUALITY"];
-  for (let i = 0; i < Status.length; i++) {
-    StatusRow.push(<StatusItem key={i} type={Status[i]} />);
-  }
+  // let StatusRow = [];
+  // let Status = ["LIGHTS", "AIR TEMPERATURE", "SOIL MOISTURE", "HUMIDITY", "SOIL pH", "LIGHT INTENSITY", "AIR QUALITY"];
+  // for (let i = 0; i < Status.length; i++) {
+  //   StatusRow.push(<StatusItem key={i} type={Status[i]} min="0" max="360" value="320" />);
+  // }
+  const [statusRow, setStatusRow] = useState([]);
+
+  useEffect(() => {
+    const initialStatusRow = [];
+    var Status = [
+      "LIGHTS",
+      "AIR TEMPERATURE",
+      "SOIL MOISTURE",
+      "HUMIDITY",
+      "SOIL pH",
+      "LIGHT INTENSITY",
+      "AIR QUALITY",
+    ];
+
+    for (let i = 0; i < Status.length; i++) {
+      initialStatusRow.push(<StatusItem key={i} type={Status[i]} min="0" max="360" value="320" />);
+    }
+    setStatusRow(initialStatusRow);
+
+    // Set up the interval to update every few seconds
+    const intervalId = setInterval(() => {
+      const updatedStatusRow = [];
+      for (let i = 0; i < Status.length; i++) {
+        updatedStatusRow.push(<StatusItem key={i} type={Status[i]} min="0" max="360" value="320" />);
+      }
+      setStatusRow(updatedStatusRow);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div id="content" className="content">
-      <div id="status-container">{StatusRow}</div>
+      <div id="status-container">{statusRow}</div>
     </div>
   );
 }
 
 function StatusItem(props) {
-   if (props.type === "LIGHTS") {
+  var fraction = props.value / (props.max - props.min);
+  var color = statusLightGreen;
+
+  if (fraction <= 1 / 3) {
+    color = statusLightRed;
+  } else if (fraction <= 2 / 3) {
+    color = statusLightYellow;
+  } else {
+    color = statusLightGreen;
+  }
+
+  if (props.type === "LIGHTS") {
     return (
       <div className="status-item">
         <img src={require(`../images/${props.type}.png`)} alt="Status"></img>
@@ -66,24 +108,32 @@ function StatusItem(props) {
           <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status : GOOD, Value :</p>
         </div>
 
-        <div className="circle-container" style={{ width: "30%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div
+          className="circle-container"
+          style={{ width: "30%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
           <CircularSlider
-            label="savings"
-            min={0}
-            max={360}
-            labelColor="#005a58"
-            progressColorFrom="#00bfbd"
-            progressColorTo="#009c9a"
-            progressSize={24}
-            trackColor="#eeeeee"
-            trackSize={24}
+            dataIndex={props.value}
+            min={props.min}
+            max={props.max}
+            progressColorFrom={color}
+            progressColorTo={color}
+            trackColor="transparent"
+
             onChange={(value) => {
               console.log(value);
             }}
-            // hideKnob="true"
-            // knobDraggable="false"
+
+            progressSize={24}
+            trackSize={24}
+
+            label="savings"
             labelBottom="true"
             hideLabelValue="true"
+            // Uncomment below after debugging
+            // hideKnob="true"
+            // knobDraggable="false"
+            // labelColor="#005a58"
           />
         </div>
       </div>
