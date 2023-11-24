@@ -5,7 +5,7 @@ import "../css/components/HollowCircle.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
-import HollowCircle from "../components/HollowCircle";
+import CircularSlider from "@fseehawer/react-circular-slider";
 
 function StatusTop() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ function StatusContent() {
 }
 
 function StatusItem(props) {
-  if (props.type === "LIGHTS") {
+   if (props.type === "LIGHTS") {
     return (
       <div className="status-item">
         <img src={require(`../images/${props.type}.png`)} alt="Status"></img>
@@ -63,11 +63,28 @@ function StatusItem(props) {
 
         <div className="status-row-status" style={{ width: "70%" }}>
           <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>{props.type}</p>
-          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status : GOOD, Value:</p>
+          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status : GOOD, Value :</p>
         </div>
 
-        <div style={{ width: "30%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <HollowCircle value="70" max="360"/>
+        <div className="circle-container" style={{ width: "30%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <CircularSlider
+            label="savings"
+            min={0}
+            max={360}
+            labelColor="#005a58"
+            progressColorFrom="#00bfbd"
+            progressColorTo="#009c9a"
+            progressSize={24}
+            trackColor="#eeeeee"
+            trackSize={24}
+            onChange={(value) => {
+              console.log(value);
+            }}
+            // hideKnob="true"
+            // knobDraggable="false"
+            labelBottom="true"
+            hideLabelValue="true"
+          />
         </div>
       </div>
     );

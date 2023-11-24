@@ -21,11 +21,17 @@ function HollowCircle(props) {
   }
 
   return (
+    // <span className="inner-circle1">
+
+    // </span>
     <span
       className="inner-circle1"
-      style={{
-        background: `conic-gradient(${color} 0deg ${degree}deg, transparent 0deg ${degree}deg)`,
+      style={{background: `conic-gradient(${color} 0deg ${degree}deg, transparent 0deg ${degree}deg)`,
+    
+        borderImage: `conic-gradient(${color} 0deg ${degree}deg, transparent 0deg ${degree}deg ) 1 / 1 / 0 stretch `,
         borderColor: color,
+        borderImageSlice:1,
+        borderRadius:"50%"
       }}
     ></span>
   );
