@@ -22,15 +22,27 @@
 }
 
 .circle-container {
-  margin: 1.5% 0 0% 0%;
   width: 30%;
   height: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.status-item svg{
+.circle-container div {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+/* Label Size */
+.circle-container div div:nth-child(3) div:nth-child(1) {
+  display: none !important;
+}
+/* Value Size */
+.circle-container div div:nth-child(3) div:nth-child(2) {
+  font-size: 1.75vh !important;
+  margin: 0 !important;
+}
+.status-item svg {
   width: 75%;
   height: auto;
 }

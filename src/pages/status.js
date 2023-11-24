@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
 import CircularSlider from "@fseehawer/react-circular-slider";
-import { statusLightGreen, statusLightRed, statusLightYellow } from "../javascript/colors";
+import { statusDarkGreen, statusDarkRed, statusDarkYellow, statusLightGreen, statusLightRed, statusLightYellow } from "../javascript/colors";
 
 function StatusTop() {
   const navigate = useNavigate();
@@ -74,13 +74,17 @@ function StatusContent() {
 function StatusItem(props) {
   var fraction = props.value / (props.max - props.min);
   var color = statusLightGreen;
+  var fontColor= statusDarkGreen;
 
   if (fraction <= 1 / 3) {
     color = statusLightRed;
+    fontColor= statusDarkRed;
   } else if (fraction <= 2 / 3) {
     color = statusLightYellow;
+    fontColor= statusDarkYellow;
   } else {
     color = statusLightGreen;
+    fontColor= statusDarkGreen;
   }
 
   if (props.type === "LIGHTS") {
@@ -127,13 +131,12 @@ function StatusItem(props) {
             progressSize={24}
             trackSize={24}
 
-            label="savings"
-            labelBottom="true"
-            hideLabelValue="true"
+            labelColor={fontColor}
             // Uncomment below after debugging
             // hideKnob="true"
             // knobDraggable="false"
-            // labelColor="#005a58"
+            // label="Value" // The label is hidden in status.css
+           
           />
         </div>
       </div>
