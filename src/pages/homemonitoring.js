@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
+import JSONurl from "../javascript/config.js";
 
 function HomeMonitoringTop() {
   return (
@@ -75,7 +76,7 @@ function HomeMonitoringContent() {
       <div id="header-container">
         <div id="morning">
           <p style={{ fontSize: "3vh" }}>Good Morning,</p>
-          <p style={{ fontSize: "2.5vh" }}>XX and XX!</p>
+          <p style={{ fontSize: "2.5vh" }}>Ron and Jen!</p>
         </div>
         <div id="weather-container">
           <p style={{ fontSize: "2vh" }}>

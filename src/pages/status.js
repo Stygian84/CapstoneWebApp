@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../index.css";
 import "../css/pages/status.css";
-import "../css/components/HollowCircle.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
 import CircularSlider from "@fseehawer/react-circular-slider";
-import { statusDarkGreen, statusDarkRed, statusDarkYellow, statusLightGreen, statusLightRed, statusLightYellow } from "../javascript/colors";
+import {
+  statusDarkGreen,
+  statusDarkRed,
+  statusDarkYellow,
+  statusLightGreen,
+  statusLightRed,
+  statusLightYellow,
+} from "../javascript/colors";
+import JSONurl from "../javascript/config.js";
 
 function StatusTop() {
   const navigate = useNavigate();
@@ -27,40 +35,53 @@ function StatusTop() {
 
 function StatusContent() {
   addVisitedPage(window.location.href);
-
-  // let StatusRow = [];
-  // let Status = ["LIGHTS", "AIR TEMPERATURE", "SOIL MOISTURE", "HUMIDITY", "SOIL pH", "LIGHT INTENSITY", "AIR QUALITY"];
-  // for (let i = 0; i < Status.length; i++) {
-  //   StatusRow.push(<StatusItem key={i} type={Status[i]} min="0" max="360" value="320" />);
-  // }
+  const location = useLocation();
+  const { index } = location.state || {};
   const [statusRow, setStatusRow] = useState([]);
+  const [jsonData, setJsonData] = useState(null);
 
   useEffect(() => {
-    const initialStatusRow = [];
-    var Status = [
-      "LIGHTS",
-      "AIR TEMPERATURE",
-      "SOIL MOISTURE",
-      "HUMIDITY",
-      "SOIL pH",
-      "LIGHT INTENSITY",
-      "AIR QUALITY",
-    ];
+    const Status = [];
 
-    for (let i = 0; i < Status.length; i++) {
-      initialStatusRow.push(<StatusItem key={i} type={Status[i]} min="0" max="360" value="320" />);
-    }
-    setStatusRow(initialStatusRow);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(JSONurl);
+        setJsonData(response.data);
+        console.log(`Current Row is ${index}`);
 
-    // Set up the interval to update every few seconds
-    const intervalId = setInterval(() => {
-      const updatedStatusRow = [];
-      for (let i = 0; i < Status.length; i++) {
-        updatedStatusRow.push(<StatusItem key={i} type={Status[i]} min="0" max="360" value="320" />);
+        const initialStatusRow = [];
+
+        // Extract keys from the first object in the array (assuming it's not empty)
+        if (response.data.Rows && response.data.Rows.length > 0) {
+          const firstObject = response.data.Rows[index - 1];
+
+          for (const key in firstObject) {
+            if (firstObject.hasOwnProperty(key)) {
+              Status.push(key);
+            }
+          }
+        }
+        for (let i = 0; i < Status.length - 1; i++) {
+          initialStatusRow.push(
+            <StatusItem
+              key={i}
+              type={Status[i]}
+              min="0"
+              max="360"
+              value={response.data.Rows[index - 1][Status[i]].Value}
+              status={response.data.Rows[index - 1][Status[i]].Status}
+            />
+          );
+        }
+        setStatusRow(initialStatusRow);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-      setStatusRow(updatedStatusRow);
-    }, 5000);
+    };
 
+    fetchData();
+
+    const intervalId = setInterval(fetchData, 120000); // 120000 milliseconds (2 minutes)
     return () => clearInterval(intervalId);
   }, []);
 
@@ -72,21 +93,20 @@ function StatusContent() {
 }
 
 function StatusItem(props) {
-  var fraction = props.value / (props.max - props.min);
+  var Status = capitalizeFirstLetter(props.status);
   var color = statusLightGreen;
-  var fontColor= statusDarkGreen;
+  var fontColor = statusDarkGreen;
 
-  if (fraction <= 1 / 3) {
+  if (Status == "Bad") {
     color = statusLightRed;
-    fontColor= statusDarkRed;
-  } else if (fraction <= 2 / 3) {
+    fontColor = statusDarkRed;
+  } else if (Status == "Moderate") {
     color = statusLightYellow;
-    fontColor= statusDarkYellow;
+    fontColor = statusDarkYellow;
   } else {
     color = statusLightGreen;
-    fontColor= statusDarkGreen;
+    fontColor = statusDarkGreen;
   }
-
   if (props.type === "LIGHTS") {
     return (
       <div className="status-item">
@@ -94,7 +114,7 @@ function StatusItem(props) {
 
         <div className="status-row-status" style={{ width: "70%" }}>
           <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>{props.type}</p>
-          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status : GOOD, Value:</p>
+          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status : {Status}</p>
         </div>
 
         <div style={{ width: "30%", height: "90%", display: "flex", alignItems: "center" }}>
@@ -109,7 +129,10 @@ function StatusItem(props) {
 
         <div className="status-row-status" style={{ width: "70%" }}>
           <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>{props.type}</p>
-          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status : GOOD, Value :</p>
+          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+            Status : <span style={{ color: fontColor }}>{Status}</span>, Value:
+            <span style={{ color: fontColor }}>{props.value}</span>
+          </p>
         </div>
 
         <div
@@ -123,20 +146,13 @@ function StatusItem(props) {
             progressColorFrom={color}
             progressColorTo={color}
             trackColor="transparent"
-
-            onChange={(value) => {
-              console.log(value);
-            }}
-
             progressSize={24}
             trackSize={24}
-
             labelColor={fontColor}
             // Uncomment below after debugging
-            // hideKnob="true"
-            // knobDraggable="false"
-            // label="Value" // The label is hidden in status.css
-           
+            hideKnob="true"
+            knobDraggable="false"
+            label="Value" // The label is hidden in status.css
           />
         </div>
       </div>
@@ -144,4 +160,7 @@ function StatusItem(props) {
   }
 }
 
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 export { StatusContent, StatusTop };

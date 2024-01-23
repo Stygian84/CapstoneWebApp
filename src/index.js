@@ -28,7 +28,8 @@ function Top() {
       <Route path="/row" element={<RowTop />} />
       <Route path="/camera/*" element={<CameraTop />} />
       <Route path="/status/*" element={<StatusTop />} />
-      <Route path="/settings" element={<SettingsTop />} />
+      {/* <Route path="/settings" element={<SettingsTop />} /> */}
+      <Route path="/settings" element={<HomeMonitoringTop />} />
     </Routes>
   );
 }
@@ -40,7 +41,8 @@ function Content() {
       <Route path="/row" element={<RowContent />} />
       <Route path="/camera/*" element={<CameraContent />} />
       <Route path="/status/*" element={<StatusContent />} />
-      <Route path="/settings" element={<SettingsContent />} />
+      {/* <Route path="/settings" element={<SettingsContent />} /> */}
+      <Route path="/settings" element={<HomeMonitoringContent />} />
     </Routes>
   );
 }

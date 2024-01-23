@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../index.css";
 import "../css/pages/camera.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
+import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
+import JSONurl from "../javascript/config.js";
 
 function CameraTop() {
   const navigate = useNavigate();
@@ -19,18 +22,55 @@ function CameraTop() {
     </div>
   );
 }
+
 function CameraContent() {
   addVisitedPage(window.location.href);
   const location = useLocation();
   const { index } = location.state || {};
 
-  let CameraRow = [];
-  let Status = ["Overall Status", "Soil pH", "Soil Moisture", "Humidity"];
+  const [cameraRow, setCameraRow] = useState([]);
+  const [jsonData, setJsonData] = useState(null);
 
-  for (let i = 0; i < Status.length; i++) {
-    let name = Status[i];
-    CameraRow.push(<CameraItem type={name} value="TBC" key={i} colour="#03A400"/>);
-  }
+  useEffect(() => {
+    const Status = [];
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(JSONurl);
+        setJsonData(response.data);
+        console.log(`Current Row is ${index}`);
+
+        const initialStatusRow = [];
+        const CameraRow = [];
+        let Status = ["Overall Status", "Soil pH", "Soil Moisture", "Humidity"];
+
+        for (let i = 0; i < Status.length; i++) {
+          let name = Status[i];
+          if (name == "Overall Status") {
+            var overallStatusObject = response.data.Rows[i]["Overall Status"];
+            CameraRow.push(<CameraItem type={name} status={overallStatusObject.Status} key={i} />);
+          } else {
+            if (name == "Soil pH") {
+              var status = response.data.Rows[i]["SOIL pH"];
+              CameraRow.push(<CameraItem type={name} status={status.Status} key={i} />);
+            } else {
+              var status = response.data.Rows[i][name.toUpperCase()];
+              CameraRow.push(<CameraItem type={name} status={status.Status} key={i} />);
+            }
+          }
+        }
+
+        setCameraRow(CameraRow);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+
+    const intervalId = setInterval(fetchData, 120000); // 120000 milliseconds (2 minutes)
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div id="content" className="content">
@@ -53,7 +93,7 @@ function CameraContent() {
 
       {/* Camera item Section */}
       <div id="camera-item-container">
-        {CameraRow}
+        {cameraRow}
 
         <div className="camera-item" style={{ height: "7vh", backgroundColor: "#7AA0B8" }}>
           <div id="water-the-plant">
@@ -74,6 +114,17 @@ function CameraContent() {
 }
 
 function CameraItem(props) {
+  var Status = props.status;
+  var fontColor = statusDarkGreen;
+
+  if (Status == "Bad") {
+    fontColor = statusDarkRed;
+  } else if (Status == "Moderate") {
+    fontColor = statusDarkYellow;
+  } else {
+    fontColor = statusDarkGreen;
+  }
+
   return (
     <div className="camera-item">
       <div>
@@ -81,7 +132,7 @@ function CameraItem(props) {
       </div>
       <div className="camera-row-status">
         <p>
-          {props.type} : <span style={{ color: props.colour }}>{props.value}</span>
+          {props.type} : <span style={{ color: fontColor }}>{props.status}</span>
         </p>
       </div>
     </div>
