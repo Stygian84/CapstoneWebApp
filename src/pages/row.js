@@ -21,16 +21,15 @@ function RowTop() {
 
 function RowContent() {
   const [jsonData, setJsonData] = useState(null);
-  const [rowStatus, setRowStatus] = useState(Array(12).fill("good"));
+  const [rowStatus, setRowStatus] = useState([]);
 
   useEffect(() => {
-
     const fetchData = async () => {
       try {
         const response = await axios.get(JSONurl);
         setJsonData(response.data);
 
-        const newStatus = Array(12).fill("good");
+        const newStatus = [];
 
         for (let i = 0; i < 12; i++) {
           var overallStatusObject = response.data.Rows[i]["Overall Status"];

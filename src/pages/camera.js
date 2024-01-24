@@ -38,7 +38,6 @@ function CameraContent() {
       try {
         const response = await axios.get(JSONurl);
         setJsonData(response.data);
-        console.log(`Current Row is ${index}`);
 
         const initialStatusRow = [];
         const CameraRow = [];
