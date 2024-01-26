@@ -62,7 +62,8 @@ function RowContent() {
 function RowItem(props) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { prev } = location.state;
+  const prev = location.state ? location.state.prev : null;
+
   var i = props.idx;
 
   var Status = props.status;
@@ -84,6 +85,8 @@ function RowItem(props) {
           navigate(`/status/${i}`, { state: { index: i } });
         } else if (prev === "Camera") {
           navigate(`/camera/${i}`, { state: { index: i } });
+        } else {
+          navigate(`/status/${i}`, { state: { index: i } });
         }
       }}
       key={i}

@@ -37,8 +37,7 @@ function HomeMonitoringContent() {
         .then((data) => {
           const adjustedTimeStamp = data.dt + 9 * 60;
           setWeatherData({ ...data, dt: adjustedTimeStamp });
-          console.log(data);
-
+          
           const newFormattedDate = new Date(data.dt * 1000).toLocaleDateString("en-US", {
             weekday: "long",
             hour: "numeric",
