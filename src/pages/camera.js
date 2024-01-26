@@ -33,14 +33,11 @@ function CameraContent() {
   const [jsonData, setJsonData] = useState(null);
 
   useEffect(() => {
-    const Status = [];
-
     const fetchData = async () => {
       try {
         const response = await axios.get(JSONurl);
         setJsonData(response.data);
 
-        const initialStatusRow = [];
         const CameraRow = [];
         let Status = ["Overall Status", "Soil pH", "Soil Moisture", "Humidity"];
 
