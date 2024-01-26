@@ -26,7 +26,8 @@ function CameraTop() {
 function CameraContent() {
   addVisitedPage(window.location.href);
   const location = useLocation();
-  const { index } = location.state || {};
+  const cameraNumber = location.pathname.split("/")[2];
+  const { index = cameraNumber } = location.state || {};
 
   const [cameraRow, setCameraRow] = useState([]);
   const [jsonData, setJsonData] = useState(null);
