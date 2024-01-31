@@ -111,7 +111,8 @@ a:active {
   grid-template-areas:
     "item item"
     "item item ";
-  overflow: hidden;
+    /* remove line below if ui ugly in some devices */
+  overflow: hidden; 
   align-items: center;
   margin-top: 1vh;
 }
