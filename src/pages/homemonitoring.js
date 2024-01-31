@@ -6,9 +6,9 @@ import JSONurl from "../javascript/config.js";
 function HomeMonitoringTop() {
   return (
     <div id="top" className="top">
-      <div className="img-container">
+      {/* <div className="img-container">
         <img src={require("../images/bars.png")} style={{ width: "15.5vw" }} alt=""></img>
-      </div>
+      </div> */}
       <p className="top-title">HOME MONITORING</p>
     </div>
   );
