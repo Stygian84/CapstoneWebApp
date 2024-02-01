@@ -20,8 +20,6 @@ Targeted Device : IPhone 13 & 14 (390px x 844px)
 # Notable Features
 
 1. Recent visited pages in the homepage.
-2. Real-time Weather.
+2. Real-time Weather.  
 
-# Future Improvement
-
-1. Make HollowCircle on Status page to be adjustable based on data.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/33858cad-917e-4b25-ac35-c23157bc7e7d/deploy-status)](https://app.netlify.com/sites/agroreach/deploys)
