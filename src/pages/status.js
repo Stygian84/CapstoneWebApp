@@ -35,11 +35,10 @@ function StatusTop() {
 function StatusContent() {
   addVisitedPage(window.location.href);
   const location = useLocation();
-  const statusNumber = location.pathname.split('/')[2];
+  const statusNumber = location.pathname.split("/")[2];
   const { index = statusNumber } = location.state || {};
   const [statusRow, setStatusRow] = useState([]);
   const [jsonData, setJsonData] = useState(null);
-  
 
   useEffect(() => {
     const Status = [];
