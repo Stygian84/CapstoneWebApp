@@ -7,7 +7,6 @@ import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/
 
 function RowTop() {
   const navigate = useNavigate();
-
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
