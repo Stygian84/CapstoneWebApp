@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
-import JSONurl from "../javascript/config.js";
 
 function HomeMonitoringTop() {
   return (

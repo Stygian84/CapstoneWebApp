@@ -5,7 +5,7 @@ import "../css/pages/camera.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
 import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
-import JSONurl from "../javascript/config.js";
+
 
 function CameraTop() {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ function CameraContent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(JSONurl);
+        const response = await axios.get(process.env.REACT_APP_JSON_URL);
         setJsonData(response.data);
 
         const CameraRow = [];

@@ -14,7 +14,6 @@ import {
   statusLightRed,
   statusLightYellow,
 } from "../javascript/colors";
-import JSONurl from "../javascript/config.js";
 
 function StatusTop() {
   const navigate = useNavigate();
@@ -47,7 +46,7 @@ function StatusContent() {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(JSONurl);
+        const response = await axios.get(process.env.REACT_APP_JSON_URL);
         setJsonData(response.data);
 
         const initialStatusRow = [];
