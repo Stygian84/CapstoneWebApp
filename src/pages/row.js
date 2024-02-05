@@ -6,6 +6,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
 
 function RowTop() {
+  console.log(process.env.REACT_APP_API_KEY)
+  console.log(process.env.REACT_APP_FILE_ID)
+  console.log(process.env.REACT_APP_JSON_URL)
   const navigate = useNavigate();
   return (
     <div id="top" className="top">
