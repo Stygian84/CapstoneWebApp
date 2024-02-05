@@ -4,11 +4,19 @@ import { useNavigate } from "react-router-dom";
 
 function HomeMonitoringTop() {
   return (
-    <div id="top" className="top">
+    <div
+      id="top"
+      className="top"
+      style={{
+        justifyContent: "space-evenly",
+      }}
+    >
       {/* <div className="img-container">
         <img src={require("../images/bars.png")} style={{ width: "15.5vw" }} alt=""></img>
       </div> */}
-      <p className="top-title">HOME MONITORING</p>
+      <p className="top-title" style={{ marginLeft: 0 }}>
+        HOME MONITORING
+      </p>
     </div>
   );
 }
@@ -36,7 +44,7 @@ function HomeMonitoringContent() {
         .then((data) => {
           const adjustedTimeStamp = data.dt + 9 * 60;
           setWeatherData({ ...data, dt: adjustedTimeStamp });
-          
+
           const newFormattedDate = new Date(data.dt * 1000).toLocaleDateString("en-US", {
             weekday: "long",
             hour: "numeric",
@@ -105,12 +113,12 @@ function HomeMonitoringContent() {
           <p style={{ color: "#8793AE" }}> Camera</p>
         </div>
 
-        <div className="feature-item" id="feature3" onClick={() => navigate("/settings")}>
+        {/* <div className="feature-item" id="feature3" onClick={() => navigate("/settings")}>
           <img src={require("../images/settings.png")} alt="Settings"></img>
           <img src={require("../images/whitesettings.png")} className="new-image" alt="Status"></img>
           <p style={{ color: "#7A9E95" }}>Settings</p>
         </div>
-        <div></div>
+        <div></div> */}
       </div>
       <div id="recent-header">
         <p style={{ fontWeight: "bold" }}>Recent</p>
