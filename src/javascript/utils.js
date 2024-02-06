@@ -10,4 +10,5 @@ function addVisitedPage(page) {
   localStorage.setItem("visitedPages", JSON.stringify(filteredPages));
 }
 
+
 export { addVisitedPage };

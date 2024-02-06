@@ -6,6 +6,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
 import CircularSlider from "@fseehawer/react-circular-slider";
+import { minMaxTable } from "../javascript/table";
+import getStatus from "../javascript/threshold";
 import {
   statusDarkGreen,
   statusDarkRed,
@@ -45,34 +47,69 @@ function StatusContent() {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_JSON_URL);
+        const response = await axios.get(process.env.REACT_APP_AWS_STATUS_URL + statusNumber);
         setJsonData(response.data);
 
+        // Mapping to convert string from DB to its respective display name
+        const keyToDisplayName = {
+          avgairquality: "AIR QUALITY",
+          avghumidity: "HUMIDITY",
+          avgsoilmoisture: "SOIL MOISTURE",
+          avgsoilph: "SOIL pH",
+          avgtemperature: "AIR TEMPERATURE",
+        };
+
         const initialStatusRow = [];
-
-        // Extract keys from the first object in the array (assuming it's not empty)
-        if (response.data.Rows && response.data.Rows.length > 0) {
-          const firstObject = response.data.Rows[index - 1];
-
-          for (const key in firstObject) {
-            if (firstObject.hasOwnProperty(key)) {
-              Status.push(key);
-            }
+        const excludedKeys = ["rowid", "timestamp", "status"];
+        for (const key in response.data[0]) {
+          if (response.data[0].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
+            Status.push(key);
           }
         }
-        for (let i = 0; i < Status.length - 1; i++) {
+
+        // TODO getStatus logic
+        for (let i = 0; i < Status.length; i++) {
           initialStatusRow.push(
             <StatusItem
               key={i}
-              type={Status[i]}
-              min="0"
-              max="360"
-              value={response.data.Rows[index - 1][Status[i]].Value}
-              status={response.data.Rows[index - 1][Status[i]].Status}
+              type={keyToDisplayName[Status[i]]}
+              min={minMaxTable[Status[i]].min}
+              max={minMaxTable[Status[i]].max}
+              value={response.data[0][Status[i]]}
+              status={getStatus([Status[i]], response.data[0][Status[i]])}
             />
           );
         }
         setStatusRow(initialStatusRow);
+        // ** old code without aws **
+        // const response = await axios.get(process.env.REACT_APP_JSON_URL);
+        // setJsonData(response.data);
+
+        // const initialStatusRow = [];
+
+        // // Extract keys from the first object in the array (assuming it's not empty)
+        // if (response.data.Rows && response.data.Rows.length > 0) {
+        //   const firstObject = response.data.Rows[index - 1];
+
+        //   for (const key in firstObject) {
+        //     if (firstObject.hasOwnProperty(key)) {
+        //       Status.push(key);
+        //     }
+        //   }
+        // }
+        // for (let i = 0; i < Status.length - 1; i++) {
+        //   initialStatusRow.push(
+        //     <StatusItem
+        //       key={i}
+        //       type={Status[i]}
+        //       min="0"
+        //       max="360"
+        //       value={response.data.Rows[index - 1][Status[i]].Value}
+        //       status={response.data.Rows[index - 1][Status[i]].Status}
+        //     />
+        //   );
+        // }
+        // setStatusRow(initialStatusRow);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -84,9 +121,30 @@ function StatusContent() {
     return () => clearInterval(intervalId);
   }, []);
 
+  // For ToggleSwitch Lights Display
+  const [isToggleOn, setIsToggleOn] = useState(false);
+  const LightStatus = isToggleOn ? "On" : "Off";
+  const lightColor = isToggleOn ? statusDarkGreen : statusDarkRed;
+
   return (
     <div id="content" className="content">
-      <div id="status-container">{statusRow}</div>
+      <div id="status-container">
+        <div className="status-item">
+          <img src={require(`../images/LIGHTS.png`)} alt="Status"></img>
+
+          <div className="status-row-status" style={{ width: "70%" }}>
+            <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>LIGHTS</p>
+            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+              Status : <span style={{ color: lightColor }}>{LightStatus}</span>
+            </p>
+          </div>
+
+          <div style={{ width: "30%", height: "90%", display: "flex", alignItems: "center" }}>
+            <ToggleSwitch checked={isToggleOn} onChange={() => setIsToggleOn(!isToggleOn)} />
+          </div>
+        </div>
+        {statusRow}
+      </div>
     </div>
   );
 }
@@ -139,7 +197,7 @@ function StatusItem(props) {
           style={{ width: "30%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}
         >
           <CircularSlider
-            dataIndex={props.value}
+            dataIndex={props.value - props.min} // bug where min is added to dataindex so need to minus here
             min={props.min}
             max={props.max}
             progressColorFrom={color}
