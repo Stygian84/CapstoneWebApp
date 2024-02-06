@@ -6,9 +6,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
 
 function RowTop() {
-  console.log(process.env.REACT_APP_API_KEY)
-  console.log(process.env.REACT_APP_FILE_ID)
-  console.log(process.env.REACT_APP_JSON_URL)
   const navigate = useNavigate();
   return (
     <div id="top" className="top">
@@ -27,17 +24,30 @@ function RowContent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_JSON_URL);
+        const response = await axios.get(process.env.REACT_APP_AWS_ROW_URL);
         setJsonData(response.data);
-
+        //console.log(response.data[0]["status"]);
         const newStatus = [];
 
         for (let i = 0; i < 12; i++) {
-          var overallStatusObject = response.data.Rows[i]["Overall Status"];
-          newStatus[i] = overallStatusObject.Status;
+          var overallStatusObject = response.data[i]["status"];
+          newStatus[i] = overallStatusObject;
         }
 
         setRowStatus(newStatus);
+
+        // old code to get json without aws
+        // const response = await axios.get(process.env.REACT_APP_JSON_URL);
+        // setJsonData(response.data);
+
+        // const newStatus = [];
+
+        // for (let i = 0; i < 12; i++) {
+        //   var overallStatusObject = response.data.Rows[i]["Overall Status"];
+        //   newStatus[i] = overallStatusObject.Status;
+        // }
+
+        // setRowStatus(newStatus);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
