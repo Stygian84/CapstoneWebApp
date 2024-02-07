@@ -11,9 +11,6 @@ function HomeMonitoringTop() {
         justifyContent: "space-evenly",
       }}
     >
-      {/* <div className="img-container">
-        <img src={require("../images/bars.png")} style={{ width: "15.5vw" }} alt=""></img>
-      </div> */}
       <p className="top-title" style={{ marginLeft: 0 }}>
         HOME MONITORING
       </p>

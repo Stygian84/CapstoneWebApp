@@ -15,7 +15,7 @@ body {
   grid-template-areas:
     "top"
     "content ";
-  grid-template-rows: 1fr 10fr;
+  grid-template-rows: 0.7fr 10fr;
   min-height: 100vh;
   max-height: 100vh;
   min-width: 100vw;
@@ -34,6 +34,10 @@ body {
   align-items: center;
 }
 
+.top .img-container img {
+  width: 14vw;
+}
+
 .img-container {
   display: flex;
   justify-content: center;
@@ -47,10 +51,15 @@ body {
 }
 
 .top-title {
-  margin-left: 15.5vw;
-  font-size: 2.5vh;
+  /* margin-left: 15.5vw; */
+  font-size: 2vh;
   color: #7aa0b8;
   font-weight: 500;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: space-evenly;
+  z-index: -1;
 }
 
 a:hover,
@@ -70,6 +79,7 @@ a:active {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  padding-top: 1vh;
 }
 
 /* Header CSS */
@@ -133,6 +143,7 @@ a:active {
   align-items: center;
 
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(143, 165, 134, 0.15);
 }
 .feature-item img {
   width: 55%;

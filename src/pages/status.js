@@ -3,7 +3,7 @@ import axios from "axios";
 import "../index.css";
 import "../css/pages/status.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { addVisitedPage } from "../javascript/utils";
+import { addVisitedPage, fetchDataFromLinks } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
 import CircularSlider from "@fseehawer/react-circular-slider";
 import { minMaxTable } from "../javascript/table";
@@ -27,9 +27,7 @@ function StatusTop() {
       <div className="img-container" onClick={() => navigate(-1)}>
         <img src={require("../images/arrow.png")} style={{ width: "15.5vw" }} alt=""></img>
       </div>
-      <p className="top-title" style={{ marginLeft: "16.5vw" }}>
-        ROW {index} STATUS
-      </p>
+      <p className="top-title">ROW {index} STATUS</p>
     </div>
   );
 }
@@ -41,14 +39,24 @@ function StatusContent() {
   const { index = statusNumber } = location.state || {};
   const [statusRow, setStatusRow] = useState([]);
   const [jsonData, setJsonData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const Status = [];
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_AWS_STATUS_URL + statusNumber);
-        setJsonData(response.data);
+        const suffix = "/api/status";
+        // Use Render
+        const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
+        const data = response.data;
+
+        // Use AWS
+        // const data = await fetchDataFromLinks(suffix);
+        setJsonData(data);
+        
+        // const response = await axios.get(process.env.REACT_APP_AWS_STATUS_URL + statusNumber);
+        // setJsonData(response.data);
 
         // Mapping to convert string from DB to its respective display name
         const keyToDisplayName = {
@@ -61,8 +69,8 @@ function StatusContent() {
 
         const initialStatusRow = [];
         const excludedKeys = ["rowid", "timestamp", "status"];
-        for (const key in response.data[0]) {
-          if (response.data[0].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
+        for (const key in data[0]) {
+          if (data[0].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
             Status.push(key);
           }
         }
@@ -75,8 +83,8 @@ function StatusContent() {
               type={keyToDisplayName[Status[i]]}
               min={minMaxTable[Status[i]].min}
               max={minMaxTable[Status[i]].max}
-              value={response.data[0][Status[i]]}
-              status={getStatus([Status[i]], response.data[0][Status[i]])}
+              value={data[0][Status[i]]}
+              status={getStatus([Status[i]], data[0][Status[i]])}
             />
           );
         }
@@ -129,6 +137,30 @@ function StatusContent() {
   return (
     <div id="content" className="content">
       <div id="status-container">
+        <div
+          className="status-item"
+          onClick={() => {
+            navigate(`/plant/${statusNumber}`, { state: { index: statusNumber } });
+          }}
+        >
+          <img src={require(`../images/plant.png`)} alt="Status"></img>
+
+          <div className="status-row-status" style={{ width: "70%" }}>
+            <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>PLANTS DETAILS</p>
+          </div>
+          <p
+            style={{
+              marginLeft: "0",
+              marginTop: "0",
+              marginBottom: "0",
+              paddingRight: "5%",
+              fontSize: "5.5vh",
+              color: "#C8C8C8",
+            }}
+          >
+            &gt;
+          </p>
+        </div>
         <div className="status-item">
           <img src={require(`../images/LIGHTS.png`)} alt="Status"></img>
 

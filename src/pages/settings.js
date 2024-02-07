@@ -5,7 +5,7 @@ function SettingsTop() {
   return (
     <div id="top" className="top">
       <div className="img-container">
-        <img src={require("../images/bars.png")} style={{ width: "15.5vw" }} alt=""></img>
+        <img src={require("../images/bars.png")} alt=""></img>
       </div>
       <p className="top-title">Settings not developed yet - TODO </p>
     </div>

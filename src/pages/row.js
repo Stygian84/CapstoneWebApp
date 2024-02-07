@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../index.css";
 import "../css/pages/row.css";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, json } from "react-router-dom";
 import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
+import { fetchDataFromLinks } from "../javascript/utils";
 
 function RowTop() {
   const navigate = useNavigate();
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
-        <img src={require("../images/arrow.png")} style={{ width: "15.5vw" }} alt=""></img>
+        <img src={require("../images/arrow.png")} alt=""></img>
       </div>
       <p className="top-title">ROW SELECTION</p>
     </div>
@@ -24,17 +25,22 @@ function RowContent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const baseUrl = "/apiredirect/api";
-        const response = await axios.get(baseUrl + "/api/row");
-        console.log("Final URL after redirection:", response.request.res.responseUrl)
+        // Getting data
+        const suffix = "/api/row";
 
-        //const response = await axios.get(process.env.REACT_APP_AWS_URL+"/api/row");
-        setJsonData(response.data);
-        //console.log(response.data[0]["status"]);
+        // Use Render
+        const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
+        const data = response.data;
+
+        // Use AWS
+        // const data = await fetchDataFromLinks(suffix);
+        setJsonData(data);
+
+        
         const newStatus = [];
 
         for (let i = 0; i < 12; i++) {
-          var overallStatusObject = response.data[i]["status"];
+          var overallStatusObject = data[i]["status"];
           newStatus[i] = overallStatusObject;
         }
 
@@ -59,7 +65,7 @@ function RowContent() {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 120000); // 120000 milliseconds (2 minutes)
+    const intervalId = setInterval(fetchData, 6000); // 6000 milliseconds (6 seconds)
     return () => clearInterval(intervalId);
   }, []);
 

@@ -13,6 +13,7 @@
 
   border-radius: 20px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(143, 165, 134, 0.15);
 }
 
 .status-item img {

@@ -1,0 +1,272 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../index.css";
+import "../css/pages/plant.css";
+import { useNavigate, useLocation } from "react-router-dom";
+import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
+
+import CircularSlider from "@fseehawer/react-circular-slider";
+
+function PlantTop() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { index } = location.state || {};
+  return (
+    <div id="top" className="top">
+      <div className="img-container" onClick={() => navigate(-1)}>
+        <img src={require("../images/arrow.png")} alt=""></img>
+      </div>
+      <p className="top-title">ROW {index} PLANTS</p>
+    </div>
+  );
+}
+
+function PlantContent() {
+  const [jsonData, setJsonData] = useState(null);
+  const [rowStatus, setRowStatus] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // const baseUrl = "/apiredirect/api";
+        // const response = await axios.get(baseUrl + "/api/row");
+        // console.log("Final URL after redirection:", response.request.res.responseUrl)
+
+        const response = await axios.get(process.env.REACT_APP_AWS_URL + "/api/row");
+        setJsonData(response.data);
+        //console.log(response.data[0]["status"]);
+        const newStatus = [];
+
+        for (let i = 0; i < 12; i++) {
+          var overallStatusObject = response.data[i]["status"];
+          newStatus[i] = overallStatusObject;
+        }
+
+        setRowStatus(newStatus);
+
+        // old code to get json without aws
+        // const response = await axios.get(process.env.REACT_APP_JSON_URL);
+        // setJsonData(response.data);
+
+        // const newStatus = [];
+
+        // for (let i = 0; i < 12; i++) {
+        //   var overallStatusObject = response.data.Rows[i]["Overall Status"];
+        //   newStatus[i] = overallStatusObject.Status;
+        // }
+
+        // setRowStatus(newStatus);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+
+    const intervalId = setInterval(fetchData, 120000); // 120000 milliseconds (2 minutes)
+    return () => clearInterval(intervalId);
+  }, []);
+
+  //   For plantitem
+  useEffect(() => {
+    const sliderElement = document.querySelector(".circular-slider"); // Assuming the CircularSlider has a class name
+    if (sliderElement) {
+      const childDiv = sliderElement.querySelector("div"); // Get the direct child div
+      if (childDiv) {
+        // Manipulate the child div here
+        childDiv.style.backgroundImage = "url('../images/background.jpg')";
+        childDiv.style.backgroundSize = "cover";
+        childDiv.style.backgroundRepeat = "no-repeat";
+      }
+    }
+  }, []);
+  return (
+    <div id="content" className="content">
+      <div id="plant-container">
+        {/* Start */}
+        <div className="plant-item">
+          <div className="plant-item-first-row">
+            <div
+              style={{
+                margin: "0 0 0 5%",
+                width: "20%",
+                position: "absolute",
+              }}
+            >
+              <div className="plant-img-container">
+                <img src={require("../images/plant.png")} style={{ width: "12vw", margin: " 5% 0 0 0" }} alt=""></img>
+              </div>
+            </div>
+            <div
+              className="plant-status"
+              style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}
+            >
+              <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
+                PLANTS A
+              </p>
+              <p style={{ fontSize: "1.2vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
+                Status : <span style={{ color: "red" }}>HAHA</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="plant-item-second-row">
+            <div className="airtemperature" style={{ width: "33%" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <div
+                  className="circle-container-plant"
+                  style={{
+                    width: "75%",
+                    height: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+
+                    // backgroundImage: `url(${require("../images/AIR TEMPERATURE.png")})`,
+                    // backgroundSize: "cover",
+                    // backgroundPosition: "center",
+                    // backgroundSize: "30%",
+                    // backgroundRepeat:"no-repeat",
+                    // opacity:"50%"
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "50%",
+                      height: "100%",
+                      backgroundImage: `url(${require("../images/plant.png")})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      opacity: 0.5, // Set opacity to 50%
+                    }}
+                  />
+                  <CircularSlider
+                    dataIndex="91" // bug where min is added to dataindex so need to minus here
+                    min="0"
+                    max="100"
+                    progressColorFrom="red"
+                    progressColorTo="red"
+                    trackColor="transparent"
+                    progressSize={24}
+                    trackSize={24}
+                    labelColor="red"
+                    // Uncomment below after debugging
+                    hideKnob="true"
+                    knobDraggable="false"
+                    label="Value" // The label is hidden in status.css
+                  />
+                </div>
+                {/* <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img> */}
+              </div>
+              <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
+                Air Temperature
+              </div>
+            </div>
+            <div className="soilmoisture" style={{ width: "33%" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img>
+              </div>
+              <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
+                Soil Moisture
+              </div>
+            </div>
+            <div className="airquality" style={{ width: "33%" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img>
+              </div>
+              <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
+                Air Quality
+              </div>
+            </div>
+          </div>
+
+          <div className="plant-item-third-row">
+            <div className="soilph">
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img>
+              </div>
+              <div style={{ fontSize: "1.5vh", color: "#A5A5A5" }}>Soil pH</div>
+            </div>
+            <div className="humidity">
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img>
+              </div>
+              <div style={{ fontSize: "1.5vh", color: "#A5A5A5" }}>Humidity</div>
+            </div>
+          </div>
+        </div>
+
+        {/* STOP */}
+      </div>
+    </div>
+  );
+}
+
+function PlantItem(props) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const prev = location.state ? location.state.prev : null;
+
+  var i = props.idx;
+
+  var Status = props.status;
+  var fontColor = statusDarkGreen;
+
+  if (Status == "Bad") {
+    fontColor = statusDarkRed;
+  } else if (Status == "Moderate") {
+    fontColor = statusDarkYellow;
+  } else {
+    fontColor = statusDarkGreen;
+  }
+
+  return (
+    <div
+      className="row-selection-item"
+      onClick={() => {
+        if (prev === "Status") {
+          navigate(`/status/${i}`, { state: { index: i } });
+        } else if (prev === "Camera") {
+          navigate(`/camera/${i}`, { state: { index: i } });
+        } else {
+          navigate(`/status/${i}`, { state: { index: i } });
+        }
+      }}
+      key={i}
+    >
+      <div
+        style={{
+          margin: "0 0 0 10%",
+          width: "10%",
+        }}
+      >
+        <p style={{ fontSize: "2vh", color: "#7AA0B8" }}>{i}</p>
+      </div>
+      <div className="row-selection-status" style={{ width: "70%" }}>
+        <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>ROW {i}</p>
+        <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+          Overall Status : <span style={{ color: fontColor }}>{Status}</span>
+        </p>
+      </div>
+      <div style={{ width: "10%" }}>
+        <p
+          style={{
+            marginLeft: "auto",
+            marginTop: "0",
+            marginBottom: "0",
+            paddingRight: "2%",
+            fontSize: "3.5vh",
+            color: "#C8C8C8",
+          }}
+        >
+          &gt;
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export { PlantTop, PlantContent };

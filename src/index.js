@@ -8,6 +8,7 @@ import { CameraContent, CameraTop } from "./pages/camera";
 import { RowContent, RowTop } from "./pages/row";
 import { StatusContent, StatusTop } from "./pages/status";
 import { SettingsContent, SettingsTop } from "./pages/settings";
+import { PlantContent, PlantTop } from "./pages/plant";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -28,6 +29,7 @@ function Top() {
       <Route path="/row" element={<RowTop />} />
       <Route path="/camera/*" element={<CameraTop />} />
       <Route path="/status/*" element={<StatusTop />} />
+      <Route path="/plant/*" element={<PlantTop />} />
       {/* <Route path="/settings" element={<SettingsTop />} /> */}
       <Route path="/settings" element={<HomeMonitoringTop />} />
     </Routes>
@@ -41,6 +43,7 @@ function Content() {
       <Route path="/row" element={<RowContent />} />
       <Route path="/camera/*" element={<CameraContent />} />
       <Route path="/status/*" element={<StatusContent />} />
+      <Route path="/plant/*" element={<PlantContent />} />
       {/* <Route path="/settings" element={<SettingsContent />} /> */}
       <Route path="/settings" element={<HomeMonitoringContent />} />
     </Routes>
