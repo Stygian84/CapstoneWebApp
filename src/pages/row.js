@@ -26,6 +26,7 @@ function RowContent() {
       try {
         const baseUrl = "/apiredirect/api";
         const response = await axios.get(baseUrl + "/api/row");
+        console.log("Final URL after redirection:", response.request.res.responseUrl)
 
         //const response = await axios.get(process.env.REACT_APP_AWS_URL+"/api/row");
         setJsonData(response.data);
