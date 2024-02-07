@@ -24,7 +24,10 @@ function RowContent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_AWS_ROW_URL);
+        const baseUrl = "/apiredirect/api";
+        const response = await axios.get(baseUrl + "/api/row");
+
+        //const response = await axios.get(process.env.REACT_APP_AWS_URL+"/api/row");
         setJsonData(response.data);
         //console.log(response.data[0]["status"]);
         const newStatus = [];
