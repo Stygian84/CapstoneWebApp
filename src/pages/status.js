@@ -55,9 +55,6 @@ function StatusContent() {
         // const data = await fetchDataFromLinks(suffix);
         setJsonData(data);
 
-        // const response = await axios.get(process.env.REACT_APP_AWS_STATUS_URL + statusNumber);
-        // setJsonData(response.data);
-
         // Mapping to convert string from DB to its respective display name
         const keyToDisplayName = {
           avgairquality: "AIR QUALITY",

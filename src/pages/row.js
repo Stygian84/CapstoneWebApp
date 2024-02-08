@@ -36,7 +36,6 @@ function RowContent() {
         // const data = await fetchDataFromLinks(suffix);
         setJsonData(data);
 
-        
         const newStatus = [];
 
         for (let i = 0; i < 12; i++) {

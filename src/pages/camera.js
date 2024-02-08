@@ -6,7 +6,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
 import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
 
-
 function CameraTop() {
   const navigate = useNavigate();
   const location = useLocation();

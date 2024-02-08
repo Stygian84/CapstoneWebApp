@@ -4,8 +4,8 @@ import "../index.css";
 import "../css/pages/plant.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
-
-import CircularSlider from "@fseehawer/react-circular-slider";
+import fetchDataFromLinks from "../javascript/utils";
+import CircularSliderwithBg from "../components/CircularSliderwithBg";
 
 function PlantTop() {
   const navigate = useNavigate();
@@ -22,40 +22,43 @@ function PlantTop() {
 }
 
 function PlantContent() {
+  const location = useLocation();
   const [jsonData, setJsonData] = useState(null);
-  const [rowStatus, setRowStatus] = useState([]);
+  const { index } = location.state || {};
+  const [plantRow, setPlantRow] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const baseUrl = "/apiredirect/api";
-        // const response = await axios.get(baseUrl + "/api/row");
-        // console.log("Final URL after redirection:", response.request.res.responseUrl)
+        const suffix = `/api/plant/${index}`;
+        // Use Render
+        const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
+        const data = response.data;
 
-        const response = await axios.get(process.env.REACT_APP_AWS_URL + "/api/row");
-        setJsonData(response.data);
-        //console.log(response.data[0]["status"]);
-        const newStatus = [];
+        // Use AWS
+        // const data = await fetchDataFromLinks(suffix);
+        // setJsonData(data);
+
+        console.log(data[0]);
+        var plantRow = [];
 
         for (let i = 0; i < 12; i++) {
-          var overallStatusObject = response.data[i]["status"];
-          newStatus[i] = overallStatusObject;
+          plantRow.push(
+            <PlantItem
+              key={i}
+              idx={data[i]["plantid"]}
+              name={data[i]["plantname"]}
+              airQualityValue={data[i]["airquality"]}
+              soilMoistureValue={data[i]["soilmoisture"]}
+              airTemperatureValue={data[i]["temperature"]}
+              soilPHValue={data[i]["soilph"]}
+              humidityValue={data[i]["humidity"]}
+              status={data[i]["status"]}
+            />
+          );
         }
 
-        setRowStatus(newStatus);
-
-        // old code to get json without aws
-        // const response = await axios.get(process.env.REACT_APP_JSON_URL);
-        // setJsonData(response.data);
-
-        // const newStatus = [];
-
-        // for (let i = 0; i < 12; i++) {
-        //   var overallStatusObject = response.data.Rows[i]["Overall Status"];
-        //   newStatus[i] = overallStatusObject.Status;
-        // }
-
-        // setRowStatus(newStatus);
+        setPlantRow(plantRow);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -67,152 +70,33 @@ function PlantContent() {
     return () => clearInterval(intervalId);
   }, []);
 
-  //   For plantitem
-  useEffect(() => {
-    const sliderElement = document.querySelector(".circular-slider"); // Assuming the CircularSlider has a class name
-    if (sliderElement) {
-      const childDiv = sliderElement.querySelector("div"); // Get the direct child div
-      if (childDiv) {
-        // Manipulate the child div here
-        childDiv.style.backgroundImage = "url('../images/background.jpg')";
-        childDiv.style.backgroundSize = "cover";
-        childDiv.style.backgroundRepeat = "no-repeat";
-      }
-    }
-  }, []);
   return (
     <div id="content" className="content">
       <div id="plant-container">
         {/* Start */}
-        <div className="plant-item">
-          <div className="plant-item-first-row">
-            <div
-              style={{
-                margin: "0 0 0 5%",
-                width: "20%",
-                position: "absolute",
-              }}
-            >
-              <div className="plant-img-container">
-                <img src={require("../images/plant.png")} style={{ width: "12vw", margin: " 5% 0 0 0" }} alt=""></img>
-              </div>
-            </div>
-            <div
-              className="plant-status"
-              style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}
-            >
-              <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
-                PLANTS A
-              </p>
-              <p style={{ fontSize: "1.2vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
-                Status : <span style={{ color: "red" }}>HAHA</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="plant-item-second-row">
-            <div className="airtemperature" style={{ width: "33%" }}>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <div
-                  className="circle-container-plant"
-                  style={{
-                    width: "75%",
-                    height: "50%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-
-                    // backgroundImage: `url(${require("../images/AIR TEMPERATURE.png")})`,
-                    // backgroundSize: "cover",
-                    // backgroundPosition: "center",
-                    // backgroundSize: "30%",
-                    // backgroundRepeat:"no-repeat",
-                    // opacity:"50%"
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "50%",
-                      height: "100%",
-                      backgroundImage: `url(${require("../images/plant.png")})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      opacity: 0.5, // Set opacity to 50%
-                    }}
-                  />
-                  <CircularSlider
-                    dataIndex="91" // bug where min is added to dataindex so need to minus here
-                    min="0"
-                    max="100"
-                    progressColorFrom="red"
-                    progressColorTo="red"
-                    trackColor="transparent"
-                    progressSize={24}
-                    trackSize={24}
-                    labelColor="red"
-                    // Uncomment below after debugging
-                    hideKnob="true"
-                    knobDraggable="false"
-                    label="Value" // The label is hidden in status.css
-                  />
-                </div>
-                {/* <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img> */}
-              </div>
-              <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
-                Air Temperature
-              </div>
-            </div>
-            <div className="soilmoisture" style={{ width: "33%" }}>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img>
-              </div>
-              <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
-                Soil Moisture
-              </div>
-            </div>
-            <div className="airquality" style={{ width: "33%" }}>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img>
-              </div>
-              <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
-                Air Quality
-              </div>
-            </div>
-          </div>
-
-          <div className="plant-item-third-row">
-            <div className="soilph">
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img>
-              </div>
-              <div style={{ fontSize: "1.5vh", color: "#A5A5A5" }}>Soil pH</div>
-            </div>
-            <div className="humidity">
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <img src={require("../images/plant.png")} style={{ width: "12vw" }} alt=""></img>
-              </div>
-              <div style={{ fontSize: "1.5vh", color: "#A5A5A5" }}>Humidity</div>
-            </div>
-          </div>
-        </div>
-
+        {plantRow}
         {/* STOP */}
       </div>
     </div>
   );
 }
 
+// and navigation
 function PlantItem(props) {
   const navigate = useNavigate();
   const location = useLocation();
   const prev = location.state ? location.state.prev : null;
 
   var i = props.idx;
-
+  var name = props.name;
   var Status = props.status;
+  var AirTemperatureValue = props.airTemperatureValue;
+  var SoilMoistureValue = props.soilMoistureValue;
+  var AirQualityValue = props.airQualityValue;
+  var SoilPHValue = props.soilPHValue;
+  var HumidityValue = props.humidityValue;
+  var Status = props.status;
+
   var fontColor = statusDarkGreen;
 
   if (Status == "Bad") {
@@ -224,46 +108,79 @@ function PlantItem(props) {
   }
 
   return (
-    <div
-      className="row-selection-item"
-      onClick={() => {
-        if (prev === "Status") {
-          navigate(`/status/${i}`, { state: { index: i } });
-        } else if (prev === "Camera") {
-          navigate(`/camera/${i}`, { state: { index: i } });
-        } else {
-          navigate(`/status/${i}`, { state: { index: i } });
-        }
-      }}
-      key={i}
-    >
-      <div
-        style={{
-          margin: "0 0 0 10%",
-          width: "10%",
-        }}
-      >
-        <p style={{ fontSize: "2vh", color: "#7AA0B8" }}>{i}</p>
-      </div>
-      <div className="row-selection-status" style={{ width: "70%" }}>
-        <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>ROW {i}</p>
-        <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-          Overall Status : <span style={{ color: fontColor }}>{Status}</span>
-        </p>
-      </div>
-      <div style={{ width: "10%" }}>
-        <p
+    <div className="plant-item">
+      <div className="plant-item-first-row">
+        <div
+          className="first-row-bg"
           style={{
-            marginLeft: "auto",
-            marginTop: "0",
-            marginBottom: "0",
-            paddingRight: "2%",
-            fontSize: "3.5vh",
-            color: "#C8C8C8",
+            margin: "0 0 0 5%",
+            width: "20%",
+            position: "absolute",
+
+            // backgroundImage: `url(${require(`../images/bg.jpg`)})`,
           }}
         >
-          &gt;
-        </p>
+          <div className="plant-img-container">
+            {/* <img src={require("../images/plant.png")} style={{ width: "12vw", margin: " 5% 0 0 0" }} alt=""></img> */}
+          </div>
+        </div>
+        <div
+          className="plant-status"
+          style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}
+        >
+          <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
+            {i}. {name}
+          </p>
+          <p style={{ fontSize: "1.2vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
+            Status : <span style={{ color: fontColor }}>{Status}</span>
+          </p>
+        </div>
+      </div>
+
+      <div className="plant-item-second-row">
+        <div className="airtemperature" style={{ width: "33%" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularSliderwithBg imageSrc="AIR TEMPERATURE" style={{ left: "55%" }} value={AirTemperatureValue} />
+          </div>
+          <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
+            Air Temperature
+          </div>
+        </div>
+        <div className="soilmoisture" style={{ width: "33%" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularSliderwithBg imageSrc="SOIL MOISTURE" value={SoilMoistureValue} />
+          </div>
+          <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
+            Soil Moisture
+          </div>
+        </div>
+        <div className="airquality" style={{ width: "33%" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularSliderwithBg imageSrc="AIR QUALITY" value={AirQualityValue} />
+          </div>
+          <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
+            Air Quality
+          </div>
+        </div>
+      </div>
+
+      <div className="plant-item-third-row">
+        <div className="soilph" style={{ width: "33%" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularSliderwithBg imageSrc="SOIL pH" value={SoilPHValue} />
+          </div>
+          <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
+            Soil pH
+          </div>
+        </div>
+        <div className="humidity" style={{ width: "33%" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularSliderwithBg imageSrc="HUMIDITY" value={HumidityValue} />
+          </div>
+          <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
+            Humidity
+          </div>
+        </div>
       </div>
     </div>
   );

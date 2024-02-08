@@ -33,6 +33,7 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
+  transition: opacity 0.3s ease-in 0s !important;
 }
 /* Label Size */
 .circle-container div div:nth-child(3) div:nth-child(1) {
