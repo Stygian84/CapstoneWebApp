@@ -161,14 +161,14 @@ function StatusContent() {
         <div className="status-item">
           <img src={require(`../images/LIGHTS.png`)} alt="Status"></img>
 
-          <div className="status-row-status" style={{ width: "70%" }}>
+          <div className="status-row-status" style={{ width: "60%" }}>
             <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>LIGHTS</p>
-            <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+            <p style={{ fontSize: "1.2vh", color: "#A5A5A5", fontWeight: "500" }}>
               Status : <span style={{ color: lightColor }}>{LightStatus}</span>
             </p>
           </div>
 
-          <div style={{ width: "30%", height: "90%", display: "flex", alignItems: "center" }}>
+          <div style={{ width: "25%", height: "90%", display: "flex", alignItems: "center" }}>
             <ToggleSwitch checked={isToggleOn} onChange={() => setIsToggleOn(!isToggleOn)} />
           </div>
         </div>
@@ -182,7 +182,24 @@ function StatusItem(props) {
   var Status = capitalizeFirstLetter(props.status);
   var color = statusLightGreen;
   var fontColor = statusDarkGreen;
-
+  var unit = "";
+  var val = "Value";
+  if (props.type === "AIR QUALITY") {
+    val = "PSI";
+    unit = "";
+  } else if (props.type === "HUMIDITY") {
+    val = "Value";
+    unit = "%";
+  } else if (props.type === "SOIL MOISTURE") {
+    val = "Value";
+    unit = "%";
+  } else if (props.type === "SOIL pH") {
+    val = "pH";
+    unit = "";
+  } else if (props.type === "AIR TEMPERATURE") {
+    val = "Temp";
+    unit = "\u00b0C";
+  }
   if (Status == "Bad") {
     color = statusLightRed;
     fontColor = statusDarkRed;
@@ -193,57 +210,43 @@ function StatusItem(props) {
     color = statusLightGreen;
     fontColor = statusDarkGreen;
   }
-  if (props.type === "LIGHTS") {
-    return (
-      <div className="status-item">
-        <img src={require(`../images/${props.type}.png`)} alt="Status"></img>
 
-        <div className="status-row-status" style={{ width: "70%" }}>
-          <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>{props.type}</p>
-          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>Status : {Status}</p>
-        </div>
+  return (
+    <div className="status-item">
+      <img src={require(`../images/${props.type}.png`)} alt="Status"></img>
 
-        <div style={{ width: "30%", height: "90%", display: "flex", alignItems: "center" }}>
-          <ToggleSwitch style={{ width: "100%" }} />
-        </div>
+      <div className="status-row-status" style={{ width: "60%" }}>
+        <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>{props.type}</p>
+        <p style={{ fontSize: "1.2vh", color: "#A5A5A5", fontWeight: "500" }}>
+          Status : <span style={{ color: fontColor }}>{Status}</span>, {val}:{" "}
+          <span style={{ color: fontColor }}>
+            {props.value} {unit}
+          </span>
+        </p>
       </div>
-    );
-  } else {
-    return (
-      <div className="status-item">
-        <img src={require(`../images/${props.type}.png`)} alt="Status"></img>
 
-        <div className="status-row-status" style={{ width: "70%" }}>
-          <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>{props.type}</p>
-          <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
-            Status : <span style={{ color: fontColor }}>{Status}</span>, Value:
-            <span style={{ color: fontColor }}>{props.value}</span>
-          </p>
-        </div>
-
-        <div
-          className="circle-container"
-          style={{ width: "30%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}
-        >
-          <CircularSlider
-            dataIndex={props.value - props.min} // bug where min is added to dataindex so need to minus here
-            min={props.min}
-            max={props.max}
-            progressColorFrom={color}
-            progressColorTo={color}
-            trackColor="transparent"
-            progressSize={24}
-            trackSize={24}
-            labelColor={fontColor}
-            // Uncomment below after debugging
-            hideKnob="true"
-            knobDraggable="false"
-            label="Value" // The label is hidden in status.css
-          />
-        </div>
+      <div
+        className="circle-container"
+        style={{ width: "25%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <CircularSlider
+          dataIndex={props.value - props.min} // bug where min is added to dataindex so need to minus here
+          min={props.min}
+          max={props.max}
+          progressColorFrom={color}
+          progressColorTo={color}
+          trackColor="transparent"
+          progressSize={24}
+          trackSize={24}
+          labelColor={fontColor}
+          // Uncomment below after debugging
+          hideKnob="true"
+          knobDraggable="false"
+          label="Value" // The label is hidden in status.css
+        />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 function capitalizeFirstLetter(str) {
