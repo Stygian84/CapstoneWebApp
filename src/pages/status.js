@@ -5,7 +5,6 @@ import "../css/pages/status.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage, fetchDataFromLinks } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
-import CircularSlider from "@fseehawer/react-circular-slider";
 import { minMaxTable } from "../javascript/table";
 import getStatus from "../javascript/threshold";
 import {
@@ -16,6 +15,8 @@ import {
   statusLightRed,
   statusLightYellow,
 } from "../javascript/colors";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 function StatusTop() {
   const navigate = useNavigate();
@@ -43,14 +44,17 @@ function StatusContent() {
 
   useEffect(() => {
     const Status = [];
-
     const fetchData = async () => {
       try {
         const suffix = "/api/status";
+        const tablesuffix = "/api/table";
         // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
         const data = response.data;
-
+        const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
+        const table_data = table_response.data;
+        console.log(table_data);
+        console.log(data);
         // Use AWS
         // const data = await fetchDataFromLinks(suffix);
         setJsonData(data);
@@ -66,22 +70,63 @@ function StatusContent() {
 
         const initialStatusRow = [];
         const excludedKeys = ["rowid", "timestamp", "status"];
-        for (const key in data[0]) {
-          if (data[0].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
+        for (const key in data[statusNumber - 1]) {
+          if (data[statusNumber - 1].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
             Status.push(key);
           }
         }
 
-        // TODO getStatus logic
         for (let i = 0; i < Status.length; i++) {
+          let data_value = data[statusNumber - 1][Status[i]];
+          let properties_min;
+          let properties_max;
+          let properties_status = "";
+
+          for (const item of table_data) {
+            console.log(Status[i], properties_min, properties_max, data_value);
+            if (item.property_name === Status[i].slice(3)) {
+              // minmax of the circular slider
+              properties_min = item.value - item.bad_threshold;
+              properties_max = item.value + item.bad_threshold;
+
+              // special range for psi airquality
+              if (item.property_name === "airquality") {
+                if (data_value <= item.good_threshold) {
+                  properties_status = "Good";
+                } else if (data_value <= item.moderate_threshold) {
+                  properties_status = "Moderate";
+                } else if (data_value <= item.bad_threshold) {
+                  properties_status = "Bad";
+                }
+                properties_min = item.value;
+                break;
+              }
+
+              // if data is in between thereshold value, it becomes that status
+              if (data_value >= item.value - item.good_threshold && data_value <= item.value + item.good_threshold) {
+                properties_status = "Good";
+              } else if (
+                data_value >= item.value - item.moderate_threshold &&
+                data_value <= item.value + item.moderate_threshold
+              ) {
+                properties_status = "Moderate";
+              } else if (
+                data_value >= item.value - item.bad_threshold &&
+                data_value <= item.value + item.bad_threshold
+              ) {
+                properties_status = "Bad";
+              }
+              break;
+            }
+          }
           initialStatusRow.push(
             <StatusItem
               key={i}
               type={keyToDisplayName[Status[i]]}
-              min={minMaxTable[Status[i]].min}
-              max={minMaxTable[Status[i]].max}
-              value={data[0][Status[i]]}
-              status={getStatus([Status[i]], data[0][Status[i]])}
+              min={properties_min}
+              max={properties_max}
+              value={data_value}
+              status={properties_status}
             />
           );
         }
@@ -210,7 +255,7 @@ function StatusItem(props) {
     color = statusLightGreen;
     fontColor = statusDarkGreen;
   }
-
+  console.log(fontColor);
   return (
     <div className="status-item">
       <img src={require(`../images/${props.type}.png`)} alt="Status"></img>
@@ -229,20 +274,18 @@ function StatusItem(props) {
         className="circle-container"
         style={{ width: "25%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}
       >
-        <CircularSlider
-          dataIndex={props.value - props.min} // bug where min is added to dataindex so need to minus here
-          min={props.min}
-          max={props.max}
-          progressColorFrom={color}
-          progressColorTo={color}
-          trackColor="transparent"
-          progressSize={24}
-          trackSize={24}
-          labelColor={fontColor}
-          // Uncomment below after debugging
-          hideKnob="true"
-          knobDraggable="false"
-          label="Value" // The label is hidden in status.css
+        
+        <CircularProgressbar
+          styles={buildStyles({
+            textColor:fontColor,
+            pathColor:color,
+            trailColor: "transparent",
+            strokeLinecap: 'round',
+          })}
+          value={props.value}
+          text={props.value}
+          minValue={props.min}
+          maxValue={props.max}
         />
       </div>
     </div>
