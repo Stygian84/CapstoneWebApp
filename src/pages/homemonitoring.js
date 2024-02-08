@@ -20,6 +20,7 @@ function HomeMonitoringTop() {
 
 function HomeMonitoringContent() {
   const navigate = useNavigate();
+  const [cleared, setCleared] = useState(false);
 
   // For Weather and Date
   const [weatherData, setWeatherData] = useState({
@@ -58,6 +59,13 @@ function HomeMonitoringContent() {
     const intervalId = setInterval(fetchData, 60 * 1000);
     return () => clearInterval(intervalId);
   }, []);
+
+  // To Clear Recent Items
+  const clearVisitedPages = () => {
+    localStorage.removeItem("visitedPages");
+    setCleared(true);
+    console.log("visitedPages is cleared");
+  };
 
   // For Recent Items logic
   const storedPages = JSON.parse(localStorage.getItem("visitedPages")) || [];
@@ -119,6 +127,9 @@ function HomeMonitoringContent() {
       </div>
       <div id="recent-header">
         <p style={{ fontWeight: "bold" }}>Recent</p>
+        <p onClick={clearVisitedPages} style={{ fontSize: "1.5vh", textDecoration: "underline" }}>
+          Clear Recent
+        </p>
       </div>
 
       {/* Recent item Section */}

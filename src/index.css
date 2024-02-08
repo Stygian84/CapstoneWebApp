@@ -159,7 +159,11 @@ a:active {
 /* Recent CSS */
 
 #recent-header {
-  margin-left: 5vw;
+  display: flex;
+  margin-left: 6vw;
+  margin-right: 6vw;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #recent-container {
