@@ -18,8 +18,8 @@ function CircularSliderwithBg(props) {
           })}
           value={props.value}
           text={props.value}
-          minValue={props.min}
-          maxValue={props.max}
+          minValue={props.minValue}
+          maxValue={props.maxValue}
         />
     </div>
   );

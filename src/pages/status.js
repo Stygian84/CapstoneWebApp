@@ -53,8 +53,6 @@ function StatusContent() {
         const data = response.data;
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
-        console.log(table_data);
-        console.log(data);
         // Use AWS
         // const data = await fetchDataFromLinks(suffix);
         setJsonData(data);
@@ -83,7 +81,6 @@ function StatusContent() {
           let properties_status = "";
 
           for (const item of table_data) {
-            console.log(Status[i], properties_min, properties_max, data_value);
             if (item.property_name === Status[i].slice(3)) {
               // minmax of the circular slider
               properties_min = item.value - item.bad_threshold;
@@ -255,7 +252,6 @@ function StatusItem(props) {
     color = statusLightGreen;
     fontColor = statusDarkGreen;
   }
-  console.log(fontColor);
   return (
     <div className="status-item">
       <img src={require(`../images/${props.type}.png`)} alt="Status"></img>
@@ -274,13 +270,12 @@ function StatusItem(props) {
         className="circle-container"
         style={{ width: "25%", height: "90%", display: "flex", alignItems: "center", justifyContent: "center" }}
       >
-        
         <CircularProgressbar
           styles={buildStyles({
-            textColor:fontColor,
-            pathColor:color,
+            textColor: fontColor,
+            pathColor: color,
             trailColor: "transparent",
-            strokeLinecap: 'round',
+            strokeLinecap: "round",
           })}
           value={props.value}
           text={props.value}

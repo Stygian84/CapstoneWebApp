@@ -3,7 +3,14 @@ import axios from "axios";
 import "../index.css";
 import "../css/pages/plant.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
+import {
+  statusDarkGreen,
+  statusDarkRed,
+  statusDarkYellow,
+  statusLightGreen,
+  statusLightRed,
+  statusLightYellow,
+} from "../javascript/colors";
 import fetchDataFromLinks from "../javascript/utils";
 import CircularSliderwithBg from "../components/CircularSliderwithBg";
 
@@ -31,15 +38,18 @@ function PlantContent() {
     const fetchData = async () => {
       try {
         const suffix = `/api/plant/${index}`;
+        const tablesuffix = "/api/table";
         // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
         const data = response.data;
+        const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
+        const table_data = table_response.data;
+        console.log(table_data);
+        console.log(data);
 
         // Use AWS
         // const data = await fetchDataFromLinks(suffix);
         // setJsonData(data);
-
-        console.log(data[0]);
         var plantRow = [];
 
         for (let i = 0; i < 12; i++) {
@@ -48,12 +58,13 @@ function PlantContent() {
               key={i}
               idx={data[i]["plantid"]}
               name={data[i]["plantname"]}
-              airQualityValue={data[i]["airquality"]}
-              soilMoistureValue={data[i]["soilmoisture"]}
-              airTemperatureValue={data[i]["temperature"]}
-              soilPHValue={data[i]["soilph"]}
+              airqualityValue={data[i]["airquality"]}
+              soilmoistureValue={data[i]["soilmoisture"]}
+              temperatureValue={data[i]["temperature"]}
+              soilphValue={data[i]["soilph"]}
               humidityValue={data[i]["humidity"]}
               status={data[i]["status"]}
+              table_data={table_data}
             />
           );
         }
@@ -88,20 +99,84 @@ function PlantItem(props) {
   const prev = location.state ? location.state.prev : null;
 
   var i = props.idx;
-  var name = props.name;
-  var Status = props.status;
-  var AirTemperatureValue = props.airTemperatureValue;
-  var SoilMoistureValue = props.soilMoistureValue;
-  var AirQualityValue = props.airQualityValue;
-  var SoilPHValue = props.soilPHValue;
-  var HumidityValue = props.humidityValue;
-  var Status = props.status;
 
+  var {
+    status,
+    name,
+    temperatureValue,
+    soilmoistureValue,
+    airqualityValue,
+    soilphValue,
+    humidityValue,
+    status,
+    table_data,
+  } = props;
+
+  const thresholdRanges = {};
+  const statusMap = {};
+
+  for (const item of table_data) {
+    const { property_name, value, bad_threshold, good_threshold, moderate_threshold } = item;
+    const propertyValue = props[`${property_name}Value`];
+
+    thresholdRanges[property_name] = [
+      value - bad_threshold,
+      value + bad_threshold,
+      value,
+      good_threshold,
+      moderate_threshold,
+      bad_threshold,
+    ];
+
+    let status;
+    let color, fontColor;
+    if (property_name === "airquality") {
+      if (propertyValue <= good_threshold) {
+        status = "Good";
+        color = statusLightGreen;
+        fontColor = statusDarkGreen;
+      } else if (propertyValue <= moderate_threshold) {
+        status = "Moderate";
+        color = statusLightYellow;
+        fontColor = statusDarkYellow;
+      } else {
+        status = "Bad";
+        color = statusLightRed;
+        fontColor = statusDarkRed;
+      }
+    } else {
+      if (propertyValue >= value - good_threshold && propertyValue <= value + good_threshold) {
+        status = "Good";
+        color = statusLightGreen;
+        fontColor = statusDarkGreen;
+      } else if (propertyValue >= value + moderate_threshold && propertyValue <= value + moderate_threshold) {
+        status = "Moderate";
+        color = statusLightYellow;
+        fontColor = statusDarkYellow;
+      } else {
+        status = "Bad";
+        color = statusLightRed;
+        fontColor = statusDarkRed;
+      }
+    }
+
+    statusMap[property_name] = status;
+    thresholdRanges[property_name].unshift(color, fontColor);
+  }
+
+  const [airTemperatureColor, airTemperatureFontColor, airTemperatureMin, airTemperatureMax] =
+    thresholdRanges["temperature"] || [];
+  const [soilMoistureColor, soilMoistureFontColor, soilMoistureMin, soilMoistureMax] =
+    thresholdRanges["soilmoisture"] || [];
+  const [airQualityColor, airQualityFontColor, airQualityMin, airQualityMax] = thresholdRanges["airquality"] || [];
+  const [soilPHColor, soilPHFontColor, soilPHMin, soilPHMax] = thresholdRanges["soilph"] || [];
+  const [humidityColor, humidityFontColor, humidityMin, humidityMax] = thresholdRanges["humidity"] || [];
+  
   var fontColor = statusDarkGreen;
 
-  if (Status == "Bad") {
+  if (status == "Bad") {
     fontColor = statusDarkRed;
-  } else if (Status == "Moderate") {
+  } else if (status == "Moderate") {
     fontColor = statusDarkYellow;
   } else {
     fontColor = statusDarkGreen;
@@ -132,7 +207,7 @@ function PlantItem(props) {
             {i}. {name}
           </p>
           <p style={{ fontSize: "1.2vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
-            Status : <span style={{ color: fontColor }}>{Status}</span>
+            Status : <span style={{ color: fontColor }}>{status}</span>
           </p>
         </div>
       </div>
@@ -140,7 +215,15 @@ function PlantItem(props) {
       <div className="plant-item-second-row">
         <div className="airtemperature" style={{ width: "33%" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <CircularSliderwithBg imageSrc="AIR TEMPERATURE" style={{ left: "55%" }} value={AirTemperatureValue} />
+            <CircularSliderwithBg
+              imageSrc="AIR TEMPERATURE"
+              style={{ left: "55%" }}
+              value={temperatureValue}
+              minValue={airTemperatureMin}
+              maxValue={airTemperatureMax}
+              color={airTemperatureColor}
+              fontColor={airTemperatureFontColor}
+            />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
             Air Temperature
@@ -148,7 +231,14 @@ function PlantItem(props) {
         </div>
         <div className="soilmoisture" style={{ width: "33%" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <CircularSliderwithBg imageSrc="SOIL MOISTURE" value={SoilMoistureValue} />
+            <CircularSliderwithBg
+              imageSrc="SOIL MOISTURE"
+              value={soilmoistureValue}
+              minValue={soilMoistureMin}
+              maxValue={soilMoistureMax}
+              color={soilMoistureColor}
+              fontColor={soilMoistureFontColor}
+            />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
             Soil Moisture
@@ -156,7 +246,14 @@ function PlantItem(props) {
         </div>
         <div className="airquality" style={{ width: "33%" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <CircularSliderwithBg imageSrc="AIR QUALITY" value={AirQualityValue} />
+            <CircularSliderwithBg
+              imageSrc="AIR QUALITY"
+              value={airqualityValue}
+              minValue={airQualityMin}
+              maxValue={airQualityMax}
+              color={airQualityColor}
+              fontColor={airQualityFontColor}
+            />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
             Air Quality
@@ -167,7 +264,14 @@ function PlantItem(props) {
       <div className="plant-item-third-row">
         <div className="soilph" style={{ width: "33%" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <CircularSliderwithBg imageSrc="SOIL pH" value={SoilPHValue} />
+            <CircularSliderwithBg
+              imageSrc="SOIL pH"
+              value={soilphValue}
+              minValue={soilPHMin}
+              maxValue={soilPHMax}
+              color={soilPHColor}
+              fontColor={soilPHFontColor}
+            />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
             Soil pH
@@ -175,7 +279,14 @@ function PlantItem(props) {
         </div>
         <div className="humidity" style={{ width: "33%" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <CircularSliderwithBg imageSrc="HUMIDITY" value={HumidityValue} />
+            <CircularSliderwithBg
+              imageSrc="HUMIDITY"
+              value={humidityValue}
+              minValue={humidityMin}
+              maxValue={humidityMax}
+              color={humidityColor}
+              fontColor={humidityFontColor}
+            />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
             Humidity
