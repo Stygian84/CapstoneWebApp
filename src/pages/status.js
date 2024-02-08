@@ -25,7 +25,7 @@ function StatusTop() {
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
-        <img src={require("../images/arrow.png")} style={{ width: "15.5vw" }} alt=""></img>
+        <img src={require("../images/arrow.png")} alt=""></img>
       </div>
       <p className="top-title">ROW {index} STATUS</p>
     </div>
@@ -54,7 +54,7 @@ function StatusContent() {
         // Use AWS
         // const data = await fetchDataFromLinks(suffix);
         setJsonData(data);
-        
+
         // const response = await axios.get(process.env.REACT_APP_AWS_STATUS_URL + statusNumber);
         // setJsonData(response.data);
 
