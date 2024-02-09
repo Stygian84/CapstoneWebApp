@@ -153,7 +153,7 @@ function RecentItem(props) {
       <img src={require(`../images/white${props.type}.png`)} className="new-image" alt="Status"></img>
       <div className="row-status">
         <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>Row {props.idx}</p>
-        <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+        <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500" }}>
           {props.type.charAt(0).toUpperCase() + props.type.slice(1)}
         </p>
       </div>
