@@ -37,10 +37,14 @@ function PlantContent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const suffix = `/api/plant/${index}`;
+        const suffix = `/api/plant`;
         const tablesuffix = "/api/table";
         // Use Render
-        const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
+        const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix, {
+          params: {
+            rowId: index,
+          },
+        });
         const data = response.data;
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
