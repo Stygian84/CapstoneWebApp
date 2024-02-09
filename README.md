@@ -1,6 +1,6 @@
 # IMPORTANT
 
-1. Change `JSONurl` accordingly in `javascript/config.js`
+1. Create `.env` file with `REACT_APP_RENDER_URL` parameter ( which is the link to Node JS )
 
 # Getting Started
 
