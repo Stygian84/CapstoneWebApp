@@ -5,8 +5,6 @@ import "../css/pages/status.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage, fetchDataFromLinks } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
-import { minMaxTable } from "../javascript/table";
-import getStatus from "../javascript/threshold";
 import {
   statusDarkGreen,
   statusDarkRed,
@@ -178,14 +176,16 @@ function StatusContent() {
       <div id="status-container">
         <div
           className="status-item"
+          id="plant-details-status-item"
           onClick={() => {
             navigate(`/plant/${statusNumber}`, { state: { index: statusNumber } });
           }}
         >
           <img src={require(`../images/plant.png`)} alt="Status"></img>
+          <img src={require("../images/whiteplant.png")} className="new-image" alt="Status"></img>
 
           <div className="status-row-status" style={{ width: "70%" }}>
-            <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>PLANTS DETAILS</p>
+            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold" }}>PLANTS DETAILS</p>
           </div>
           <p
             style={{
@@ -204,8 +204,8 @@ function StatusContent() {
           <img src={require(`../images/LIGHTS.png`)} alt="Status"></img>
 
           <div className="status-row-status" style={{ width: "60%" }}>
-            <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>LIGHTS</p>
-            <p style={{ fontSize: "1.2vh", color: "#A5A5A5", fontWeight: "500" }}>
+            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold" }}>LIGHTS</p>
+            <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500" }}>
               Status : <span style={{ color: lightColor }}>{LightStatus}</span>
             </p>
           </div>
@@ -257,8 +257,8 @@ function StatusItem(props) {
       <img src={require(`../images/${props.type}.png`)} alt="Status"></img>
 
       <div className="status-row-status" style={{ width: "60%" }}>
-        <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>{props.type}</p>
-        <p style={{ fontSize: "1.2vh", color: "#A5A5A5", fontWeight: "500" }}>
+        <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold" }}>{props.type}</p>
+        <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500" }}>
           Status : <span style={{ color: fontColor }}>{Status}</span>, {val}:{" "}
           <span style={{ color: fontColor }}>
             {props.value} {unit}
@@ -276,11 +276,13 @@ function StatusItem(props) {
             pathColor: color,
             trailColor: "transparent",
             strokeLinecap: "round",
+            textSize:"3vh"
           })}
           value={props.value}
           text={props.value}
           minValue={props.min}
           maxValue={props.max}
+          strokeWidth={6}
         />
       </div>
     </div>

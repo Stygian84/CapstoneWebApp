@@ -56,6 +56,7 @@ function PlantContent() {
           plantRow.push(
             <PlantItem
               key={i}
+              plantid={data[i]["plantid"]}
               idx={data[i]["plantid"]}
               name={data[i]["plantname"]}
               airqualityValue={data[i]["airquality"]}
@@ -96,11 +97,13 @@ function PlantContent() {
 function PlantItem(props) {
   const navigate = useNavigate();
   const location = useLocation();
+  const statusNumber = location.pathname.split("/")[2];
   const prev = location.state ? location.state.prev : null;
 
   var i = props.idx;
 
   var {
+    plantid,
     status,
     name,
     temperatureValue,
@@ -171,7 +174,7 @@ function PlantItem(props) {
   const [airQualityColor, airQualityFontColor, airQualityMin, airQualityMax] = thresholdRanges["airquality"] || [];
   const [soilPHColor, soilPHFontColor, soilPHMin, soilPHMax] = thresholdRanges["soilph"] || [];
   const [humidityColor, humidityFontColor, humidityMin, humidityMax] = thresholdRanges["humidity"] || [];
-  
+
   var fontColor = statusDarkGreen;
 
   if (status == "Bad") {
@@ -203,10 +206,10 @@ function PlantItem(props) {
           className="plant-status"
           style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}
         >
-          <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
+          <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
             {i}. {name}
           </p>
-          <p style={{ fontSize: "1.2vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
+          <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
             Status : <span style={{ color: fontColor }}>{status}</span>
           </p>
         </div>
@@ -223,6 +226,11 @@ function PlantItem(props) {
               maxValue={airTemperatureMax}
               color={airTemperatureColor}
               fontColor={airTemperatureFontColor}
+              onClick={() => {
+                navigate(`/plant/${statusNumber}/temperature`, {
+                  state: { row_idx: statusNumber, plant_id: plantid },
+                });
+              }}
             />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
@@ -238,6 +246,11 @@ function PlantItem(props) {
               maxValue={soilMoistureMax}
               color={soilMoistureColor}
               fontColor={soilMoistureFontColor}
+              onClick={() => {
+                navigate(`/plant/${statusNumber}/soilmoisture`, {
+                  state: { row_idx: statusNumber, plant_id: plantid },
+                });
+              }}
             />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
@@ -253,6 +266,11 @@ function PlantItem(props) {
               maxValue={airQualityMax}
               color={airQualityColor}
               fontColor={airQualityFontColor}
+              onClick={() => {
+                navigate(`/plant/${statusNumber}/airquality`, {
+                  state: { row_idx: statusNumber, plant_id: plantid },
+                });
+              }}
             />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
@@ -271,6 +289,11 @@ function PlantItem(props) {
               maxValue={soilPHMax}
               color={soilPHColor}
               fontColor={soilPHFontColor}
+              onClick={() => {
+                navigate(`/plant/${statusNumber}/soilph`, {
+                  state: { row_idx: statusNumber, plant_id: plantid },
+                });
+              }}
             />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>
@@ -286,6 +309,11 @@ function PlantItem(props) {
               maxValue={humidityMax}
               color={humidityColor}
               fontColor={humidityFontColor}
+              onClick={() => {
+                navigate(`/plant/${statusNumber}/humidity`, {
+                  state: { row_idx: statusNumber, plant_id: plantid },
+                });
+              }}
             />
           </div>
           <div style={{ fontSize: "1.5vh", color: "#A5A5A5", display: "flex", justifyContent: "space-evenly" }}>

@@ -120,8 +120,8 @@ function RowItem(props) {
         <p style={{ fontSize: "2vh", color: "#7AA0B8" }}>{i}</p>
       </div>
       <div className="row-selection-status" style={{ width: "70%" }}>
-        <p style={{ fontSize: "1.75vh", color: "#737373", fontWeight: "bold" }}>ROW {i}</p>
-        <p style={{ fontSize: "1vh", color: "#A5A5A5", fontWeight: "500" }}>
+        <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold" }}>ROW {i}</p>
+        <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500" }}>
           Overall Status : <span style={{ color: fontColor }}>{Status}</span>
         </p>
       </div>

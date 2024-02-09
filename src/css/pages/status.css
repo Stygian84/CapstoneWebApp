@@ -58,3 +58,23 @@
 .status-row-status p {
   margin: 0;
 }
+
+/* Animation */
+#plant-details-status-item img {
+  transition: all 0.1s ease;
+}
+#plant-details-status-item:hover:active {
+  background-color: #7aa0b8;
+}
+#plant-details-status-item:hover:active p {
+  color: white !important;
+}
+#plant-details-status-item:hover:active img {
+  display: none;
+}
+#plant-details-status-item:hover:active img.new-image {
+  display: block;
+}
+#plant-details-status-item img.new-image {
+  display: none;
+}
