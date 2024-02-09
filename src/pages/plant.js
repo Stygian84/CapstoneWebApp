@@ -78,7 +78,7 @@ function PlantContent() {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 120000); // 120000 milliseconds (2 minutes)
+    const intervalId = setInterval(fetchData, 6000); // 6000 milliseconds (6 seconds)
     return () => clearInterval(intervalId);
   }, []);
 
@@ -227,7 +227,7 @@ function PlantItem(props) {
               color={airTemperatureColor}
               fontColor={airTemperatureFontColor}
               onClick={() => {
-                navigate(`/plant/${statusNumber}/temperature`, {
+                navigate(`/details/${statusNumber}/temperature/${plantid}`, {
                   state: { row_idx: statusNumber, plant_id: plantid },
                 });
               }}
@@ -247,7 +247,7 @@ function PlantItem(props) {
               color={soilMoistureColor}
               fontColor={soilMoistureFontColor}
               onClick={() => {
-                navigate(`/plant/${statusNumber}/soilmoisture`, {
+                navigate(`/details/${statusNumber}/soil moisture/${plantid}`, {
                   state: { row_idx: statusNumber, plant_id: plantid },
                 });
               }}
@@ -267,7 +267,7 @@ function PlantItem(props) {
               color={airQualityColor}
               fontColor={airQualityFontColor}
               onClick={() => {
-                navigate(`/plant/${statusNumber}/airquality`, {
+                navigate(`/details/${statusNumber}/air quality/${plantid}`, {
                   state: { row_idx: statusNumber, plant_id: plantid },
                 });
               }}
@@ -290,7 +290,7 @@ function PlantItem(props) {
               color={soilPHColor}
               fontColor={soilPHFontColor}
               onClick={() => {
-                navigate(`/plant/${statusNumber}/soilph`, {
+                navigate(`/details/${statusNumber}/soil ph/${plantid}`, {
                   state: { row_idx: statusNumber, plant_id: plantid },
                 });
               }}
@@ -310,7 +310,7 @@ function PlantItem(props) {
               color={humidityColor}
               fontColor={humidityFontColor}
               onClick={() => {
-                navigate(`/plant/${statusNumber}/humidity`, {
+                navigate(`/details/${statusNumber}/humidity/${plantid}`, {
                   state: { row_idx: statusNumber, plant_id: plantid },
                 });
               }}

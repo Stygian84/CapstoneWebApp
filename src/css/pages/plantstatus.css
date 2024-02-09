@@ -1,0 +1,15 @@
+#plant-status-container {
+  margin: 0 5vw 0 5vw;
+  display: flex;
+  flex-direction: column;
+}
+.plant-status-item {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  align-items: center;
+  margin-bottom: 2vh;
+
+  border-radius: 20px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
+}

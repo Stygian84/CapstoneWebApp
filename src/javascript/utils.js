@@ -1,6 +1,10 @@
 import axios from "axios";
 
 function addVisitedPage(page) {
+  // const urlSegments = page.split("/");
+  // if (urlSegments.length > 4) {
+  //   return; // Skip adding the page to visitedPages
+  // }
   const visitedPages = JSON.parse(localStorage.getItem("visitedPages")) || [];
   const filteredPages = visitedPages.filter((visitedPage) => visitedPage !== page);
   filteredPages.unshift(page);
@@ -8,6 +12,7 @@ function addVisitedPage(page) {
   if (filteredPages.length > 4) {
     filteredPages.splice(4);
   }
+  console.log(visitedPages);
 
   localStorage.setItem("visitedPages", JSON.stringify(filteredPages));
 }

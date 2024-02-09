@@ -31,7 +31,7 @@ function Top() {
       <Route path="/camera/*" element={<CameraTop />} />
       <Route path="/status/*" element={<StatusTop />} />
       <Route path="/plant/*" element={<PlantTop />} />
-      <Route path="/plant/*/*" element={<PlantStatusTop />} />
+      <Route path="/details/*" element={<PlantStatusTop />} />
       {/* <Route path="/settings" element={<SettingsTop />} /> */}
       <Route path="/settings" element={<HomeMonitoringTop />} />
     </Routes>
@@ -46,7 +46,7 @@ function Content() {
       <Route path="/camera/*" element={<CameraContent />} />
       <Route path="/status/*" element={<StatusContent />} />
       <Route path="/plant/*" element={<PlantContent />} />
-      <Route path="/plant/*/*" element={<PlantStatusContent />} />
+      <Route path="/details/*" element={<PlantStatusContent />} />
       {/* <Route path="/settings" element={<SettingsContent />} /> */}
       <Route path="/settings" element={<HomeMonitoringContent />} />
     </Routes>
