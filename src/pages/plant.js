@@ -233,7 +233,7 @@ function PlantItem(props) {
                     plant_id: plantid,
                     plant_status: airTemperatureStatus,
                     plant_value: temperatureValue,
-                    plant_name:name
+                    plant_name: name,
                   },
                 });
               }}
@@ -259,7 +259,7 @@ function PlantItem(props) {
                     plant_id: plantid,
                     plant_status: soilMoistureStatus,
                     plant_value: soilmoistureValue,
-                    plant_name:name
+                    plant_name: name,
                   },
                 });
               }}
@@ -285,7 +285,7 @@ function PlantItem(props) {
                     plant_id: plantid,
                     plant_status: airQualityStatus,
                     plant_value: airqualityValue,
-                    plant_name:name
+                    plant_name: name,
                   },
                 });
               }}
@@ -314,7 +314,7 @@ function PlantItem(props) {
                     plant_id: plantid,
                     plant_status: soilPHStatus,
                     plant_value: soilphValue,
-                    plant_name:name
+                    plant_name: name,
                   },
                 });
               }}
@@ -340,7 +340,7 @@ function PlantItem(props) {
                     plant_id: plantid,
                     plant_status: humidityStatus,
                     plant_value: humidityValue,
-                    plant_name:name
+                    plant_name: name,
                   },
                 });
               }}
