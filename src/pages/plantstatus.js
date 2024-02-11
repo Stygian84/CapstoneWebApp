@@ -75,10 +75,8 @@ function PlantStatusContent() {
           },
         });
         const data = response.data;
-        console.log("Data :\n", data);
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
-        console.log("Table_data:\n", table_data);
 
         setJsonData(data);
 
@@ -119,7 +117,6 @@ function PlantStatusContent() {
             if (properties.replace("%20", "") === "airquality") {
               offsetMin = 0;
               offsetMax = moderate_threshold / 2;
-              console.log(moderate_threshold);
               break;
             }
             offsetMin = good_threshold;

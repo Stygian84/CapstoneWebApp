@@ -219,7 +219,7 @@ function PlantItem(props) {
         <div className="airtemperature" style={{ width: "33%" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <CircularSliderwithBg
-              imageSrc="AIR TEMPERATURE"
+              imageSrc="AIRTEMPERATURE"
               style={{ left: "55%" }}
               value={temperatureValue}
               minValue={airTemperatureMin}
@@ -246,7 +246,7 @@ function PlantItem(props) {
         <div className="soilmoisture" style={{ width: "33%" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <CircularSliderwithBg
-              imageSrc="SOIL MOISTURE"
+              imageSrc="SOILMOISTURE"
               value={soilmoistureValue}
               minValue={soilMoistureMin}
               maxValue={soilMoistureMax}
@@ -272,7 +272,7 @@ function PlantItem(props) {
         <div className="airquality" style={{ width: "33%" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <CircularSliderwithBg
-              imageSrc="AIR QUALITY"
+              imageSrc="AIRQUALITY"
               value={airqualityValue}
               minValue={airQualityMin}
               maxValue={airQualityMax}
@@ -301,7 +301,7 @@ function PlantItem(props) {
         <div className="soilph" style={{ width: "33%" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <CircularSliderwithBg
-              imageSrc="SOIL pH"
+              imageSrc="SOILpH"
               value={soilphValue}
               minValue={soilPHMin}
               maxValue={soilPHMax}

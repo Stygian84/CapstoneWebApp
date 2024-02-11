@@ -8,7 +8,6 @@ function addVisitedPage(page) {
   if (filteredPages.length > 4) {
     filteredPages.splice(4);
   }
-  console.log(visitedPages);
 
   localStorage.setItem("visitedPages", JSON.stringify(filteredPages));
 }

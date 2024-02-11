@@ -163,7 +163,6 @@ function StatusContent() {
 
     const intervalId = setInterval(fetchData, 120000); // 6000 milliseconds (2 seconds)
     return () => {
-      console.log("Clearing interval...");
       clearInterval(intervalId);
     };
   }, []);
