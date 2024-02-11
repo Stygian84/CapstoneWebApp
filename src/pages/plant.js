@@ -29,7 +29,6 @@ function PlantTop() {
 
 function PlantContent() {
   const location = useLocation();
-  const [jsonData, setJsonData] = useState(null);
   const { index } = location.state || {};
   const [plantRow, setPlantRow] = useState([]);
 
