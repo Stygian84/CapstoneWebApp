@@ -161,8 +161,11 @@ function StatusContent() {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 6000); // 6000 milliseconds (2 seconds)
-    return () => clearInterval(intervalId);
+    const intervalId = setInterval(fetchData, 120000); // 6000 milliseconds (2 seconds)
+    return () => {
+      console.log("Clearing interval...");
+      clearInterval(intervalId);
+    };
   }, []);
 
   // For ToggleSwitch Lights Display
@@ -251,6 +254,7 @@ function StatusItem(props) {
     color = statusLightGreen;
     fontColor = statusDarkGreen;
   }
+
   return (
     <div className="status-item">
       <img src={require(`../images/${props.type}.png`)} alt="Status"></img>

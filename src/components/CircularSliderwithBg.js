@@ -3,7 +3,6 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 function CircularSliderwithBg(props) {
-  console.log(`url(${require(`../images/${props.imageSrc}.png`)})`);
   return (
     <div className="circle-container-plant" onClick={props.onClick}>
       <div
