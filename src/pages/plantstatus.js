@@ -4,7 +4,7 @@ import "../index.css";
 import "../css/pages/plantstatus.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { fetchDataFromLinks } from "../javascript/utils";
-import { LineChart } from "@mui/x-charts/LineChart";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 import {
   statusDarkGreen,
@@ -19,6 +19,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { ExpandingProgressBars } from "../components/ExpandingLinearProgress";
 import "react-circular-progressbar/dist/styles.css";
 import Divider from "@mui/material/Divider";
+import moment from "moment";
 
 function PlantStatusTop() {
   const navigate = useNavigate();
@@ -39,10 +40,12 @@ function PlantStatusTop() {
 }
 
 function PlantStatusContent() {
+  const [chart, setChart] = useState([]);
   const location = useLocation();
   const { row_idx, plant_id, plant_status, plant_value, plant_name } = location.state || {};
   const properties = location.pathname.split("/")[3];
   const [jsonData, setJsonData] = useState(null);
+  const [chartData, setChartData] = useState(null);
   const navigate = useNavigate();
   const descriptions = {
     temperature:
@@ -75,9 +78,57 @@ function PlantStatusContent() {
         console.log("Data :\n", data);
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
-        console.log("Table_data:\n", table_data);
+        // console.log("Table_data:\n", table_data);
 
         setJsonData(data);
+        // Calculate Average for each day
+        const aggregateData = data.reduce((acc, currentValue) => {
+          const date = moment(currentValue.timestamp, ["YYYY-MM-DD HH:mm:ss.SSSSSS", "YYYY-MM-DD HH:mm:ss"]);
+          const day = `${date.date()}/${date.month() + 1}`;
+          if (!acc[day]) {
+            acc[day] = {
+              date: day.toString(),
+              temperatures: [],
+              averageTemperature: 0,
+            };
+          }
+          acc[day].temperatures.push(currentValue.temperature);
+          return acc;
+        }, {});
+        console.log("aggdata", aggregateData);
+        Object.values(aggregateData).forEach((dayData) => {
+          dayData.averageTemperature = (
+            dayData.temperatures.reduce((sum, temp) => sum + temp, 0) / dayData.temperatures.length
+          ).toFixed(1);
+        });
+
+        const chartData = Object.values(aggregateData);
+        console.log("chartData", chartData);
+        setChartData(chartData);
+
+        let chart = [];
+        let offsetMin = 5;
+        let offsetMax = 5;
+        const dataMin = Math.min(...chartData.map((entry) => entry.averageTemperature)) - offsetMin;
+        const dataMax = Math.max(...chartData.map((entry) => entry.averageTemperature)) + offsetMax;
+
+        chart.push(
+          <ResponsiveContainer width="100%" height={"100%"} key={1}>
+            <LineChart data={chartData} margin={{ top: 20, right: 40, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="2 2" stroke="lightgrey" />
+              <XAxis tick={{ fontSize: "1.5vh" }} dataKey="date" interval={3} />
+              <YAxis
+                tick={{ fontSize: "1.5vh" }}
+                tickFormatter={(value) => value.toFixed(1)}
+                domain={[dataMin, dataMax]}
+              />
+              <Tooltip contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc" }} />
+              {/* <Legend /> */}
+              <Line type="monotone" dataKey="averageTemperature" stroke="#7aa0b8" />
+            </LineChart>
+          </ResponsiveContainer>
+        );
+        setChart(chart);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -85,14 +136,9 @@ function PlantStatusContent() {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 6000); // 6000 milliseconds (6 seconds)
+    const intervalId = setInterval(fetchData, 120000); // 6000 milliseconds (6 seconds)
     return () => clearInterval(intervalId);
   }, []);
-
-  // For ToggleSwitch Lights Display
-  const [isToggleOn, setIsToggleOn] = useState(false);
-  const LightStatus = isToggleOn ? "On" : "Off";
-  const lightColor = isToggleOn ? statusDarkGreen : statusDarkRed;
 
   var fontColor = statusDarkGreen;
 
@@ -115,7 +161,8 @@ function PlantStatusContent() {
               </p>
               <Divider style={{ width: "90%" }}>
                 <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
-                  Status : <span style={{ color: fontColor }}>{plant_status}</span> Value : {plant_value}
+                  Status : <span style={{ color: fontColor }}>{plant_status}</span> Value :{" "}
+                  <span style={{ color: fontColor }}>{plant_value}</span>
                 </p>
               </Divider>
             </div>
@@ -148,17 +195,8 @@ function PlantStatusContent() {
               </div>
             </div> */}
           </div>
-          <div className="plant-status-second-row">
-            <LineChart
-              xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-              series={[
-                {
-                  data: [2, 5.5, 2, 8.5, 1.5, 5],
-                },
-              ]}
-              width={500}
-              height={300}
-            />
+          <div className="plant-status-second-row" style={{ height: "35vh" }}>
+            {chart}
           </div>
         </div>
       </div>
