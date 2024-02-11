@@ -78,39 +78,57 @@ function PlantStatusContent() {
         console.log("Data :\n", data);
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
-        // console.log("Table_data:\n", table_data);
+        console.log("Table_data:\n", table_data);
 
         setJsonData(data);
-        // Calculate Average for each day
-        const aggregateData = data.reduce((acc, currentValue) => {
-          const date = moment(currentValue.timestamp, ["YYYY-MM-DD HH:mm:ss.SSSSSS", "YYYY-MM-DD HH:mm:ss"]);
-          const day = `${date.date()}/${date.month() + 1}`;
-          if (!acc[day]) {
-            acc[day] = {
-              date: day.toString(),
-              temperatures: [],
-              averageTemperature: 0,
-            };
-          }
-          acc[day].temperatures.push(currentValue.temperature);
-          return acc;
-        }, {});
-        console.log("aggdata", aggregateData);
-        Object.values(aggregateData).forEach((dayData) => {
-          dayData.averageTemperature = (
-            dayData.temperatures.reduce((sum, temp) => sum + temp, 0) / dayData.temperatures.length
-          ).toFixed(1);
-        });
 
-        const chartData = Object.values(aggregateData);
-        console.log("chartData", chartData);
+        const aggregateAndCalculateAverage = (data, property) => {
+          return data.reduce((acc, currentValue) => {
+            const date = moment(currentValue.timestamp, ["YYYY-MM-DD HH:mm:ss.SSSSSS", "YYYY-MM-DD HH:mm:ss"]);
+            const day = `${date.date()}/${date.month() + 1}`;
+
+            if (!acc[day]) {
+              acc[day] = { date: day.toString() };
+              acc[day][property] = [];
+            }
+
+            acc[day][property].push(currentValue[property]);
+
+            // Calculate average for the property
+            const values = acc[day][property];
+            if (Array.isArray(values)) {
+              acc[day][`averageValue`] = (values.reduce((sum, val) => sum + val, 0) / values.length).toFixed(1);
+            }
+
+            return acc;
+          }, {});
+        };
+
+        const aggregateDataResult = aggregateAndCalculateAverage(data, properties.replace("%20", ""));
+        const chartData = Object.values(aggregateDataResult);
         setChartData(chartData);
 
         let chart = [];
-        let offsetMin = 5;
-        let offsetMax = 5;
-        const dataMin = Math.min(...chartData.map((entry) => entry.averageTemperature)) - offsetMin;
-        const dataMax = Math.max(...chartData.map((entry) => entry.averageTemperature)) + offsetMax;
+
+        let offsetMin = 0;
+        let offsetMax = 0;
+        for (const item of table_data) {
+          const { property_name, value, bad_threshold, good_threshold, moderate_threshold } = item;
+          
+          if (property_name === properties.replace("%20", "")) {
+            if (properties.replace("%20", "") === "airquality") {
+              offsetMin = 0;
+              offsetMax = moderate_threshold / 2;
+              console.log(moderate_threshold);
+              break;
+            }
+            offsetMin = good_threshold;
+            offsetMax = good_threshold;
+            break;
+          }
+        }
+        const dataMin = Math.min(...chartData.map((entry) => entry.averageValue)) - offsetMin;
+        const dataMax = Math.max(...chartData.map((entry) => entry.averageValue)) + offsetMax;
 
         chart.push(
           <ResponsiveContainer width="100%" height={"100%"} key={1}>
@@ -124,7 +142,7 @@ function PlantStatusContent() {
               />
               <Tooltip contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc" }} />
               {/* <Legend /> */}
-              <Line type="monotone" dataKey="averageTemperature" stroke="#7aa0b8" />
+              <Line type="monotone" dataKey="averageValue" stroke="#7aa0b8" />
             </LineChart>
           </ResponsiveContainer>
         );
