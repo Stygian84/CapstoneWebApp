@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 
 function HomeMonitoringTop() {
   return (
@@ -19,6 +20,7 @@ function HomeMonitoringTop() {
 function HomeMonitoringContent() {
   const navigate = useNavigate();
   const [cleared, setCleared] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   // For Weather and Date
   const [weatherData, setWeatherData] = useState({
@@ -101,8 +103,27 @@ function HomeMonitoringContent() {
       {/* Box Feature Section */}
       <div id="feature-container">
         <div className="feature-item" id="feature1" onClick={() => navigate("/row", { state: { prev: "Status" } })}>
-          <img src={require("../images/greenstatus.png")} alt="Status"></img>
-          <img src={require("../images/whitestatus.png")} className="new-image" alt="Status"></img>
+          {!imageLoaded && (
+            <Skeleton
+              className="skeleton"
+              variant="rounded"
+              style={{ width: "30vw", height: "10vh", marginTop: "2vh" }}
+            />
+          )}
+          <img
+            src={require("../images/greenstatus.png")}
+            alt="Status"
+            style={{ display: imageLoaded ? "block" : "none" }}
+            onLoad={() => setImageLoaded(true)}
+          />
+          <img
+            src={require("../images/whitestatus.png")}
+            className="new-image"
+            alt="Status"
+            style={{ display: imageLoaded ? "none" : "block" }}
+            onLoad={() => setImageLoaded(true)}
+          />
+
           <p style={{ color: "#8FA586" }}>Status</p>
         </div>
 
@@ -112,8 +133,21 @@ function HomeMonitoringContent() {
           id="feature2"
           onClick={() => navigate("/row", { state: { prev: "Camera" } })}
         >
-          <img src={require("../images/camera.png")} alt="Camera"></img>
-          <img src={require("../images/whitecamera.png")} className="new-image" alt="Status"></img>
+          {!imageLoaded && (
+            <Skeleton
+              className="skeleton"
+              variant="rounded"
+              style={{ width: "30vw", height: "10vh", marginTop: "2vh" }}
+            />
+          )}
+          <img src={require("../images/camera.png")} alt="Camera" onLoad={() => setImageLoaded(true)}></img>
+          <img
+            src={require("../images/whitecamera.png")}
+            className="new-image"
+            alt="Status"
+            onLoad={() => setImageLoaded(true)}
+          ></img>
+
           <p style={{ color: "#8793AE" }}> Camera</p>
         </div>
 

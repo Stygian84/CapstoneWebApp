@@ -71,7 +71,7 @@ function PlantStatusContent() {
           params: {
             rowId: row_idx,
             plantId: plant_id,
-            property: properties.replace("%20", ""),
+            property: properties.replace(/%2520|%20/g, "").replace("%2520", ""),
           },
         });
         const data = response.data;
@@ -102,7 +102,7 @@ function PlantStatusContent() {
           }, {});
         };
 
-        const aggregateDataResult = aggregateAndCalculateAverage(data, properties.replace("%20", ""));
+        const aggregateDataResult = aggregateAndCalculateAverage(data, properties.replace(/%2520|%20/g, ""));
         const chartData = Object.values(aggregateDataResult);
         setChartData(chartData);
 
@@ -113,8 +113,8 @@ function PlantStatusContent() {
         for (const item of table_data) {
           const { property_name, value, bad_threshold, good_threshold, moderate_threshold } = item;
           
-          if (property_name === properties.replace("%20", "")) {
-            if (properties.replace("%20", "") === "airquality") {
+          if (property_name === properties.replace(/%2520|%20/g, "")) {
+            if (properties.replace(/%2520|%20/g, "") === "airquality") {
               offsetMin = 0;
               offsetMax = moderate_threshold / 2;
               break;
@@ -242,7 +242,7 @@ function PlantStatusContent() {
                 textAlign: "justify",
               }}
             >
-              {descriptions[properties.replace("%20", "")]}
+              {descriptions[properties.replace(/%2520|%20/g, "")]}
             </p>
           </div>
         </div>
