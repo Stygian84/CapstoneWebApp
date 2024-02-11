@@ -96,7 +96,6 @@ function PlantItem(props) {
   const navigate = useNavigate();
   const location = useLocation();
   const statusNumber = location.pathname.split("/")[2];
-  const prev = location.state ? location.state.prev : null;
 
   var i = props.idx;
 
@@ -109,12 +108,10 @@ function PlantItem(props) {
     airqualityValue,
     soilphValue,
     humidityValue,
-    status,
     table_data,
   } = props;
 
   const thresholdRanges = {};
-  const statusMap = {};
 
   for (const item of table_data) {
     const { property_name, value, bad_threshold, good_threshold, moderate_threshold } = item;
@@ -129,39 +126,31 @@ function PlantItem(props) {
       bad_threshold,
     ];
 
-    let status;
     let color, fontColor;
     if (property_name === "airquality") {
       if (propertyValue <= good_threshold) {
-        status = "Good";
         color = statusLightGreen;
         fontColor = statusDarkGreen;
       } else if (propertyValue <= moderate_threshold) {
-        status = "Moderate";
         color = statusLightYellow;
         fontColor = statusDarkYellow;
       } else {
-        status = "Bad";
         color = statusLightRed;
         fontColor = statusDarkRed;
       }
     } else {
       if (propertyValue >= value - good_threshold && propertyValue <= value + good_threshold) {
-        status = "Good";
         color = statusLightGreen;
         fontColor = statusDarkGreen;
       } else if (propertyValue >= value + moderate_threshold && propertyValue <= value + moderate_threshold) {
-        status = "Moderate";
         color = statusLightYellow;
         fontColor = statusDarkYellow;
       } else {
-        status = "Bad";
         color = statusLightRed;
         fontColor = statusDarkRed;
       }
     }
 
-    statusMap[property_name] = status;
     thresholdRanges[property_name].unshift(color, fontColor);
   }
 
@@ -175,9 +164,9 @@ function PlantItem(props) {
 
   var fontColor = statusDarkGreen;
 
-  if (status == "Bad") {
+  if (status === "Bad") {
     fontColor = statusDarkRed;
-  } else if (status == "Moderate") {
+  } else if (status === "Moderate") {
     fontColor = statusDarkYellow;
   } else {
     fontColor = statusDarkGreen;

@@ -89,9 +89,9 @@ function RowItem(props) {
   var Status = props.status;
   var fontColor = statusDarkGreen;
 
-  if (Status == "Bad") {
+  if (Status === "Bad") {
     fontColor = statusDarkRed;
-  } else if (Status == "Moderate") {
+  } else if (Status === "Moderate") {
     fontColor = statusDarkYellow;
   } else {
     fontColor = statusDarkGreen;

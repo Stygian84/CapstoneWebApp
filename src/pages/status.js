@@ -35,11 +35,12 @@ function StatusContent() {
   addVisitedPage(window.location.href);
   const location = useLocation();
   const statusNumber = location.pathname.split("/")[2];
-  const { index = statusNumber } = location.state || {};
+  const { row_index = statusNumber } = location.state || {};
   const [statusRow, setStatusRow] = useState([]);
   const [jsonData, setJsonData] = useState(null);
   const navigate = useNavigate();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const Status = [];
     const fetchData = async () => {
@@ -64,14 +65,14 @@ function StatusContent() {
 
         const initialStatusRow = [];
         const excludedKeys = ["rowid", "timestamp", "status"];
-        for (const key in data[statusNumber - 1]) {
-          if (data[statusNumber - 1].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
+        for (const key in data[row_index - 1]) {
+          if (data[row_index - 1].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
             Status.push(key);
           }
         }
 
         for (let i = 0; i < Status.length; i++) {
-          let data_value = data[statusNumber - 1][Status[i]];
+          let data_value = data[row_index - 1][Status[i]];
           let properties_min;
           let properties_max;
           let properties_status = "";
@@ -132,7 +133,7 @@ function StatusContent() {
 
         // // Extract keys from the first object in the array (assuming it's not empty)
         // if (response.data.Rows && response.data.Rows.length > 0) {
-        //   const firstObject = response.data.Rows[index - 1];
+        //   const firstObject = response.data.Rows[row_index - 1];
 
         //   for (const key in firstObject) {
         //     if (firstObject.hasOwnProperty(key)) {
@@ -147,8 +148,8 @@ function StatusContent() {
         //       type={Status[i]}
         //       min="0"
         //       max="360"
-        //       value={response.data.Rows[index - 1][Status[i]].Value}
-        //       status={response.data.Rows[index - 1][Status[i]].Status}
+        //       value={response.data.Rows[row_index - 1][Status[i]].Value}
+        //       status={response.data.Rows[row_index - 1][Status[i]].Status}
         //     />
         //   );
         // }
@@ -176,7 +177,7 @@ function StatusContent() {
           className="status-item"
           id="plant-details-status-item"
           onClick={() => {
-            navigate(`/plant/${statusNumber}`, { state: { index: statusNumber } });
+            navigate(`/plant/${statusNumber}`, { state: { index: row_index } });
           }}
         >
           <img src={require(`../images/plant.png`)} alt="Status"></img>
@@ -240,10 +241,10 @@ function StatusItem(props) {
     val = "Temp";
     unit = "\u00b0C";
   }
-  if (Status == "Bad") {
+  if (Status === "Bad") {
     color = statusLightRed;
     fontColor = statusDarkRed;
-  } else if (Status == "Moderate") {
+  } else if (Status === "Moderate") {
     color = statusLightYellow;
     fontColor = statusDarkYellow;
   } else {
@@ -274,7 +275,7 @@ function StatusItem(props) {
             pathColor: color,
             trailColor: "transparent",
             strokeLinecap: "round",
-            textSize:"3vh"
+            textSize: "3vh",
           })}
           value={props.value}
           text={props.value}
