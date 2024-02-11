@@ -10,6 +10,7 @@ import { StatusContent, StatusTop } from "./pages/status";
 // import { SettingsContent, SettingsTop } from "./pages/settings";
 import { PlantContent, PlantTop } from "./pages/plant";
 import { PlantStatusContent, PlantStatusTop } from "./pages/plantstatus";
+import { Divider } from "@mui/material";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +18,7 @@ root.render(
     <BrowserRouter>
       <div id="wrapper" className="wrapper">
         <Top />
+        <Divider className="divider" variant="middle" />
         <Content />
       </div>
     </BrowserRouter>

@@ -14,8 +14,7 @@
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
 }
 
-.plant-item-name{
-  
+.plant-item-name {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -34,9 +33,8 @@
   flex-direction: row;
   width: 100%;
   justify-content: space-evenly;
-  margin-top: 5%;
 }
-.plant-status-description-container{
+.plant-status-description-container {
   display: flex;
   flex-direction: column;
   background: white;
@@ -45,11 +43,18 @@
 
   border-radius: 20px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
-
 }
 
-.plant-description-title{
-  margin-top: 2%;
+.plant-description-title {
+  margin: 2% 2%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.plant-description-bar {
+  margin: 5% 5%;
   width: 100%;
   display: flex;
   flex-direction: column;

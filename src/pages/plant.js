@@ -12,6 +12,7 @@ import {
   statusLightYellow,
 } from "../javascript/colors";
 import CircularSliderwithBg from "../components/CircularSliderwithBg";
+import Divider from "@mui/material/Divider";
 
 function PlantTop() {
   const navigate = useNavigate();
@@ -111,6 +112,7 @@ function PlantItem(props) {
   } = props;
 
   const thresholdRanges = {};
+  const statusMap = {};
 
   for (const item of table_data) {
     const { property_name, value, bad_threshold, good_threshold, moderate_threshold } = item;
@@ -125,41 +127,49 @@ function PlantItem(props) {
       bad_threshold,
     ];
 
-    let color, fontColor;
+    let color, fontColor, individualStatus;
     if (property_name === "airquality") {
       if (propertyValue <= good_threshold) {
+        individualStatus = "Good";
         color = statusLightGreen;
         fontColor = statusDarkGreen;
       } else if (propertyValue <= moderate_threshold) {
+        individualStatus = "Moderate";
         color = statusLightYellow;
         fontColor = statusDarkYellow;
       } else {
+        individualStatus = "Bad";
         color = statusLightRed;
         fontColor = statusDarkRed;
       }
     } else {
       if (propertyValue >= value - good_threshold && propertyValue <= value + good_threshold) {
+        individualStatus = "Good";
         color = statusLightGreen;
         fontColor = statusDarkGreen;
       } else if (propertyValue >= value + moderate_threshold && propertyValue <= value + moderate_threshold) {
+        individualStatus = "Moderate";
         color = statusLightYellow;
         fontColor = statusDarkYellow;
       } else {
+        individualStatus = "Bad";
         color = statusLightRed;
         fontColor = statusDarkRed;
       }
     }
 
-    thresholdRanges[property_name].unshift(color, fontColor);
+    thresholdRanges[property_name].unshift(color, fontColor, individualStatus);
   }
 
-  const [airTemperatureColor, airTemperatureFontColor, airTemperatureMin, airTemperatureMax] =
+  const [airTemperatureColor, airTemperatureFontColor, airTemperatureStatus, airTemperatureMin, airTemperatureMax] =
     thresholdRanges["temperature"] || [];
-  const [soilMoistureColor, soilMoistureFontColor, soilMoistureMin, soilMoistureMax] =
+  const [soilMoistureColor, soilMoistureFontColor, soilMoistureStatus, soilMoistureMin, soilMoistureMax] =
     thresholdRanges["soilmoisture"] || [];
-  const [airQualityColor, airQualityFontColor, airQualityMin, airQualityMax] = thresholdRanges["airquality"] || [];
-  const [soilPHColor, soilPHFontColor, soilPHMin, soilPHMax] = thresholdRanges["soilph"] || [];
-  const [humidityColor, humidityFontColor, humidityMin, humidityMax] = thresholdRanges["humidity"] || [];
+  const [airQualityColor, airQualityFontColor, airQualityStatus, airQualityMin, airQualityMax] =
+    thresholdRanges["airquality"] || [];
+  const [soilPHColor, soilPHFontColor, soilPHStatus, soilPHMin, soilPHMax] = thresholdRanges["soilph"] || [];
+  const [humidityColor, humidityFontColor, humidityStatus, humidityMin, humidityMax] =
+    thresholdRanges["humidity"] || [];
 
   var fontColor = statusDarkGreen;
 
@@ -195,9 +205,11 @@ function PlantItem(props) {
           <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
             {i}. {name}
           </p>
-          <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
-            Status : <span style={{ color: fontColor }}>{status}</span>
-          </p>
+          <Divider style={{ width: "90%" }}>
+            <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
+              Status : <span style={{ color: fontColor }}>{status}</span>
+            </p>
+          </Divider>
         </div>
       </div>
 
@@ -214,7 +226,13 @@ function PlantItem(props) {
               fontColor={airTemperatureFontColor}
               onClick={() => {
                 navigate(`/details/${statusNumber}/temperature/${plantid}`, {
-                  state: { row_idx: statusNumber, plant_id: plantid },
+                  state: {
+                    row_idx: statusNumber,
+                    plant_id: plantid,
+                    plant_status: airTemperatureStatus,
+                    plant_value: temperatureValue,
+                    plant_name:name
+                  },
                 });
               }}
             />
@@ -234,7 +252,13 @@ function PlantItem(props) {
               fontColor={soilMoistureFontColor}
               onClick={() => {
                 navigate(`/details/${statusNumber}/soil moisture/${plantid}`, {
-                  state: { row_idx: statusNumber, plant_id: plantid },
+                  state: {
+                    row_idx: statusNumber,
+                    plant_id: plantid,
+                    plant_status: soilMoistureStatus,
+                    plant_value: soilmoistureValue,
+                    plant_name:name
+                  },
                 });
               }}
             />
@@ -254,7 +278,13 @@ function PlantItem(props) {
               fontColor={airQualityFontColor}
               onClick={() => {
                 navigate(`/details/${statusNumber}/air quality/${plantid}`, {
-                  state: { row_idx: statusNumber, plant_id: plantid },
+                  state: {
+                    row_idx: statusNumber,
+                    plant_id: plantid,
+                    plant_status: airQualityStatus,
+                    plant_value: airqualityValue,
+                    plant_name:name
+                  },
                 });
               }}
             />
@@ -277,7 +307,13 @@ function PlantItem(props) {
               fontColor={soilPHFontColor}
               onClick={() => {
                 navigate(`/details/${statusNumber}/soil ph/${plantid}`, {
-                  state: { row_idx: statusNumber, plant_id: plantid },
+                  state: {
+                    row_idx: statusNumber,
+                    plant_id: plantid,
+                    plant_status: soilPHStatus,
+                    plant_value: soilphValue,
+                    plant_name:name
+                  },
                 });
               }}
             />
@@ -297,7 +333,13 @@ function PlantItem(props) {
               fontColor={humidityFontColor}
               onClick={() => {
                 navigate(`/details/${statusNumber}/humidity/${plantid}`, {
-                  state: { row_idx: statusNumber, plant_id: plantid },
+                  state: {
+                    row_idx: statusNumber,
+                    plant_id: plantid,
+                    plant_status: humidityStatus,
+                    plant_value: humidityValue,
+                    plant_name:name
+                  },
                 });
               }}
             />

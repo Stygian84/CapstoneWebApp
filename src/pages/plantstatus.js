@@ -15,7 +15,10 @@ import {
   statusLightYellow,
 } from "../javascript/colors";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+
+import { ExpandingProgressBars } from "../components/ExpandingLinearProgress";
 import "react-circular-progressbar/dist/styles.css";
+import Divider from "@mui/material/Divider";
 
 function PlantStatusTop() {
   const navigate = useNavigate();
@@ -37,14 +40,23 @@ function PlantStatusTop() {
 
 function PlantStatusContent() {
   const location = useLocation();
-  const { row_idx, plant_id } = location.state || {};
+  const { row_idx, plant_id, plant_status, plant_value, plant_name } = location.state || {};
   const properties = location.pathname.split("/")[3];
-  var statusNumber = 1;
-  const { index = statusNumber } = location.state || {};
-  const [statusRow, setStatusRow] = useState([]);
   const [jsonData, setJsonData] = useState(null);
   const navigate = useNavigate();
-
+  const descriptions = {
+    temperature:
+      "Air temperature plays a crucial role in the growth and development of plants, influencing various physiological processes. Different plant species have specific temperature requirements for optimal growth. Generally, warmer temperatures promote faster metabolic rates, leading to increased photosynthesis and faster growth during the growing season.",
+    humidity:
+      "Maintaining optimal humidity levels is crucial for the health and growth of plants. Humidity refers to the amount of moisture present in the air, and different plants have varying requirements. Generally, tropical plants thrive in higher humidity environments. ",
+    soilph:
+      "The pH level of soil plays a critical role in determining the health and vitality of plants. Soil pH measures the acidity or alkalinity of the soil, with a scale ranging from acidic (pH below 7) to alkaline (pH above 7). Most plants thrive in slightly acidic to neutral soil conditions.",
+    soilmoisture:
+      "Maintaining adequate soil moisture levels is essential for the health and growth of plants. Soil moisture refers to the amount of water present in the soil, and it directly affects plant hydration and nutrient uptake. Insufficient moisture can lead to wilting, stunted growth, and increased susceptibility to pests and diseases.",
+    airquality:
+      "Air quality plays a vital role in the overall health and growth of plants. Plants rely on a steady supply of clean air for proper respiration, photosynthesis, and transpiration. Poor air quality, characterized by high levels of pollutants such as carbon dioxide, ozone, and particulate matter, can negatively impact plant growth and development. ",
+    // Add more descriptions for each property
+  };
   useEffect(() => {
     const Status = [];
     const fetchData = async () => {
@@ -56,7 +68,7 @@ function PlantStatusContent() {
           params: {
             rowId: row_idx,
             plantId: plant_id,
-            property: properties,
+            property: properties.replace("%20", ""),
           },
         });
         const data = response.data;
@@ -64,9 +76,8 @@ function PlantStatusContent() {
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
         console.log("Table_data:\n", table_data);
-        
-        setJsonData(data);
 
+        setJsonData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -83,6 +94,16 @@ function PlantStatusContent() {
   const LightStatus = isToggleOn ? "On" : "Off";
   const lightColor = isToggleOn ? statusDarkGreen : statusDarkRed;
 
+  var fontColor = statusDarkGreen;
+
+  if (plant_status === "Bad") {
+    fontColor = statusDarkRed;
+  } else if (plant_status === "Moderate") {
+    fontColor = statusDarkYellow;
+  } else {
+    fontColor = statusDarkGreen;
+  }
+
   return (
     <div id="content" className="content">
       <div id="plant-status-container">
@@ -90,13 +111,16 @@ function PlantStatusContent() {
           <div className="plant-status-first-row">
             <div className="plant-item-name">
               <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
-                Plantid Aloe Vera
+                {plant_name}
               </p>
-              <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
-                Status : <span style={{ color: "red" }}>Good</span> Value : 2134
-              </p>
+              <Divider style={{ width: "90%" }}>
+                <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
+                  Status : <span style={{ color: fontColor }}>{plant_status}</span> Value : {plant_value}
+                </p>
+              </Divider>
             </div>
-            <div
+            {/* Below is for putting left and right icon / picture */}
+            {/* <div
               className="plant-status-graph-left-icon"
               style={{
                 left: "8%",
@@ -122,7 +146,7 @@ function PlantStatusContent() {
               <div className="plant-img-container">
                 <img src={require("../images/plant.png")} style={{ width: "12vw", margin: " 5% 0 0 0" }} alt=""></img>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="plant-status-second-row">
             <LineChart
@@ -142,11 +166,30 @@ function PlantStatusContent() {
       <div id="plant-status-container">
         <div className="plant-status-description-container">
           <div className="plant-description-title">
-            <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
-              {capitalizeAllLetters(properties)}
-            </p>
-            <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
-              Status : <span style={{ color: "red" }}>Good</span> Value : 2134
+            <div>
+              <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
+                {capitalizeAllLetters(properties)}
+              </p>
+            </div>
+          </div>
+          <Divider width="90%" />
+          <div className="plant-description-bar">
+            <div style={{ width: "80%", position: "relative" }}>
+              <ExpandingProgressBars value={100} />
+              <ExpandingProgressBars value={100} style={{ transform: "scaleX(-1)" }} />
+            </div>
+          </div>
+          <div className="plant-description-content">
+            <p
+              style={{
+                fontSize: "1.5vh",
+                color: "#A5A5A5",
+                fontWeight: "500",
+                margin: "5%",
+                textAlign: "justify",
+              }}
+            >
+              {descriptions[properties.replace("%20", "")]}
             </p>
           </div>
         </div>
