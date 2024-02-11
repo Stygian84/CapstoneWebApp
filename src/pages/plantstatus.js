@@ -4,7 +4,6 @@ import "../index.css";
 import "../css/pages/plantstatus.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { fetchDataFromLinks } from "../javascript/utils";
-import ToggleSwitch from "../components/ToggleSwitch";
 import { LineChart } from "@mui/x-charts/LineChart";
 
 import {
@@ -65,39 +64,9 @@ function PlantStatusContent() {
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
         console.log("Table_data:\n", table_data);
-        // Use AWS
-        // const data = await fetchDataFromLinks(suffix);
+        
         setJsonData(data);
 
-        // ** old code without aws **
-        // const response = await axios.get(process.env.REACT_APP_JSON_URL);
-        // setJsonData(response.data);
-
-        // const initialStatusRow = [];
-
-        // // Extract keys from the first object in the array (assuming it's not empty)
-        // if (response.data.Rows && response.data.Rows.length > 0) {
-        //   const firstObject = response.data.Rows[index - 1];
-
-        //   for (const key in firstObject) {
-        //     if (firstObject.hasOwnProperty(key)) {
-        //       Status.push(key);
-        //     }
-        //   }
-        // }
-        // for (let i = 0; i < Status.length - 1; i++) {
-        //   initialStatusRow.push(
-        //     <StatusItem
-        //       key={i}
-        //       type={Status[i]}
-        //       min="0"
-        //       max="360"
-        //       value={response.data.Rows[index - 1][Status[i]].Value}
-        //       status={response.data.Rows[index - 1][Status[i]].Status}
-        //     />
-        //   );
-        // }
-        // setStatusRow(initialStatusRow);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

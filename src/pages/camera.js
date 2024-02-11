@@ -64,7 +64,7 @@ function CameraContent() {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 120000); // 120000 milliseconds (2 minutes)
+    const intervalId = setInterval(fetchData, 6000); // 6000 milliseconds (6 seconds)
     return () => clearInterval(intervalId);
   }, []);
 

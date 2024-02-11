@@ -30,6 +30,7 @@ function HomeMonitoringContent() {
     weather: [{ description: "" }],
     main: { temp: 0 },
   });
+  
   const [formattedDate, setFormattedDate] = useState("");
   useEffect(() => {
     const apiKey = "662c2df70979465f90b101456566dea2";

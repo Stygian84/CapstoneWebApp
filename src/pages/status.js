@@ -51,8 +51,6 @@ function StatusContent() {
         const data = response.data;
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
-        // Use AWS
-        // const data = await fetchDataFromLinks(suffix);
         setJsonData(data);
 
         // Mapping to convert string from DB to its respective display name
@@ -162,7 +160,7 @@ function StatusContent() {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 120000); // 120000 milliseconds (2 minutes)
+    const intervalId = setInterval(fetchData, 6000); // 6000 milliseconds (2 seconds)
     return () => clearInterval(intervalId);
   }, []);
 

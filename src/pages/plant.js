@@ -11,7 +11,6 @@ import {
   statusLightRed,
   statusLightYellow,
 } from "../javascript/colors";
-import fetchDataFromLinks from "../javascript/utils";
 import CircularSliderwithBg from "../components/CircularSliderwithBg";
 
 function PlantTop() {
@@ -39,6 +38,7 @@ function PlantContent() {
       try {
         const suffix = `/api/plant`;
         const tablesuffix = "/api/table";
+
         // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix, {
           params: {
@@ -48,12 +48,7 @@ function PlantContent() {
         const data = response.data;
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
-        console.log(table_data);
-        console.log(data);
 
-        // Use AWS
-        // const data = await fetchDataFromLinks(suffix);
-        // setJsonData(data);
         var plantRow = [];
 
         for (let i = 0; i < 12; i++) {
@@ -73,7 +68,6 @@ function PlantContent() {
             />
           );
         }
-
         setPlantRow(plantRow);
       } catch (error) {
         console.error("Error fetching data:", error);
