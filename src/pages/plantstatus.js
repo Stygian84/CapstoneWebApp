@@ -124,7 +124,6 @@ function PlantStatusContent() {
         let offsetMax = 0;
         for (const item of table_data) {
           const { property_name, value, bad_threshold, good_threshold, moderate_threshold } = item;
-          console.log(bad_threshold, moderate_threshold, good_threshold, value);
           if (property_name === properties.replace(/%2520|%20/g, "")) {
             if (properties.replace(/%2520|%20/g, "") === "airquality") {
               offsetMin = 0;

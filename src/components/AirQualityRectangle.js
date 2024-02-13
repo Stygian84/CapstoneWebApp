@@ -25,7 +25,6 @@ const AirQualityRectangle = ({
   redWidth = ((redValue - yellowValue) / totalValue) * 100;
   yellowWidth = ((yellowValue - greenValue) / totalValue) * 100;
   greenWidth = (greenValue / totalValue) * 100;
-  console.log(greenValue, yellowValue, redValue);
   return (
     <div className="rectangle" style={{ position: "absolute", width: "50%", ...style }}>
       <div className="green" style={{ backgroundColor: `lightgreen`, width: `${greenWidth}%` }}></div>
