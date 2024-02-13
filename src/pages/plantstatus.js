@@ -19,7 +19,6 @@ import {
 import "react-circular-progressbar/dist/styles.css";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
-import { useTheme } from "@mui/material/styles";
 import moment from "moment";
 import Rectangle from "../components/Rectangle";
 import AirQualityRectangle from "../components/AirQualityRectangle";
@@ -43,7 +42,6 @@ function PlantStatusTop() {
 }
 
 function PlantStatusContent() {
-  const theme = useTheme();
   const [chart, setChart] = useState([]);
   const location = useLocation();
   const { row_idx, plant_id, plant_status, plant_value, plant_name } = location.state || {};
@@ -105,11 +103,6 @@ function PlantStatusContent() {
   if (properties.replace(/%2520|%20/g, "") === "airquality") {
     pointPosition = (plant_value / rightRedValue) * 100;
   }
-
-  const handleButtonClick = () => {
-    setSelectedChip(selectedChip === null ? "1m" : null);
-  };
-  console.log(selectedChip);
 
   useEffect(() => {
     const Status = [];
@@ -310,7 +303,6 @@ function PlantStatusContent() {
         console.error("Error fetching data:", error);
       }
     };
-    console.log(selectedChip);
 
     fetchData();
     const intervalId = setInterval(fetchData, 120000); // 6000 milliseconds (6 seconds)
