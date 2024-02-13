@@ -14,9 +14,8 @@ import {
   statusLightRed,
   statusLightYellow,
 } from "../javascript/colors";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
-import { ExpandingProgressBars } from "../components/ExpandingLinearProgress";
+// import { ExpandingProgressBars } from "../components/ExpandingLinearProgress";
 import "react-circular-progressbar/dist/styles.css";
 import Divider from "@mui/material/Divider";
 import moment from "moment";
@@ -106,7 +105,7 @@ function PlantStatusContent() {
             // Calculate average for the property
             const values = acc[day][property];
             if (Array.isArray(values)) {
-              acc[day][`averageValue`] = (values.reduce((sum, val) => sum + val, 0) / values.length).toFixed(1);
+              acc[day][`Value`] = (values.reduce((sum, val) => sum + val, 0) / values.length).toFixed(1);
             }
 
             return acc;
@@ -143,22 +142,21 @@ function PlantStatusContent() {
             setLeftRedValue(value - bad_threshold);
             setRightRedValue(value + bad_threshold);
             setPropertyValue(value);
-            offsetMin = good_threshold;
-            offsetMax = good_threshold;
+            offsetMin = good_threshold / 2;
+            offsetMax = good_threshold / 2;
             break;
           }
         }
-        const dataMin = Math.min(...chartData.map((entry) => entry.averageValue)) - offsetMin;
-        const dataMax = Math.max(...chartData.map((entry) => entry.averageValue)) + offsetMax;
-        const minValue = Math.min(...chartData.map((entry) => entry.averageValue));
-        const maxValue = Math.max(...chartData.map((entry) => entry.averageValue));
-        const yAxisTickCount = 4; // Set the desired number of ticks
+        const dataMin = Math.min(...chartData.map((entry) => entry.Value)) - offsetMin;
+        const dataMax = Math.max(...chartData.map((entry) => entry.Value)) + offsetMax;
+        const yAxisTickCount = 4;
 
         const yTicks = [];
         for (let i = 0; i < yAxisTickCount; i++) {
-          const value = minValue + ((maxValue - minValue) / (yAxisTickCount - 1)) * i;
+          const value = dataMin + ((dataMax - dataMin) / (yAxisTickCount - 1)) * i;
           yTicks.push(value);
         }
+
         chart.push(
           <ResponsiveContainer width="100%" height={"100%"} key={1}>
             <LineChart data={chartData} margin={{ top: 20, right: 40, bottom: 20 }}>
@@ -172,7 +170,7 @@ function PlantStatusContent() {
               />
               <Tooltip contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc" }} />
               {/* <Legend /> */}
-              <Line type="monotone" dataKey="averageValue" stroke="#7aa0b8" />
+              <Line type="monotone" dataKey="Value" stroke="#7aa0b8" />
             </LineChart>
           </ResponsiveContainer>
         );
