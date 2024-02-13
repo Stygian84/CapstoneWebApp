@@ -46,6 +46,15 @@ function PlantStatusContent() {
   const properties = location.pathname.split("/")[3];
   const [jsonData, setJsonData] = useState(null);
   const [chartData, setChartData] = useState(null);
+  const [tableData, setTableData] = useState(null);
+  const [leftYellowValue, setLeftYellowValue] = useState(0);
+  const [leftGreenValue, setLeftGreenValue] = useState(0);
+  const [rightGreenValue, setRightGreenValue] = useState(0);
+  const [rightYellowValue, setRightYellowValue] = useState(0);
+  const [leftRedValue, setLeftRedValue] = useState(0);
+  const [rightRedValue, setRightRedValue] = useState(0);
+  const [propertyValue, setPropertyValue] = useState(0);
+
   const navigate = useNavigate();
   const descriptions = {
     temperature:
@@ -77,6 +86,7 @@ function PlantStatusContent() {
         const data = response.data;
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
+        setTableData(table_data);
 
         setJsonData(data);
 
@@ -112,13 +122,27 @@ function PlantStatusContent() {
         let offsetMax = 0;
         for (const item of table_data) {
           const { property_name, value, bad_threshold, good_threshold, moderate_threshold } = item;
-          
+
           if (property_name === properties.replace(/%2520|%20/g, "")) {
             if (properties.replace(/%2520|%20/g, "") === "airquality") {
               offsetMin = 0;
               offsetMax = moderate_threshold / 2;
+              setLeftYellowValue(value - moderate_threshold);
+              setLeftGreenValue(value - good_threshold);
+              setRightGreenValue(value + good_threshold);
+              setRightYellowValue(value + moderate_threshold);
+              setLeftRedValue(value - bad_threshold);
+              setRightRedValue(value + bad_threshold);
+              setPropertyValue(value);
               break;
             }
+            setLeftYellowValue(value - moderate_threshold);
+            setLeftGreenValue(value - good_threshold);
+            setRightGreenValue(value + good_threshold);
+            setRightYellowValue(value + moderate_threshold);
+            setLeftRedValue(value - bad_threshold);
+            setRightRedValue(value + bad_threshold);
+            setPropertyValue(value);
             offsetMin = good_threshold;
             offsetMax = good_threshold;
             break;
@@ -150,7 +174,6 @@ function PlantStatusContent() {
     };
 
     fetchData();
-
     const intervalId = setInterval(fetchData, 120000); // 6000 milliseconds (6 seconds)
     return () => clearInterval(intervalId);
   }, []);
@@ -164,7 +187,8 @@ function PlantStatusContent() {
   } else {
     fontColor = statusDarkGreen;
   }
-
+  let pointPosition = ((plant_value - leftRedValue) / (rightRedValue - leftRedValue)) * 100;
+  console.log(leftRedValue);
   return (
     <div id="content" className="content">
       <div id="plant-status-container">
@@ -227,9 +251,53 @@ function PlantStatusContent() {
           </div>
           <Divider width="90%" />
           <div className="plant-description-bar">
-            <div style={{ width: "80%", position: "relative" }}>
-              <ExpandingProgressBars value={100} />
-              <ExpandingProgressBars value={100} style={{ transform: "scaleX(-1)" }} />
+            <div style={{ width: "80%", position: "relative", margin: "6% 0" }}>
+              <ExpandingProgressBars
+                value={100}
+                yellowValue={leftYellowValue}
+                greenValue={leftGreenValue}
+                redValue={leftRedValue}
+              />
+              <ExpandingProgressBars
+                value={100}
+                style={{ transform: "scaleX(-1)" }}
+                type="right"
+                yellowValue={rightYellowValue}
+                greenValue={rightGreenValue}
+                redValue={rightRedValue}
+                totalValue={propertyValue - leftRedValue}
+              />
+              {/* Pointer */}
+              <div
+                style={{
+                  position: "absolute",
+                  left: `${pointPosition}%`,
+                  bottom: "4px",
+                  transform: "translateX(-50%)",
+                  width: "16px",
+                  height: "16px",
+                  borderRadius: "50%",
+                  zIndex: 1,
+                  color: fontColor,
+                  backgroundColor: "white",
+                }}
+              >
+                ˅
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  left: `${pointPosition - 1}%`,
+                  bottom: "16px",
+                  transform: "translateX(-50%)",
+                  zIndex: 2,
+                  fontSize: "1.75vh",
+                  color: fontColor,
+                  backgroundColor: "white",
+                }}
+              >
+                {plant_value}
+              </div>
             </div>
           </div>
           <div className="plant-description-content">
@@ -239,6 +307,7 @@ function PlantStatusContent() {
                 color: "#A5A5A5",
                 fontWeight: "500",
                 margin: "5%",
+                marginTop: "0",
                 textAlign: "justify",
               }}
             >
