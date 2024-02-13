@@ -56,7 +56,6 @@ function PlantStatusContent() {
   const [leftRedValue, setLeftRedValue] = useState(0);
   const [rightRedValue, setRightRedValue] = useState(0);
   const [propertyValue, setPropertyValue] = useState(0);
-
   const navigate = useNavigate();
   const descriptions = {
     temperature:
@@ -151,7 +150,15 @@ function PlantStatusContent() {
         }
         const dataMin = Math.min(...chartData.map((entry) => entry.averageValue)) - offsetMin;
         const dataMax = Math.max(...chartData.map((entry) => entry.averageValue)) + offsetMax;
+        const minValue = Math.min(...chartData.map((entry) => entry.averageValue));
+        const maxValue = Math.max(...chartData.map((entry) => entry.averageValue));
+        const yAxisTickCount = 4; // Set the desired number of ticks
 
+        const yTicks = [];
+        for (let i = 0; i < yAxisTickCount; i++) {
+          const value = minValue + ((maxValue - minValue) / (yAxisTickCount - 1)) * i;
+          yTicks.push(value);
+        }
         chart.push(
           <ResponsiveContainer width="100%" height={"100%"} key={1}>
             <LineChart data={chartData} margin={{ top: 20, right: 40, bottom: 20 }}>
@@ -161,6 +168,7 @@ function PlantStatusContent() {
                 tick={{ fontSize: "1.5vh" }}
                 tickFormatter={(value) => value.toFixed(1)}
                 domain={[dataMin, dataMax]}
+                ticks={yTicks}
               />
               <Tooltip contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc" }} />
               {/* <Legend /> */}
@@ -192,6 +200,25 @@ function PlantStatusContent() {
   if (properties.replace(/%2520|%20/g, "") === "airquality") {
     pointPosition = (plant_value / rightRedValue) * 100;
   }
+
+  var unit = "";
+  var val = "Value";
+  if (properties.replace(/%2520|%20/g, "") === "airquality") {
+    val = "PSI";
+    unit = "";
+  } else if (properties.replace(/%2520|%20/g, "") === "humidity") {
+    val = "Value";
+    unit = "%";
+  } else if (properties.replace(/%2520|%20/g, "") === "soilmoisture") {
+    val = "Value";
+    unit = "%";
+  } else if (properties.replace(/%2520|%20/g, "") === "soilph") {
+    val = "pH";
+    unit = "";
+  } else if (properties.replace(/%2520|%20/g, "") === "temperature") {
+    val = "Temp";
+    unit = "\u00b0C";
+  }
   return (
     <div id="content" className="content">
       <div id="plant-status-container">
@@ -203,8 +230,10 @@ function PlantStatusContent() {
               </p>
               <Divider style={{ width: "90%" }}>
                 <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
-                  Status : <span style={{ color: fontColor }}>{plant_status}</span> Value :{" "}
-                  <span style={{ color: fontColor }}>{plant_value}</span>
+                  Status : <span style={{ color: fontColor }}>{plant_status}</span> {val} :{" "}
+                  <span style={{ color: fontColor }}>
+                    {plant_value} {unit}
+                  </span>
                 </p>
               </Divider>
             </div>
