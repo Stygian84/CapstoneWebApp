@@ -1,0 +1,11 @@
+.rectangle {
+  width: 50%; /* Adjust as needed */
+  height: 6px; /* Adjust as needed */
+  display: flex;
+}
+
+.rectangle div {
+  height: 100%;
+}
+
+

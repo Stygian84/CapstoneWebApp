@@ -108,7 +108,7 @@ const ExpandingProgressBars = ({ redValue, yellowValue, greenValue, style, type,
         <div
           style={{
             position: "absolute",
-            left: "34%", // Center the cursor horizontally
+            left: "34%",
             top: "4px",
             transform: "translateX(-50%)",
             width: "16px",

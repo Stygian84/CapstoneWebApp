@@ -128,7 +128,6 @@ function PlantItem(props) {
       moderate_threshold,
       bad_threshold,
     ];
-
     let color, fontColor, individualStatus;
     if (property_name === "airquality") {
       if (propertyValue <= good_threshold) {
@@ -149,7 +148,7 @@ function PlantItem(props) {
         individualStatus = "Good";
         color = statusLightGreen;
         fontColor = statusDarkGreen;
-      } else if (propertyValue >= value + moderate_threshold && propertyValue <= value + moderate_threshold) {
+      } else if (propertyValue >= value - moderate_threshold && propertyValue <= value + moderate_threshold) {
         individualStatus = "Moderate";
         color = statusLightYellow;
         fontColor = statusDarkYellow;

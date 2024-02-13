@@ -20,6 +20,8 @@ import { ExpandingProgressBars } from "../components/ExpandingLinearProgress";
 import "react-circular-progressbar/dist/styles.css";
 import Divider from "@mui/material/Divider";
 import moment from "moment";
+import Rectangle from "../components/Rectangle";
+import AirQualityRectangle from "../components/AirQualityRectangle";
 
 function PlantStatusTop() {
   const navigate = useNavigate();
@@ -122,17 +124,17 @@ function PlantStatusContent() {
         let offsetMax = 0;
         for (const item of table_data) {
           const { property_name, value, bad_threshold, good_threshold, moderate_threshold } = item;
-
+          console.log(bad_threshold, moderate_threshold, good_threshold, value);
           if (property_name === properties.replace(/%2520|%20/g, "")) {
             if (properties.replace(/%2520|%20/g, "") === "airquality") {
               offsetMin = 0;
               offsetMax = moderate_threshold / 2;
               setLeftYellowValue(value - moderate_threshold);
               setLeftGreenValue(value - good_threshold);
-              setRightGreenValue(value + good_threshold);
-              setRightYellowValue(value + moderate_threshold);
+              setRightGreenValue(good_threshold);
+              setRightYellowValue(moderate_threshold);
               setLeftRedValue(value - bad_threshold);
-              setRightRedValue(value + bad_threshold);
+              setRightRedValue(bad_threshold);
               setPropertyValue(value);
               break;
             }
@@ -188,7 +190,9 @@ function PlantStatusContent() {
     fontColor = statusDarkGreen;
   }
   let pointPosition = ((plant_value - leftRedValue) / (rightRedValue - leftRedValue)) * 100;
-  console.log(leftRedValue);
+  if (properties.replace(/%2520|%20/g, "") === "airquality") {
+    pointPosition = (plant_value / rightRedValue) * 100;
+  }
   return (
     <div id="content" className="content">
       <div id="plant-status-container">
@@ -251,8 +255,45 @@ function PlantStatusContent() {
           </div>
           <Divider width="90%" />
           <div className="plant-description-bar">
-            <div style={{ width: "80%", position: "relative", margin: "6% 0" }}>
-              <ExpandingProgressBars
+            <div style={{ width: "85%", position: "relative", margin: "6% 0" }}>
+              {properties.replace(/%2520|%20/g, "") === "airquality" ? (
+                <AirQualityRectangle
+                  style={{
+                    width: "100%",
+                  }}
+                  yellowValue={rightYellowValue}
+                  greenValue={rightGreenValue}
+                  redValue={rightRedValue}
+                  totalValue={rightRedValue}
+                  propertyValue={propertyValue}
+                />
+              ) : (
+                <>
+                  <Rectangle
+                    width="50%"
+                    yellowValue={leftYellowValue}
+                    greenValue={leftGreenValue}
+                    redValue={leftRedValue}
+                    totalValue={propertyValue - leftRedValue}
+                    propertyValue={propertyValue}
+                  />
+                  <Rectangle
+                    width="50%"
+                    style={{ transform: "translateX(100%) scaleX(-1)" }}
+                    type="right"
+                    yellowValue={leftYellowValue}
+                    greenValue={leftGreenValue}
+                    redValue={leftRedValue}
+                    rightYellowValue={rightYellowValue}
+                    rightGreenValue={rightGreenValue}
+                    rightRedValue={rightRedValue}
+                    totalValue={propertyValue - leftRedValue}
+                    propertyValue={propertyValue}
+                  />
+                </>
+              )}
+
+              {/* <ExpandingProgressBars
                 value={100}
                 yellowValue={leftYellowValue}
                 greenValue={leftGreenValue}
@@ -266,7 +307,7 @@ function PlantStatusContent() {
                 greenValue={rightGreenValue}
                 redValue={rightRedValue}
                 totalValue={propertyValue - leftRedValue}
-              />
+              /> */}
               {/* Pointer */}
               <div
                 style={{
@@ -276,10 +317,8 @@ function PlantStatusContent() {
                   transform: "translateX(-50%)",
                   width: "16px",
                   height: "16px",
-                  borderRadius: "50%",
                   zIndex: 1,
                   color: fontColor,
-                  backgroundColor: "white",
                 }}
               >
                 ˅
@@ -287,13 +326,12 @@ function PlantStatusContent() {
               <div
                 style={{
                   position: "absolute",
-                  left: `${pointPosition - 1}%`,
+                  left: `${pointPosition - 2}%`,
                   bottom: "16px",
                   transform: "translateX(-50%)",
                   zIndex: 2,
                   fontSize: "1.75vh",
                   color: fontColor,
-                  backgroundColor: "white",
                 }}
               >
                 {plant_value}
