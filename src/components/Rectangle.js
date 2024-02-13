@@ -45,6 +45,7 @@ const Rectangle = ({
           borderRadius: "50%",
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         ^
@@ -59,6 +60,7 @@ const Rectangle = ({
 
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         {type === "right" ? rightRedValue : redValue}
@@ -75,6 +77,7 @@ const Rectangle = ({
           borderRadius: "50%",
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         ^
@@ -89,6 +92,7 @@ const Rectangle = ({
 
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         {type === "right" ? rightYellowValue : yellowValue}
@@ -105,6 +109,7 @@ const Rectangle = ({
           borderRadius: "50%",
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         ^
@@ -118,6 +123,7 @@ const Rectangle = ({
           transform: type === "right" ? "translateX(-50%) scaleX(-1)" : "translateX(-50%)",
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         {type === "right" ? rightGreenValue : greenValue}

@@ -69,6 +69,37 @@ function PlantStatusContent() {
       "Air quality plays a vital role in the overall health and growth of plants. Plants rely on a steady supply of clean air for proper respiration, photosynthesis, and transpiration. Poor air quality, characterized by high levels of pollutants such as carbon dioxide, ozone, and particulate matter, can negatively impact plant growth and development. ",
     // Add more descriptions for each property
   };
+  var unit = "";
+  var val = "Value";
+  if (properties.replace(/%2520|%20/g, "") === "airquality") {
+    val = "PSI";
+    unit = "";
+  } else if (properties.replace(/%2520|%20/g, "") === "humidity") {
+    val = "Value";
+    unit = "%";
+  } else if (properties.replace(/%2520|%20/g, "") === "soilmoisture") {
+    val = "Value";
+    unit = "%";
+  } else if (properties.replace(/%2520|%20/g, "") === "soilph") {
+    val = "pH";
+    unit = "";
+  } else if (properties.replace(/%2520|%20/g, "") === "temperature") {
+    val = "Temp";
+    unit = "\u00b0C";
+  }
+  var fontColor = statusDarkGreen;
+
+  if (plant_status === "Bad") {
+    fontColor = statusDarkRed;
+  } else if (plant_status === "Moderate") {
+    fontColor = statusDarkYellow;
+  } else {
+    fontColor = statusDarkGreen;
+  }
+  let pointPosition = ((plant_value - leftRedValue) / (rightRedValue - leftRedValue)) * 100;
+  if (properties.replace(/%2520|%20/g, "") === "airquality") {
+    pointPosition = (plant_value / rightRedValue) * 100;
+  }
   useEffect(() => {
     const Status = [];
     const fetchData = async () => {
@@ -168,9 +199,20 @@ function PlantStatusContent() {
                 domain={[dataMin, dataMax]}
                 ticks={yTicks}
               />
-              <Tooltip contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc" }} />
+              {/* <Tooltip contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc" }} /> */}
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #ccc",
+                  borderRadius: "20px",
+                  boxShadow: "2px 2px 8px rgba(0, 0, 0, 0.12)",
+                }}
+                labelStyle={{ fontWeight: "bold" }}
+                formatter={(value) => [`${parseInt(value).toFixed(1)} ${unit}`, "Value"]}
+              />
               {/* <Legend /> */}
-              <Line type="monotone" dataKey="Value" stroke="#7aa0b8" />
+              {/* <Line type="monotone" dataKey="Value" stroke="#7aa0b8" /> */}{" "}
+              <Line type="monotone" dataKey="Value" stroke="#7aa0b8" strokeWidth={1.5} activeDot={{ r: 6 }} />
             </LineChart>
           </ResponsiveContainer>
         );
@@ -185,38 +227,6 @@ function PlantStatusContent() {
     return () => clearInterval(intervalId);
   }, []);
 
-  var fontColor = statusDarkGreen;
-
-  if (plant_status === "Bad") {
-    fontColor = statusDarkRed;
-  } else if (plant_status === "Moderate") {
-    fontColor = statusDarkYellow;
-  } else {
-    fontColor = statusDarkGreen;
-  }
-  let pointPosition = ((plant_value - leftRedValue) / (rightRedValue - leftRedValue)) * 100;
-  if (properties.replace(/%2520|%20/g, "") === "airquality") {
-    pointPosition = (plant_value / rightRedValue) * 100;
-  }
-
-  var unit = "";
-  var val = "Value";
-  if (properties.replace(/%2520|%20/g, "") === "airquality") {
-    val = "PSI";
-    unit = "";
-  } else if (properties.replace(/%2520|%20/g, "") === "humidity") {
-    val = "Value";
-    unit = "%";
-  } else if (properties.replace(/%2520|%20/g, "") === "soilmoisture") {
-    val = "Value";
-    unit = "%";
-  } else if (properties.replace(/%2520|%20/g, "") === "soilph") {
-    val = "pH";
-    unit = "";
-  } else if (properties.replace(/%2520|%20/g, "") === "temperature") {
-    val = "Temp";
-    unit = "\u00b0C";
-  }
   return (
     <div id="content" className="content">
       <div id="plant-status-container">

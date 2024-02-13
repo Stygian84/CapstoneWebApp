@@ -42,6 +42,7 @@ const AirQualityRectangle = ({
           borderRadius: "50%",
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         ^
@@ -56,6 +57,7 @@ const AirQualityRectangle = ({
 
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         {0}
@@ -72,6 +74,7 @@ const AirQualityRectangle = ({
           borderRadius: "50%",
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         ^
@@ -85,6 +88,7 @@ const AirQualityRectangle = ({
           transform: type === "right" ? "translateX(-50%) scaleX(-1)" : "translateX(-50%)",
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         {greenValue}
@@ -102,6 +106,7 @@ const AirQualityRectangle = ({
           borderRadius: "50%",
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         ^
@@ -116,6 +121,7 @@ const AirQualityRectangle = ({
 
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         {yellowValue}
@@ -133,6 +139,7 @@ const AirQualityRectangle = ({
           borderRadius: "50%",
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         ^
@@ -147,6 +154,7 @@ const AirQualityRectangle = ({
 
           zIndex: 1,
           fontSize: "1.75vh",
+          color: "#737373",
         }}
       >
         {redValue}
