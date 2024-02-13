@@ -4,7 +4,7 @@ import "../index.css";
 import "../css/pages/plantstatus.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { fetchDataFromLinks } from "../javascript/utils";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush, ResponsiveContainer } from "recharts";
 
 import {
   statusDarkGreen,
@@ -178,21 +178,30 @@ function PlantStatusContent() {
             break;
           }
         }
-        const dataMin = Math.min(...chartData.map((entry) => entry.Value)) - offsetMin;
-        const dataMax = Math.max(...chartData.map((entry) => entry.Value)) + offsetMax;
+        const slicedChartData = chartData.slice(0, 30);
+        const dataMin = Math.min(...slicedChartData.map((entry) => entry.Value)) - offsetMin;
+        const dataMax = Math.max(...slicedChartData.map((entry) => entry.Value)) + offsetMax;
         const yAxisTickCount = 4;
+        const xAxisTickCount = 8;
 
         const yTicks = [];
         for (let i = 0; i < yAxisTickCount; i++) {
           const value = dataMin + ((dataMax - dataMin) / (yAxisTickCount - 1)) * i;
           yTicks.push(value);
         }
-
+        const xTicks = [];
+        for (let i = 0; i < slicedChartData.length; i += Math.floor(slicedChartData.length / (xAxisTickCount - 1))) {
+          xTicks.push(slicedChartData[i].date);
+        }
         chart.push(
           <ResponsiveContainer width="100%" height={"100%"} key={1}>
-            <LineChart data={chartData} margin={{ top: 20, right: 40, bottom: 20 }}>
+            <LineChart data={slicedChartData} margin={{ top: 20, right: 30, bottom: 20,left:-10 }}>
               <CartesianGrid strokeDasharray="2 2" stroke="lightgrey" />
-              <XAxis tick={{ fontSize: "1.5vh" }} dataKey="date" interval={3} />
+              <XAxis
+                tick={{ fontSize: "1.5vh" }}
+                dataKey="date"
+                interval={Math.floor(slicedChartData.length / (xAxisTickCount - 1))}
+              />
               <YAxis
                 tick={{ fontSize: "1.5vh" }}
                 tickFormatter={(value) => value.toFixed(1)}
@@ -208,11 +217,19 @@ function PlantStatusContent() {
                   boxShadow: "2px 2px 8px rgba(0, 0, 0, 0.12)",
                 }}
                 labelStyle={{ fontWeight: "bold" }}
-                formatter={(value) => [`${parseInt(value).toFixed(1)} ${unit}`, "Value"]}
+                formatter={(value) => [`${parseFloat(value).toFixed(1)} ${unit}`]}
               />
               {/* <Legend /> */}
               {/* <Line type="monotone" dataKey="Value" stroke="#7aa0b8" /> */}{" "}
-              <Line type="monotone" dataKey="Value" stroke="#7aa0b8" strokeWidth={1.5} activeDot={{ r: 6 }} />
+              <Line
+                type="monotone"
+                dataKey="Value"
+                stroke="#7aa0b8"
+                strokeWidth={1.5}
+                activeDot={{ r: 6 }}
+                // dot={false}
+              />
+              <Brush dataKey="date" height={20} stroke="#7aa0b8" />
             </LineChart>
           </ResponsiveContainer>
         );
@@ -349,7 +366,7 @@ function PlantStatusContent() {
                 style={{
                   position: "absolute",
                   left: `${pointPosition}%`,
-                  bottom: "4px",
+                  bottom: "0px",
                   transform: "translateX(-50%)",
                   width: "16px",
                   height: "16px",
@@ -363,7 +380,7 @@ function PlantStatusContent() {
                 style={{
                   position: "absolute",
                   left: `${pointPosition - 2}%`,
-                  bottom: "16px",
+                  bottom: "10px",
                   transform: "translateX(-50%)",
                   zIndex: 2,
                   fontSize: "1.75vh",
