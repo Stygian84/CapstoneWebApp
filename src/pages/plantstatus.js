@@ -18,6 +18,8 @@ import {
 // import { ExpandingProgressBars } from "../components/ExpandingLinearProgress";
 import "react-circular-progressbar/dist/styles.css";
 import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
+import { useTheme } from "@mui/material/styles";
 import moment from "moment";
 import Rectangle from "../components/Rectangle";
 import AirQualityRectangle from "../components/AirQualityRectangle";
@@ -41,6 +43,7 @@ function PlantStatusTop() {
 }
 
 function PlantStatusContent() {
+  const theme = useTheme();
   const [chart, setChart] = useState([]);
   const location = useLocation();
   const { row_idx, plant_id, plant_status, plant_value, plant_name } = location.state || {};
@@ -55,6 +58,8 @@ function PlantStatusContent() {
   const [leftRedValue, setLeftRedValue] = useState(0);
   const [rightRedValue, setRightRedValue] = useState(0);
   const [propertyValue, setPropertyValue] = useState(0);
+  const [slicedDays, setSlicedDays] = useState(30);
+  const [selectedChip, setSelectedChip] = useState("1m");
   const navigate = useNavigate();
   const descriptions = {
     temperature:
@@ -100,6 +105,12 @@ function PlantStatusContent() {
   if (properties.replace(/%2520|%20/g, "") === "airquality") {
     pointPosition = (plant_value / rightRedValue) * 100;
   }
+
+  const handleButtonClick = () => {
+    setSelectedChip(selectedChip === null ? "1m" : null);
+  };
+  console.log(selectedChip);
+
   useEffect(() => {
     const Status = [];
     const fetchData = async () => {
@@ -178,7 +189,7 @@ function PlantStatusContent() {
             break;
           }
         }
-        const slicedChartData = chartData.slice(0, 30);
+        const slicedChartData = chartData.slice(0, slicedDays);
         const dataMin = Math.min(...slicedChartData.map((entry) => entry.Value)) - offsetMin;
         const dataMax = Math.max(...slicedChartData.map((entry) => entry.Value)) + offsetMax;
         const yAxisTickCount = 4;
@@ -195,7 +206,7 @@ function PlantStatusContent() {
         }
         chart.push(
           <ResponsiveContainer width="100%" height={"100%"} key={1}>
-            <LineChart data={slicedChartData} margin={{ top: 20, right: 30, bottom: 20,left:-10 }}>
+            <LineChart data={slicedChartData} margin={{ top: 20, right: 30, bottom: 20, left: -10 }}>
               <CartesianGrid strokeDasharray="2 2" stroke="lightgrey" />
               <XAxis
                 tick={{ fontSize: "1.5vh" }}
@@ -229,8 +240,69 @@ function PlantStatusContent() {
                 activeDot={{ r: 6 }}
                 // dot={false}
               />
-              <Brush dataKey="date" height={20} stroke="#7aa0b8" />
             </LineChart>
+            <div style={{ display: "flex", justifyContent: "center", transform: "translateY(-50%)" }}>
+              <Stack direction="row" spacing={1}>
+                <div
+                  style={{
+                    backgroundColor: selectedChip == "1m" ? "#7aa0b8" : "rgba(0, 0, 0, 0.08)",
+                    color: selectedChip == "1m" ? "white" : "#7aa0b8",
+                    padding: "3.5px 9px",
+                    borderRadius: "20px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    fontSize: "1.5vh",
+                    height: "70%",
+                  }}
+                  onClick={() => {
+                    setSlicedDays(30);
+                    setSelectedChip("1m");
+                  }}
+                >
+                  1 month
+                </div>
+                <div
+                  style={{
+                    backgroundColor: selectedChip == "3m" ? "#7aa0b8" : "rgba(0, 0, 0, 0.08)",
+                    color: selectedChip == "3m" ? "white" : "#7aa0b8",
+                    padding: "3.5px 9px",
+                    borderRadius: "20px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    fontSize: "1.5vh",
+                    height: "70%",
+                  }}
+                  onClick={() => {
+                    setSlicedDays(90);
+                    setSelectedChip("3m");
+                  }}
+                >
+                  3 month
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: selectedChip === "6m" ? "#7aa0b8" : "rgba(0, 0, 0, 0.08)",
+                    color: selectedChip == "6m" ? "white" : "#7aa0b8",
+                    padding: "3.5px 9px",
+                    borderRadius: "20px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    fontSize: "1.5vh",
+                    height: "70%",
+                  }}
+                  onClick={() => {
+                    setSlicedDays(180);
+                    setSelectedChip("6m");
+                  }}
+                >
+                  6 month
+                </div>
+              </Stack>
+            </div>
           </ResponsiveContainer>
         );
         setChart(chart);
@@ -238,11 +310,12 @@ function PlantStatusContent() {
         console.error("Error fetching data:", error);
       }
     };
+    console.log(selectedChip);
 
     fetchData();
     const intervalId = setInterval(fetchData, 120000); // 6000 milliseconds (6 seconds)
     return () => clearInterval(intervalId);
-  }, []);
+  }, [slicedDays, selectedChip]);
 
   return (
     <div id="content" className="content">
@@ -291,7 +364,7 @@ function PlantStatusContent() {
               </div>
             </div> */}
           </div>
-          <div className="plant-status-second-row" style={{ height: "35vh" }}>
+          <div className="plant-status-second-row" style={{ height: "35vh", paddingBottom: 20 }}>
             {chart}
           </div>
         </div>
