@@ -42,6 +42,7 @@ function PlantStatusTop() {
 }
 
 function PlantStatusContent() {
+  const [dot, setDot] = useState(true);
   const [chart, setChart] = useState([]);
   const location = useLocation();
   const { row_idx, plant_id, plant_status, plant_value, plant_name } = location.state || {};
@@ -225,14 +226,7 @@ function PlantStatusContent() {
               />
               {/* <Legend /> */}
               {/* <Line type="monotone" dataKey="Value" stroke="#7aa0b8" /> */}{" "}
-              <Line
-                type="monotone"
-                dataKey="Value"
-                stroke="#7aa0b8"
-                strokeWidth={1.5}
-                activeDot={{ r: 6 }}
-                // dot={false}
-              />
+              <Line type="monotone" dataKey="Value" stroke="#7aa0b8" strokeWidth={1.5} activeDot={{ r: 6 }} dot={dot} />
             </LineChart>
             <div style={{ display: "flex", justifyContent: "center", transform: "translateY(-50%)" }}>
               <Stack direction="row" spacing={1}>
@@ -251,6 +245,7 @@ function PlantStatusContent() {
                   onClick={() => {
                     setSlicedDays(30);
                     setSelectedChip("1m");
+                    setDot(true);
                   }}
                 >
                   1 month
@@ -270,6 +265,7 @@ function PlantStatusContent() {
                   onClick={() => {
                     setSlicedDays(90);
                     setSelectedChip("3m");
+                    setDot(false);
                   }}
                 >
                   3 month
@@ -290,6 +286,7 @@ function PlantStatusContent() {
                   onClick={() => {
                     setSlicedDays(180);
                     setSelectedChip("6m");
+                    setDot(false);
                   }}
                 >
                   6 month
