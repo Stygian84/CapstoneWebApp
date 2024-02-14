@@ -178,8 +178,8 @@ function PlantStatusContent() {
             setLeftRedValue(value - bad_threshold);
             setRightRedValue(value + bad_threshold);
             setPropertyValue(value);
-            offsetMin = good_threshold / 2;
-            offsetMax = good_threshold / 2;
+            offsetMin = good_threshold*2;
+            offsetMax = good_threshold*2;
             break;
           }
         }
