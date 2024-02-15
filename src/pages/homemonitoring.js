@@ -113,14 +113,12 @@ function HomeMonitoringContent() {
           <img
             src={require("../images/greenstatus.png")}
             alt="Status"
-            style={{ display: imageLoaded ? "block" : "none" }}
             onLoad={() => setImageLoaded(true)}
           />
           <img
             src={require("../images/whitestatus.png")}
             className="new-image"
             alt="Status"
-            style={{ display: imageLoaded ? "none" : "block" }}
             onLoad={() => setImageLoaded(true)}
           />
 
