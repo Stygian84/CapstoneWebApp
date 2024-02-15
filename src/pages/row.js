@@ -104,7 +104,7 @@ function RowItem(props) {
         if (prev === "Status") {
           navigate(`/status/${i}`, { state: { index: i } });
         } else if (prev === "Camera") {
-          navigate(`/camera/${i}`, { state: { index: i } });
+          navigate(`/camera/${i}`, { state: { index: i, overallstatus:Status } });
         } else {
           navigate(`/status/${i}`, { state: { index: i } });
         }

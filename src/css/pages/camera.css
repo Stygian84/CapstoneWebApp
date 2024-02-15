@@ -46,6 +46,11 @@
   margin: 0;
   padding: 0;
 }
+.camera-item div img {
+  margin: 3% 3% 3% 3%;
+  padding: 3%;
+  width: 80%;
+}
 
 /*Animation*/
 .camera-item:has(#water-the-plant):hover:active {
