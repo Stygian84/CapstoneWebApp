@@ -58,7 +58,6 @@ function CameraContent() {
             Status.push(key);
           }
         }
-        console.log(Status.length);
         initialCameraRow.push(<CameraItem type="Overall Status" status={overallstatus} />);
         for (let i = 0; i < Status.length; i++) {
           let data_value = data[index - 1][Status[i]];
@@ -186,6 +185,7 @@ function CameraItem(props) {
   var Status = props.status;
   var fontColor = statusDarkGreen;
   const type = props.type.toLowerCase().replace(/\s/g, "");
+  console.log(require(`../images/blue${type}.png`))
 
   if (Status == "Bad") {
     fontColor = statusDarkRed;
