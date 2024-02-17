@@ -35,7 +35,7 @@ function PlantStatusTop() {
         <img src={require("../images/arrow.png")} alt=""></img>
       </div>
       <p className="top-title">
-        ROW {row_idx} PLANT {plant_id} {capitalizeAllLetters(properties)}
+        LEVEL {row_idx} ROW {plant_id} {capitalizeAllLetters(properties)}
       </p>
     </div>
   );
@@ -109,13 +109,13 @@ function PlantStatusContent() {
     const Status = [];
     const fetchData = async () => {
       try {
-        const suffix = `/api/plant`;
+        const suffix = `/api/row`;
         const tablesuffix = "/api/table";
         // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix, {
           params: {
-            rowId: row_idx,
-            plantId: plant_id,
+            levelId: row_idx,
+            rowId: plant_id,
             property: properties.replace(/%2520|%20/g, "").replace("%2520", ""),
           },
         });
@@ -123,7 +123,6 @@ function PlantStatusContent() {
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
         setTableData(table_data);
-
         setJsonData(data);
 
         const aggregateAndCalculateAverage = (data, property) => {

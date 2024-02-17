@@ -18,13 +18,13 @@ import { addVisitedPage } from "../javascript/utils";
 function PlantTop() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { index } = location.state || {};
+  const { levelid } = location.state || {};
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
         <img src={require("../images/arrow.png")} alt=""></img>
       </div>
-      <p className="top-title">ROW {index} PLANTS</p>
+      <p className="top-title">LEVEL {levelid} PLANTS</p>
     </div>
   );
 }
@@ -32,33 +32,34 @@ function PlantTop() {
 function PlantContent() {
   addVisitedPage(window.location.href);
   const location = useLocation();
-  const { index } = location.state || {};
+  const { index,levelid } = location.state || {};
   const [plantRow, setPlantRow] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const suffix = `/api/plant`;
+        const suffix = `/api/row`;
         const tablesuffix = "/api/table";
 
         // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix, {
           params: {
-            rowId: index,
+            levelId: levelid,
           },
         });
         const data = response.data;
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
-
+        console.log(data,index)
         var plantRow = [];
 
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < 16; i++) {
           plantRow.push(
             <PlantItem
               key={i}
-              plantid={data[i]["plantid"]}
-              idx={data[i]["plantid"]}
+              levelid={levelid}
+              plantid={data[i]["rowid"]}
+              idx={data[i]["rowid"]}
               name={data[i]["plantname"]}
               airqualityValue={data[i]["airquality"]}
               soilmoistureValue={data[i]["soilmoisture"]}
@@ -97,7 +98,8 @@ function PlantContent() {
 function PlantItem(props) {
   const navigate = useNavigate();
   const location = useLocation();
-  const statusNumber = location.pathname.split("/")[2];
+  // const statusNumber = location.pathname.split("/")[2];
+  const statusNumber= props.levelid
 
   var i = props.idx;
 

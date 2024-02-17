@@ -19,14 +19,14 @@ import "react-circular-progressbar/dist/styles.css";
 function StatusTop() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { index } = location.state || {};
+  const { levelid } = location.state || {};
 
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
         <img src={require("../images/arrow.png")} alt=""></img>
       </div>
-      <p className="top-title">ROW {index} STATUS</p>
+      <p className="top-title">LEVEL {levelid} STATUS</p>
     </div>
   );
 }
@@ -39,6 +39,7 @@ function StatusContent() {
   const [statusRow, setStatusRow] = useState([]);
   const [jsonData, setJsonData] = useState(null);
   const navigate = useNavigate();
+  const { levelid } = location.state || {};
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -53,7 +54,6 @@ function StatusContent() {
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
         setJsonData(data);
-
         // Mapping to convert string from DB to its respective display name
         const keyToDisplayName = {
           avgairquality: "AIR QUALITY",
@@ -64,7 +64,7 @@ function StatusContent() {
         };
 
         const initialStatusRow = [];
-        const excludedKeys = ["rowid", "timestamp", "status"];
+        const excludedKeys = ["levelid", "timestamp", "status"];
         for (const key in data[row_index - 1]) {
           if (data[row_index - 1].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
             Status.push(key);
@@ -179,7 +179,7 @@ function StatusContent() {
           className="status-item"
           id="plant-details-status-item"
           onClick={() => {
-            navigate(`/plant/${statusNumber}`, { state: { index: row_index } });
+            navigate(`/plant/${statusNumber}`, { state: { index: row_index, levelid: levelid } });
           }}
         >
           <img src={require(`../images/plant.png`)} alt="Status"></img>

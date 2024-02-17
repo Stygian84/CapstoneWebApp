@@ -6,27 +6,27 @@ import { useNavigate, useLocation, json } from "react-router-dom";
 import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
 import { fetchDataFromLinks } from "../javascript/utils";
 
-function RowTop() {
+function LevelTop() {
   const navigate = useNavigate();
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
         <img src={require("../images/arrow.png")} alt=""></img>
       </div>
-      <p className="top-title">ROW SELECTION</p>
+      <p className="top-title">LEVEL SELECTION</p>
     </div>
   );
 }
 
-function RowContent() {
+function LevelContent() {
   const [jsonData, setJsonData] = useState(null);
-  const [rowStatus, setRowStatus] = useState([]);
-
+  const [levelStatus, setLevelStatus] = useState([]);
+  console.log(levelStatus);
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Getting data
-        const suffix = "/api/row";
+        const suffix = "/api/level";
 
         // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
@@ -38,12 +38,11 @@ function RowContent() {
 
         const newStatus = [];
 
-        for (let i = 0; i < 12; i++) {
-          var overallStatusObject = data[i]["status"];
-          newStatus[i] = overallStatusObject;
+        for (let i = 0; i < 3; i++) {
+          newStatus.push({ status: data[i]["status"], levelid: data[i]["levelid"] });
         }
 
-        setRowStatus(newStatus);
+        setLevelStatus(newStatus);
 
         // old code to get json without aws
         // const response = await axios.get(process.env.REACT_APP_JSON_URL);
@@ -71,15 +70,15 @@ function RowContent() {
   return (
     <div id="content" className="content">
       <div id="row-selection-container">
-        {rowStatus.map((status, index) => (
-          <RowItem key={index + 1} idx={index + 1} status={status} />
+        {levelStatus.map((item, index) => (
+          <LevelItem key={index + 1} idx={index + 1} levelid={item.levelid} status={item.status} />
         ))}
       </div>
     </div>
   );
 }
 
-function RowItem(props) {
+function LevelItem(props) {
   const navigate = useNavigate();
   const location = useLocation();
   const prev = location.state ? location.state.prev : null;
@@ -102,11 +101,11 @@ function RowItem(props) {
       className="row-selection-item"
       onClick={() => {
         if (prev === "Status") {
-          navigate(`/status/${i}`, { state: { index: i } });
+          navigate(`/status/${i}`, { state: { index: i, levelid: props.levelid } });
         } else if (prev === "Camera") {
-          navigate(`/camera/${i}`, { state: { index: i, overallstatus:Status } });
+          navigate(`/camera/${i}`, { state: { index: i, overallstatus: Status } });
         } else {
-          navigate(`/status/${i}`, { state: { index: i } });
+          navigate(`/status/${i}`, { state: { index: i, levelid: props.levelid } });
         }
       }}
       key={i}
@@ -120,7 +119,7 @@ function RowItem(props) {
         <p style={{ fontSize: "2vh", color: "#7AA0B8" }}>{i}</p>
       </div>
       <div className="row-selection-status" style={{ width: "70%" }}>
-        <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold" }}>ROW {i}</p>
+        <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold" }}>LEVEL {props.levelid}</p>
         <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500" }}>
           Overall Status : <span style={{ color: fontColor }}>{Status}</span>
         </p>
@@ -143,4 +142,4 @@ function RowItem(props) {
   );
 }
 
-export { RowTop, RowContent };
+export { LevelTop, LevelContent };

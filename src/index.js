@@ -5,7 +5,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import { HomeMonitoringContent, HomeMonitoringTop } from "./pages/homemonitoring";
 import { CameraContent, CameraTop } from "./pages/camera";
-import { RowContent, RowTop } from "./pages/row";
+import { LevelContent, LevelTop } from "./pages/level";
 import { StatusContent, StatusTop } from "./pages/status";
 // import { SettingsContent, SettingsTop } from "./pages/settings";
 import { PlantContent, PlantTop } from "./pages/plant";
@@ -29,7 +29,7 @@ function Top() {
   return (
     <Routes>
       <Route path="/" exact element={<HomeMonitoringTop />} />
-      <Route path="/row" element={<RowTop />} />
+      <Route path="/row" element={<LevelTop />} />
       <Route path="/camera/*" element={<CameraTop />} />
       <Route path="/status/*" element={<StatusTop />} />
       <Route path="/plant/*" element={<PlantTop />} />
@@ -44,7 +44,7 @@ function Content() {
   return (
     <Routes>
       <Route path="/" exact element={<HomeMonitoringContent />} />
-      <Route path="/row" element={<RowContent />} />
+      <Route path="/row" element={<LevelContent />} />
       <Route path="/camera/*" element={<CameraContent />} />
       <Route path="/status/*" element={<StatusContent />} />
       <Route path="/plant/*" element={<PlantContent />} />
