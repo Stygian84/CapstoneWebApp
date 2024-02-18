@@ -177,8 +177,8 @@ function PlantStatusContent() {
             setLeftRedValue(value - bad_threshold);
             setRightRedValue(value + bad_threshold);
             setPropertyValue(value);
-            offsetMin = good_threshold*2;
-            offsetMax = good_threshold*2;
+            offsetMin = good_threshold * 2;
+            offsetMax = good_threshold * 2;
             break;
           }
         }
@@ -305,26 +305,60 @@ function PlantStatusContent() {
     return () => clearInterval(intervalId);
   }, [slicedDays, selectedChip]);
 
+  const [isDivVisible, setIsDivVisible] = useState(false);
+
+  const toggleVisibility = () => {
+    setIsDivVisible(!isDivVisible);
+  };
+  const parentDivStyle = {
+    height: !isDivVisible ? "auto" : "47.5vh", // Set height to auto when div is visible
+    width: "90vw", // Set width of the parent div
+    transition: "height 2s ease-in-out", // Add transition effect for height change
+    overflow: "hidden", // Hide overflow content when div is hidden
+  };
   return (
     <div id="content" className="content">
       <div id="plant-status-container">
         <div className="plant-status-item">
-          <div className="plant-status-first-row">
-            <div className="plant-item-name">
-              <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
-                {plant_name}
-              </p>
-              <Divider style={{ width: "90%" }}>
-                <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
-                  Status : <span style={{ color: fontColor }}>{plant_status}</span> {val} :{" "}
-                  <span style={{ color: fontColor }}>
-                    {plant_value} {unit}
-                  </span>
-                </p>
-              </Divider>
+          <div id="camera-container">
+            <div className="camera" id="camera1" style={{ display: "flex", justifyContent: "center" }}>
+              <img
+                src={require("../images/placeholder.png")}
+                alt="Status"
+                style={{ borderRadius: "20px", width: "90vw" }}
+              ></img>
             </div>
-            {/* Below is for putting left and right icon / picture */}
-            {/* <div
+          </div>
+        </div>
+      </div>
+
+      <div id="plant-status-container">
+        <div className="plant-status-item" style={parentDivStyle}>
+          <div className="toggle-button-container">
+            <div
+              className="button-container"
+              onClick={toggleVisibility}
+              style={{ fontSize: "2vh", fontWeight: "bold" }}
+            >
+              Statistics
+            </div>
+            <div className={isDivVisible ? "toggle-div visible" : "toggle-div"}>
+              <div className="plant-status-first-row">
+                <div className="plant-item-name">
+                  <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold", margin: "0", marginTop: "1vh" }}>
+                    {plant_name}
+                  </p>
+                  <Divider style={{ width: "90%" }}>
+                    <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500", margin: "0" }}>
+                      Status : <span style={{ color: fontColor }}>{plant_status}</span> {val} :{" "}
+                      <span style={{ color: fontColor }}>
+                        {plant_value} {unit}
+                      </span>
+                    </p>
+                  </Divider>
+                </div>
+                {/* Below is for putting left and right icon / picture */}
+                {/* <div
               className="plant-status-graph-left-icon"
               style={{
                 left: "8%",
@@ -351,9 +385,11 @@ function PlantStatusContent() {
                 <img src={require("../images/plant.png")} style={{ width: "12vw", margin: " 5% 0 0 0" }} alt=""></img>
               </div>
             </div> */}
-          </div>
-          <div className="plant-status-second-row" style={{ height: "35vh", paddingBottom: 20 }}>
-            {chart}
+              </div>
+              <div className="plant-status-second-row" style={{ height: "35vh", paddingBottom: 20 }}>
+                {chart}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -464,6 +500,35 @@ function PlantStatusContent() {
               }}
             >
               {descriptions[properties.replace(/%2520|%20/g, "")]}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="camera-item-container">
+        <div className="camera-item" style={{ height: "5vh", backgroundColor: "#7AA0B8" }}>
+          <div id="water-the-plant">
+            <p
+              style={{
+                fontSize: "2.25vh",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              WATER THE PLANT
+            </p>
+          </div>
+        </div>
+        <div className="camera-item" style={{ height: "5vh", backgroundColor: "#7AA0B8" }}>
+          <div id="water-the-plant">
+            <p
+              style={{
+                fontSize: "2.25vh",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              FERTILISE THE PLANT
             </p>
           </div>
         </div>

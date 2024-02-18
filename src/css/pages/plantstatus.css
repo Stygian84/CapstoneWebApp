@@ -25,7 +25,6 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  padding-top: 2%;
 }
 
 .plant-status-second-row {
@@ -46,7 +45,7 @@
 }
 
 .plant-description-title {
-  margin: 2% 2%;
+  margin: 0 2% 2% 2%;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -59,4 +58,55 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+
+.toggle-div {
+  display: none; 
+  transition: opacity 2.5s ease-in-out; 
+}
+
+
+.toggle-div.visible {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  align-items: center;
+  width: 90vw;
+  top: 100%; 
+  left: 0;
+  opacity: 1; 
+}
+.toggle-properites-div {
+  display: none; 
+  transition: opacity 2.5s ease-in-out; 
+}
+
+
+.toggle-properties-div.visible {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  align-items: center;
+  width: 90vw;
+  top: 100%; 
+  left: 0;
+  opacity: 1; 
+}
+.toggle-button-container {
+  transform: translateZ(0); 
+  width: 100%;
+  position: relative;
+}
+.toggle-div {
+  will-change: height;
+}
+.button-container {
+  display: flex;
+  background: #7aa0b8;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color:white;
+  height: 3.5vh;
 }
