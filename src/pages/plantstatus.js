@@ -28,7 +28,7 @@ function PlantStatusTop() {
   const location = useLocation();
   const { row_idx, plant_id } = location.state || {};
   const properties = location.pathname.split("/")[3];
-  addVisitedPage(row_idx + plant_id)
+  addVisitedPage(row_idx + plant_id);
 
   return (
     <div id="top" className="top">
@@ -312,10 +312,10 @@ function PlantStatusContent() {
     setIsDivVisible(!isDivVisible);
   };
   const parentDivStyle = {
-    height: !isDivVisible ? "auto" : "47.5vh", // Set height to auto when div is visible
-    width: "90vw", // Set width of the parent div
-    transition: "height 2s ease-in-out", // Add transition effect for height change
-    overflow: "hidden", // Hide overflow content when div is hidden
+    height: !isDivVisible ? "3.6vh" : "47.5vh",
+    width: "90vw",
+    transition: "height 0.5s ease-in-out",
+    overflow: "hidden",
   };
   return (
     <div id="content" className="content">
@@ -341,7 +341,7 @@ function PlantStatusContent() {
               onClick={toggleVisibility}
               style={{ fontSize: "2vh", fontWeight: "bold" }}
             >
-              Statistics
+              STATISTICS
             </div>
             <div className={isDivVisible ? "toggle-div visible" : "toggle-div"}>
               <div className="plant-status-first-row">
@@ -505,32 +505,33 @@ function PlantStatusContent() {
           </div>
         </div>
       </div>
-
-      <div id="camera-item-container">
-        <div className="camera-item" style={{ height: "5vh", backgroundColor: "#7AA0B8" }}>
-          <div id="water-the-plant">
-            <p
-              style={{
-                fontSize: "2.25vh",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              WATER THE PLANT
-            </p>
+      <div id="plant-container">
+        <div id="camera-item-container">
+          <div className="camera-item" style={{ height: "4.5vh", backgroundColor: "#7AA0B8" }}>
+            <div id="water-the-plant">
+              <p
+                style={{
+                  fontSize: "2vh",
+                  color: "white",
+                  fontWeight: "bold",
+                }}
+              >
+                WATER THE PLANT
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="camera-item" style={{ height: "5vh", backgroundColor: "#7AA0B8" }}>
-          <div id="water-the-plant">
-            <p
-              style={{
-                fontSize: "2.25vh",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              FERTILISE THE PLANT
-            </p>
+          <div className="camera-item" style={{ height: "4.5vh", backgroundColor: "#7AA0B8" }}>
+            <div id="water-the-plant">
+              <p
+                style={{
+                  fontSize: "2vh",
+                  color: "white",
+                  fontWeight: "bold",
+                }}
+              >
+                FERTILISE THE PLANT
+              </p>
+            </div>
           </div>
         </div>
       </div>
