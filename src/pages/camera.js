@@ -52,7 +52,7 @@ function CameraContent() {
         };
 
         initialCameraRow = [];
-        const excludedKeys = ["rowid", "timestamp", "status"];
+        const excludedKeys = ["levelid", "timestamp", "status"];
         for (const key in data[index - 1]) {
           if (data[index - 1].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
             Status.push(key);
@@ -185,7 +185,7 @@ function CameraItem(props) {
   var Status = props.status;
   var fontColor = statusDarkGreen;
   const type = props.type.toLowerCase().replace(/\s/g, "");
-  console.log(require(`../images/blue${type}.png`))
+  console.log(require(`../images/blue${type}.png`));
 
   if (Status == "Bad") {
     fontColor = statusDarkRed;
