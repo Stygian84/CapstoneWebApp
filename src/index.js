@@ -11,6 +11,7 @@ import { StatusContent, StatusTop } from "./pages/status";
 import { PlantContent, PlantTop } from "./pages/plant";
 import { PlantStatusContent, PlantStatusTop } from "./pages/plantstatus";
 import { Divider } from "@mui/material";
+import { ParameterDetailsContent, ParameterDetailsTop } from "./pages/parameterdetails";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -36,6 +37,7 @@ function Top() {
       <Route path="/details/*" element={<PlantStatusTop />} />
       {/* <Route path="/settings" element={<SettingsTop />} /> */}
       <Route path="/settings" element={<HomeMonitoringTop />} />
+      <Route path="/parameterdetails/*" element={<ParameterDetailsTop />} />
     </Routes>
   );
 }
@@ -51,6 +53,7 @@ function Content() {
       <Route path="/details/*" element={<PlantStatusContent />} />
       {/* <Route path="/settings" element={<SettingsContent />} /> */}
       <Route path="/settings" element={<HomeMonitoringContent />} />
+      <Route path="/parameterdetails/*" element={<ParameterDetailsContent />} />
     </Routes>
   );
 }

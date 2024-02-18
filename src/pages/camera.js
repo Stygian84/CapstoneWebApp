@@ -4,7 +4,7 @@ import "../index.css";
 import "../css/pages/camera.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage } from "../javascript/utils";
-import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
+import { backgroundDarkGreen, backgroundDarkYellow, backgroundDarkRed } from "../javascript/colors";
 
 function CameraTop() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function CameraTop() {
       <div className="img-container" onClick={() => navigate(-1)}>
         <img src={require("../images/arrow.png")} alt=""></img>
       </div>
-      <p className="top-title">ROW {index} CAMERA</p>
+      <p className="top-title">ROW SELECTION</p>
     </div>
   );
 }
@@ -27,110 +27,37 @@ function CameraContent() {
   const { index = cameraNumber, overallstatus } = location.state || {};
   const [cameraRow, setCameraRow] = useState([]);
   const [jsonData, setJsonData] = useState(null);
+  const [parameterData, setParameterData] = useState();
 
   useEffect(() => {
     let initialCameraRow = [];
     const Status = [];
     const fetchData = async () => {
       try {
-        const suffix = "/api/status";
+        const suffix = "/api/parameter";
         const tablesuffix = "/api/table";
         // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
         const data = response.data;
-        const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
-        const table_data = table_response.data;
-        setJsonData(data);
+        // Initialize an empty object to store the transformed data
+        const transformedData = {};
 
-        // Mapping to convert string from DB to its respective display name
-        const keyToDisplayName = {
-          avgairquality: "AIR QUALITY",
-          avghumidity: "HUMIDITY",
-          avgsoilmoisture: "SOIL MOISTURE",
-          avgsoilph: "SOIL pH",
-          avgtemperature: "AIR TEMPERATURE",
-        };
+        // Iterate over the original data
+        data.forEach((item) => {
+          // Extract rowid, levelid, and status from the item
+          const { rowid, levelid, status } = item;
 
-        initialCameraRow = [];
-        const excludedKeys = ["levelid", "timestamp", "status"];
-        for (const key in data[index - 1]) {
-          if (data[index - 1].hasOwnProperty(key) && !excludedKeys.includes(key.toLowerCase())) {
-            Status.push(key);
-          }
-        }
-        initialCameraRow.push(<CameraItem type="Overall Status" status={overallstatus} />);
-        for (let i = 0; i < Status.length; i++) {
-          let data_value = data[index - 1][Status[i]];
-          let properties_min;
-          let properties_max;
-          let properties_status = "";
-          for (const item of table_data) {
-            if (item.property_name === Status[i].slice(3)) {
-              // minmax of the circular slider
-              properties_min = item.value - item.bad_threshold;
-              properties_max = item.value + item.bad_threshold;
+          // Create a key for the object by combining rowid and levelid
+          const key = `${levelid}-${rowid}`;
 
-              // special range for psi airquality
-              if (item.property_name === "airquality") {
-                if (data_value <= item.good_threshold) {
-                  properties_status = "Good";
-                } else if (data_value <= item.moderate_threshold) {
-                  properties_status = "Moderate";
-                } else if (data_value <= item.bad_threshold) {
-                  properties_status = "Bad";
-                }
-                properties_min = item.value;
-                break;
-              }
-
-              // if data is in between thereshold value, it becomes that status
-              if (data_value >= item.value - item.good_threshold && data_value <= item.value + item.good_threshold) {
-                properties_status = "Good";
-              } else if (
-                data_value >= item.value - item.moderate_threshold &&
-                data_value <= item.value + item.moderate_threshold
-              ) {
-                properties_status = "Moderate";
-              } else if (
-                data_value >= item.value - item.bad_threshold &&
-                data_value <= item.value + item.bad_threshold
-              ) {
-                properties_status = "Bad";
-              }
-              break;
-            }
-          }
-          initialCameraRow.push(<CameraItem key={i} type={keyToDisplayName[Status[i]]} status={properties_status} />);
-        }
-        setCameraRow(initialCameraRow);
-        // const response = await axios.get(process.env.REACT_APP_JSON_URL);
-        // setJsonData(response.data);
-
-        // const CameraRow = [];
-        // let Status = ["Overall Status", "Soil pH", "Soil Moisture", "Humidity"];
-
-        // for (let i = 0; i < Status.length; i++) {
-        //   let name = Status[i];
-        //   if (name == "Overall Status") {
-        //     var overallStatusObject = response.data.Rows[i]["Overall Status"];
-        //     CameraRow.push(<CameraItem type={name} status={overallStatusObject.Status} key={i} />);
-        //   } else {
-        //     if (name == "Soil pH") {
-        //       var status = response.data.Rows[i]["SOIL pH"];
-        //       CameraRow.push(<CameraItem type={name} status={status.Status} key={i} />);
-        //     } else {
-        //       var status = response.data.Rows[i][name.toUpperCase()];
-        //       CameraRow.push(<CameraItem type={name} status={status.Status} key={i} />);
-        //     }
-        //   }
-        // }
-
-        // setCameraRow(CameraRow);
+          // Add the status to the object with the key
+          transformedData[key] = status;
+        });
+        setParameterData(transformedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
 
     const intervalId = setInterval(fetchData, 120000); // 120000 milliseconds
@@ -140,12 +67,90 @@ function CameraContent() {
       setCameraRow([]);
     };
   }, []);
+
+  const parentContainerStyle = {
+    position: "relative",
+    width: "100vw",
+    height: "100vh",
+  };
+
+  const centeredImageStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "95vw",
+    height: "50vh",
+  };
+
+  // Create grid container style
+  const gridContainerStyle = {
+    position: "absolute",
+    top: "23%",
+    left: 0,
+    display: "grid",
+    gridTemplateColumns: `repeat(4, 1fr)`,
+    gridTemplateRows: `repeat(4, 1fr)`,
+    gap: "0px",
+    margin: "0 2.5vw",
+
+    width: "94.5vw",
+  };
+
   return (
     <div id="content" className="content">
+      <div style={parentContainerStyle}>
+        <img src={require("../images/LevelView.png")} alt="Status" style={centeredImageStyle}></img>
+        <div className="grid-container" style={gridContainerStyle}>
+          {parameterData && <Cells level={2} data={parameterData} />}
+        </div>
+        <div className="grid-container-2" style={{ ...gridContainerStyle, top: "50.5%" }}>
+          {parameterData && <Cells level={3} data={parameterData} />}
+        </div>
+        <div
+          style={{
+            fontSize: "4vh",
+            color: "white",
+            textShadow: `
+            -2px -2px 5px #7aa0b8,
+            2px -2px 10px black,
+            -2px 2px 10px black,
+            1px 1px 10px black
+          `,
+            fontWeight: "bold",
+            transform: "translate(-50%, -50%)",
+            left: "50%",
+            top: "42.5%",
+            position: "absolute",
+          }}
+        >
+          LEVEL 3
+        </div>
+        <div
+          style={{
+            fontSize: "4vh",
+            color: "white",
+            textShadow: `
+            -2px -2px 5px #7aa0b8,
+            2px -2px 10px black,
+            -2px 2px 10px black,
+            1px 1px 10px black
+          `,
+            fontWeight: "bold",
+            transform: "translate(-50%, -50%)",
+            left: "50%",
+            top: "70.5%",
+            position: "absolute",
+          }}
+        >
+          LEVEL 2
+        </div>
+      </div>
+
       {/* Box Feature Section */}
-      <div id="camera-container">
+      {/* <div id="camera-container">
         <div className="camera" id="camera1" style={{ display: "flex", justifyContent: "center" }}>
-          <img src={require("../images/placeholder.png")} alt="Status" style={{ width: "90vw" }}></img>
+          <img src={require("../images/LevelView.png")} alt="Status" style={{ width: "90vw", height: "50vh" }}></img>
         </div>
       </div>
       <div
@@ -157,10 +162,10 @@ function CameraContent() {
         }}
       >
         <p style={{ fontWeight: "bold", color: "#737373" }}>CAMERA ROW {index}</p>
-      </div>
+      </div> */}
 
       {/* Camera item Section */}
-      <div id="camera-item-container">
+      {/* <div id="camera-item-container">
         {cameraRow}
 
         <div className="camera-item" style={{ height: "7vh", backgroundColor: "#7AA0B8" }}>
@@ -176,36 +181,78 @@ function CameraContent() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
 
-function CameraItem(props) {
-  var Status = props.status;
-  var fontColor = statusDarkGreen;
-  const type = props.type.toLowerCase().replace(/\s/g, "");
-  console.log(require(`../images/blue${type}.png`));
-
-  if (Status == "Bad") {
-    fontColor = statusDarkRed;
-  } else if (Status == "Moderate") {
-    fontColor = statusDarkYellow;
-  } else {
-    fontColor = statusDarkGreen;
+function Cells(props) {
+  const navigate=useNavigate();
+  const cells = [];
+  const level = props.level;
+  const data = props.data;
+  console.log(data);
+  for (let i = 0; i < 16; i++) {
+    const rowChar = String.fromCharCode(97 + (i % 4)).toUpperCase();
+    const colNum = Math.floor(i / 4) + 1;
+    const key = `${rowChar}${colNum}`;
+    var status = data[`${level}-${key}`];
+    var bgcolor = backgroundDarkRed;
+    if (status == "Good") {
+      bgcolor = backgroundDarkGreen;
+    } else if (status == "Moderate") {
+      bgcolor = backgroundDarkYellow;
+    } else if (status == "Bad") {
+      bgcolor = backgroundDarkRed;
+    }
+    cells.push(
+      <div
+        key={key}
+        className="cell"
+        style={{
+          backgroundColor: bgcolor,
+          border: "1px solid black",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontWeight: "bold",
+          fontSize: "16px",
+          width: `100%`,
+          height: `100%`,
+        }}
+        onClick={() => navigate("/parameterdetails", {  state: { index: key ,levelid:level} })}
+      >
+        {`${rowChar}${colNum}`}
+      </div>
+    );
   }
-
-  return (
-    <div className="camera-item">
-      <div>
-        <img src={require(`../images/blue${type}.png`)} alt="Status"></img>
-      </div>
-      <div className="camera-row-status">
-        <p>
-          {props.type} : <span style={{ color: fontColor }}>{props.status}</span>
-        </p>
-      </div>
-    </div>
-  );
+  return cells;
 }
+// function CameraItem(props) {
+//   var Status = props.status;
+//   var fontColor = statusDarkGreen;
+//   const type = props.type.toLowerCase().replace(/\s/g, "");
+//   console.log(require(`../images/blue${type}.png`));
+
+//   if (Status == "Bad") {
+//     fontColor = statusDarkRed;
+//   } else if (Status == "Moderate") {
+//     fontColor = statusDarkYellow;
+//   } else {
+//     fontColor = statusDarkGreen;
+//   }
+
+//   return (
+//     <div className="camera-item">
+//       <div>
+//         <img src={require(`../images/blue${type}.png`)} alt="Status"></img>
+//       </div>
+//       <div className="camera-row-status">
+//         <p>
+//           {props.type} : <span style={{ color: fontColor }}>{props.status}</span>
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
 export { CameraContent, CameraTop };

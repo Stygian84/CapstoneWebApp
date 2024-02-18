@@ -110,11 +110,7 @@ function HomeMonitoringContent() {
               style={{ width: "30vw", height: "10vh", marginTop: "2vh" }}
             />
           )}
-          <img
-            src={require("../images/greenstatus.png")}
-            alt="Status"
-            onLoad={() => setImageLoaded(true)}
-          />
+          <img src={require("../images/greenstatus.png")} alt="Status" onLoad={() => setImageLoaded(true)} />
           <img
             src={require("../images/whitestatus.png")}
             className="new-image"
@@ -127,9 +123,8 @@ function HomeMonitoringContent() {
 
         <div
           className="feature-item"
-          style={{ marginRight: "15%" }}
           id="feature2"
-          onClick={() => navigate("/row", { state: { prev: "Camera" } })}
+          onClick={() => navigate("/camera/1", { state: { prev: "Camera" } })}
         >
           {!imageLoaded && (
             <Skeleton
@@ -138,15 +133,15 @@ function HomeMonitoringContent() {
               style={{ width: "30vw", height: "10vh", marginTop: "2vh" }}
             />
           )}
-          <img src={require("../images/camera.png")} alt="Camera" onLoad={() => setImageLoaded(true)}></img>
+          <img src={require("../images/equalizer.png")} alt="Camera" onLoad={() => setImageLoaded(true)}></img>
           <img
-            src={require("../images/whitecamera.png")}
+            src={require("../images/whiteequalizer.png")}
             className="new-image"
             alt="Status"
             onLoad={() => setImageLoaded(true)}
           ></img>
 
-          <p style={{ color: "#8793AE" }}> Camera</p>
+          <p style={{ color: "#8793AE" }}> Parameters</p>
         </div>
 
         {/* <div className="feature-item" id="feature3" onClick={() => navigate("/settings")}>
