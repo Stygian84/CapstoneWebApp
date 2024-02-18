@@ -13,6 +13,7 @@ import {
 } from "../javascript/colors";
 import CircularSliderwithBg from "../components/CircularSliderwithBg";
 import Divider from "@mui/material/Divider";
+import { addVisitedPage } from "../javascript/utils";
 
 function ParameterDetailsTop() {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ function ParameterDetailsContent() {
   const { index, levelid } = location.state || {};
   const [plantRow, setPlantRow] = useState([]);
   console.log(index);
+  addVisitedPage(levelid + index);
 
   useEffect(() => {
     const fetchData = async () => {

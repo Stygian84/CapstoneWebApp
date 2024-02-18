@@ -3,7 +3,7 @@ import axios from "axios";
 import "../index.css";
 import "../css/pages/status.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { addVisitedPage, fetchDataFromLinks } from "../javascript/utils";
+import {  fetchDataFromLinks } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
 import {
   statusDarkGreen,
@@ -32,7 +32,6 @@ function StatusTop() {
 }
 
 function StatusContent() {
-  addVisitedPage(window.location.href);
   const location = useLocation();
   const statusNumber = location.pathname.split("/")[2];
   const { row_index = statusNumber } = location.state || {};

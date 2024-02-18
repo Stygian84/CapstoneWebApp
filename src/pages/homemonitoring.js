@@ -70,16 +70,16 @@ function HomeMonitoringContent() {
 
   // For Recent Items logic
   const storedPages = JSON.parse(localStorage.getItem("visitedPages")) || [];
-  const lastTwoSegmentsArray = storedPages.map((storedPages) => {
-    const segments = storedPages.split("/").filter(Boolean);
-    return segments.slice(-2);
-  });
+  // const lastTwoSegmentsArray = storedPages.map((storedPages) => {
+  //   const segments = storedPages.split("/").filter(Boolean);
+  //   return segments.slice(-2);
+  // });
 
   let Recent = [];
-  for (let i = 0; i < lastTwoSegmentsArray.length; i++) {
-    let name = lastTwoSegmentsArray[i][0];
-    let index = lastTwoSegmentsArray[i][1];
-    Recent.push(<RecentItem type={name} idx={index} key={i} />);
+  for (let i = 0; i < storedPages.length; i++) {
+    let levelID = storedPages[i].charAt(0);
+    let rowID = storedPages[i].slice(1);
+    Recent.push(<RecentItem type={"status"} levelidx={levelID} idx={rowID} key={i} />);
   }
 
   return (
@@ -169,19 +169,17 @@ function RecentItem(props) {
   return (
     <div
       className="recent-item"
-      onClick={() => {
-        navigate(`/${props.type}/${props.idx}`, {
-          state: { index: props.idx },
-        });
-      }}
+      onClick={() => navigate("/parameterdetails", { state: { index: props.idx, levelid: props.levelidx } })}
     >
       <img src={require(`../images/grey${props.type}.png`)} alt={props.type}></img>
       <img src={require(`../images/white${props.type}.png`)} className="new-image" alt="Status"></img>
       <div className="row-status">
-        <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>Row {props.idx}</p>
-        <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500" }}>
-          {props.type.charAt(0).toUpperCase() + props.type.slice(1)}
+        <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
+          Level {props.levelidx} Row {props.idx}
         </p>
+        {/* <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500" }}>
+          {props.type.charAt(0).toUpperCase() + props.type.slice(1)}
+        </p> */}
       </div>
       <p
         style={{

@@ -3,7 +3,6 @@ import axios from "axios";
 import "../index.css";
 import "../css/pages/camera.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { addVisitedPage } from "../javascript/utils";
 import { backgroundDarkGreen, backgroundDarkYellow, backgroundDarkRed } from "../javascript/colors";
 
 function CameraTop() {
@@ -21,7 +20,6 @@ function CameraTop() {
 }
 
 function CameraContent() {
-  addVisitedPage(window.location.href);
   const location = useLocation();
   const cameraNumber = location.pathname.split("/")[2];
   const { index = cameraNumber, overallstatus } = location.state || {};

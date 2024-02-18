@@ -13,7 +13,6 @@ import {
 } from "../javascript/colors";
 import CircularSliderwithBg from "../components/CircularSliderwithBg";
 import Divider from "@mui/material/Divider";
-import { addVisitedPage } from "../javascript/utils";
 
 function PlantTop() {
   const navigate = useNavigate();
@@ -30,7 +29,6 @@ function PlantTop() {
 }
 
 function PlantContent() {
-  addVisitedPage(window.location.href);
   const location = useLocation();
   const { index,levelid } = location.state || {};
   const [plantRow, setPlantRow] = useState([]);

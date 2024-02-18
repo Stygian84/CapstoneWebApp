@@ -3,7 +3,7 @@ import axios from "axios";
 import "../index.css";
 import "../css/pages/plantstatus.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { fetchDataFromLinks } from "../javascript/utils";
+import { addVisitedPage, fetchDataFromLinks } from "../javascript/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush, ResponsiveContainer } from "recharts";
 
 import {
@@ -28,6 +28,7 @@ function PlantStatusTop() {
   const location = useLocation();
   const { row_idx, plant_id } = location.state || {};
   const properties = location.pathname.split("/")[3];
+  addVisitedPage(row_idx + plant_id)
 
   return (
     <div id="top" className="top">
