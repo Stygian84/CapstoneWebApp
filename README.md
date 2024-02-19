@@ -1,3 +1,6 @@
+# Link
+1. The web app can be accessed [here](https://agroreach.netlify.app)
+
 # IMPORTANT
 
 1. Create `.env` file with `REACT_APP_RENDER_URL` parameter ( which is the link to Node JS )
