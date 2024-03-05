@@ -4,6 +4,28 @@ import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
 
 function HomeMonitoringTop() {
+  if (!("Notification" in window)) {
+    console.error("This browser does not support desktop notification");
+  }
+  Notification.requestPermission().then(function (permission) {
+    if (permission !== "granted") {
+      console.error("Permission not granted for Notification");
+    }
+  });
+  function showNotification() {
+    if (Notification.permission === "granted") {
+      console.log("he");
+      new Notification("Hello, world!");
+    } else if (Notification.permission !== "denied") {
+      console.log("Denied");
+      Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          new Notification("Hello, world!");
+        }
+      });
+    }
+  }
+
   return (
     <div
       id="top"
@@ -12,6 +34,9 @@ function HomeMonitoringTop() {
         justifyContent: "space-evenly",
       }}
     >
+      <div>
+        <button onClick={showNotification}>Show Notification</button>
+      </div>
       <p className="top-title">HOME MONITORING</p>
     </div>
   );
