@@ -57,22 +57,22 @@ function HomeMonitoringTop() {
       });
     }
   }
-  useEffect(() => {
-    const messaging = getMessaging();
-    getToken(messaging)
-      .then((token) => {
-        if (token) {
-          console.log("FCM Token:", token);
-          // Send the token to your server for storage
-        } else {
-          console.log("No registration token available. Request permission to generate one.");
-          // Request permission from the user to generate the token
-        }
-      })
-      .catch((error) => {
-        console.error("Error retrieving FCM token:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const messaging = getMessaging();
+  //   getToken(messaging)
+  //     .then((token) => {
+  //       if (token) {
+  //         console.log("FCM Token:", token);
+  //         // Send the token to your server for storage
+  //       } else {
+  //         console.log("No registration token available. Request permission to generate one.");
+  //         // Request permission from the user to generate the token
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error retrieving FCM token:", error);
+  //     });
+  // }, []);
 
   return (
     <div
