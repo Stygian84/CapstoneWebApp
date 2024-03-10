@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
@@ -12,16 +12,8 @@ import { PlantContent, PlantTop } from "./pages/plant";
 import { PlantStatusContent, PlantStatusTop } from "./pages/plantstatus";
 import { Divider } from "@mui/material";
 import { ParameterDetailsContent, ParameterDetailsTop } from "./pages/parameterdetails";
+import { gettoken } from "./firebase";
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/firebase-messaging-sw.js').then(registration => {
-      console.log('Service Worker registered:', registration);
-    }).catch(error => {
-      console.error('Service Worker registration failed:', error);
-    });
-  });
-}
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -36,6 +28,16 @@ root.render(
 );
 
 function Top() {
+  const [isTokenFound, setTokenFound] = useState(false);
+  gettoken(setTokenFound);
+
+  // inside the jsx being returned:
+  // {isTokenFound &&
+  // Notification permission enabled 👍🏻
+  // }
+  // {!isTokenFound &&
+  // Need notification permission ❗️
+  // }
   return (
     <Routes>
       <Route path="/" exact element={<HomeMonitoringTop />} />

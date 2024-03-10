@@ -2,103 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
-import { getMessaging, getToken } from "firebase/messaging";
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyB4JN0YnRF_lK-VzZGuApX6v6cgPtZgnpg",
-  authDomain: "capstonenotification-bdce8.firebaseapp.com",
-  projectId: "capstonenotification-bdce8",
-  storageBucket: "capstonenotification-bdce8.appspot.com",
-  messagingSenderId: "11484582279",
-  appId: "1:11484582279:web:ebc3b220780505d7c48322",
-  measurementId: "G-76LBTFJV0M",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const messaging = getMessaging(app);
-console.log(messaging);
-getToken(messaging, {
-  vapidKey: "BM9wWE0nKdE-Olhy8ZFwrEnUjP4jr0puqACCp-5z_f4kcPDN5Y0yLtQyO2upF5alxlsjOyWa6AX5sdqP3GZ-DlU",
-})
-  .then((currentToken) => {
-    if (currentToken) {
-      console.log(currentToken);
-      // Send the token to your server and update the UI if necessary
-      // ...
-    } else {
-      // Show permission request UI
-      console.log("No registration token available. Request permission to generate one.");
-      // ...
-    }
-  })
-  .catch((err) => {
-    console.log("An error occurred while retrieving token. ", err);
-    // ...
-  });
-function requestNotificationPermission() {
-  if (!("Notification" in window)) {
-    console.error("This browser does not support notifications");
-    return;
-  }
-
-  if (Notification.permission === "granted") {
-    console.log("Notification permission already granted");
-    return;
-  }
-
-  if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(function (permission) {
-      if (permission === "granted") {
-        console.log("Notification permission granted");
-      } else {
-        console.error("Notification permission denied");
-      }
-    });
-  }
-}
 
 function HomeMonitoringTop() {
-  requestNotificationPermission();
-  function showNotification() {
-    if (Notification.permission === "granted") {
-      console.log("he");
-      new Notification("Hello, world!");
-    } else if (Notification.permission !== "denied") {
-      console.log("Denied");
-      Notification.requestPermission().then(function (permission) {
-        if (permission === "granted") {
-          new Notification("Hello, world!");
-        }
-      });
-    }
-  }
-  // useEffect(() => {
-  //   const messaging = getMessaging();
-  //   getToken(messaging)
-  //     .then((token) => {
-  //       if (token) {
-  //         console.log("FCM Token:", token);
-  //         // Send the token to your server for storage
-  //       } else {
-  //         console.log("No registration token available. Request permission to generate one.");
-  //         // Request permission from the user to generate the token
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error retrieving FCM token:", error);
-  //     });
-  // }, []);
-
   return (
     <div
       id="top"
@@ -108,7 +13,7 @@ function HomeMonitoringTop() {
       }}
     >
       <div>
-        <button onClick={showNotification}>Show Notification</button>
+        <button>Show Notification</button>
       </div>
       <p className="top-title">HOME MONITORING</p>
     </div>
