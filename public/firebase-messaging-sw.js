@@ -1,9 +1,6 @@
-import { getMessaging, getToken } from "firebase/messaging";
 // Import the required Firebase libraries
-importScripts("https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js");
-importScripts("/__/firebase/init.js");
 
 // Initialize Firebase with your project configuration
 const firebaseConfig = {
