@@ -30,7 +30,6 @@ root.render(
 function Top() {
   const [isTokenFound, setTokenFound] = useState(false);
   gettoken(setTokenFound);
-
   // inside the jsx being returned:
   // {isTokenFound &&
   // Notification permission enabled 👍🏻
@@ -38,6 +37,7 @@ function Top() {
   // {!isTokenFound &&
   // Need notification permission ❗️
   // }
+  
   return (
     <Routes>
       <Route path="/" exact element={<HomeMonitoringTop />} />

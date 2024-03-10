@@ -4,6 +4,48 @@ import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
 
 function HomeMonitoringTop() {
+  const [isReadyToHarvest, setIsReadyToHarvest] = useState(false);
+  useEffect(() => {
+    if (isReadyToHarvest) {
+      const timer = setTimeout(() => {
+        setIsReadyToHarvest(false);
+        // Trigger push notification here
+        sendPushNotification();
+      }, 7 * 24 * 60 * 60 * 1000); // 7 days in milliseconds
+
+      // Clean up timer on component unmount
+      return () => clearTimeout(timer);
+    }
+  }, [isReadyToHarvest]);
+  const handleButtonClick = () => {
+    setIsReadyToHarvest(true);
+  };
+  const sendPushNotification = () => {
+    // Simulated push notification for demonstration purposes
+    console.log("Sending push notification...");
+    // In a real app, you would call an API to send a push notification
+    // For example, you could use Firebase Cloud Messaging (FCM) API
+    // fetch("https://your-api.com/send-notification", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     title: "Ready to Harvest",
+    //     body: "Your crop is ready to harvest!",
+    //     // Add more data if needed
+    //   }),
+    // })
+    // .then(response => {
+    //   if (!response.ok) {
+    //     throw new Error("Failed to send push notification");
+    //   }
+    //   console.log("Push notification sent successfully");
+    // })
+    // .catch(error => {
+    //   console.error("Error sending push notification:", error);
+    // });
+  };
   return (
     <div
       id="top"
@@ -13,13 +55,20 @@ function HomeMonitoringTop() {
       }}
     >
       <div>
-        <button>Show Notification</button>
+        {isReadyToHarvest ? (
+          <button onClick={handleButtonClick}>Ready to Harvest</button>
+        ) : (
+          <button>Wait to Harvest</button>
+        )}
+        {isReadyToHarvest && <Timer />}
       </div>
       <p className="top-title">HOME MONITORING</p>
     </div>
   );
 }
-
+const Timer = () => {
+  // Timer logic to display remaining time until harvest
+};
 function HomeMonitoringContent() {
   const navigate = useNavigate();
   const [cleared, setCleared] = useState(false);
