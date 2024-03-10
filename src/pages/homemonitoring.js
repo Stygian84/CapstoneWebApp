@@ -22,14 +22,29 @@ const firebaseConfig = {
   measurementId: "G-76LBTFJV0M",
 };
 
-
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const messaging = getMessaging(app);
 console.log(messaging);
-// getToken(messaging, {vapidKey: "BM9wWE0nKdE-Olhy8ZFwrEnUjP4jr0puqACCp-5z_f4kcPDN5Y0yLtQyO2upF5alxlsjOyWa6AX5sdqP3GZ-DlU"});
+getToken(messaging, {
+  vapidKey: "BM9wWE0nKdE-Olhy8ZFwrEnUjP4jr0puqACCp-5z_f4kcPDN5Y0yLtQyO2upF5alxlsjOyWa6AX5sdqP3GZ-DlU",
+})
+  .then((currentToken) => {
+    if (currentToken) {
+      console.log(currentToken);
+      // Send the token to your server and update the UI if necessary
+      // ...
+    } else {
+      // Show permission request UI
+      console.log("No registration token available. Request permission to generate one.");
+      // ...
+    }
+  })
+  .catch((err) => {
+    console.log("An error occurred while retrieving token. ", err);
+    // ...
+  });
 function requestNotificationPermission() {
   if (!("Notification" in window)) {
     console.error("This browser does not support notifications");
