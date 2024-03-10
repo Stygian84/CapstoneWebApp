@@ -4,7 +4,17 @@ import "../index.css";
 import "../css/pages/camera.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { backgroundDarkGreen, backgroundDarkYellow, backgroundDarkRed } from "../javascript/colors";
-
+import html2canvas from "html2canvas";
+// function captureScreenshot() {
+//   const element = document.body; // or any other element you want to capture
+//   html2canvas(element).then((canvas) => {
+//     const imgData = canvas.toDataURL("image/png");
+//     const link = document.createElement("a");
+//     link.download = "screenshot.png";
+//     link.href = imgData;
+//     link.click();
+//   });
+// }
 function CameraTop() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,54 +81,52 @@ function CameraContent() {
     width: "100vw",
     height: "100vh",
   };
-
   const centeredImageStyle = {
     position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "95vw",
-    height: "50vh",
+    top: "20%",
+    width: "94.5vw",
+    height: "15vh",
+    margin: "0 2.5vw",
+  };
+  const centeredImageStyle2 = {
+    position: "absolute",
+    top: "50.5%",
+    width: "94.5vw",
+    height: "15vh",
+    margin: "0 2.5vw",
   };
 
-  // Create grid container style
   const gridContainerStyle = {
     position: "absolute",
-    top: "23%",
+    top: "20%",
     left: 0,
     display: "grid",
     gridTemplateColumns: `repeat(4, 1fr)`,
     gridTemplateRows: `repeat(4, 1fr)`,
     gap: "0px",
     margin: "0 2.5vw",
-
-    width: "94.5vw",
+    width: "94.5vw"
   };
 
   return (
     <div id="content" className="content">
       <div style={parentContainerStyle}>
-        <img src={require("../images/LevelView.png")} alt="Status" style={centeredImageStyle}></img>
+        <img src={require("../images/wall.png")} alt="Status" style={centeredImageStyle}></img>
+        <img src={require("../images/wall.png")} alt="Status" style={centeredImageStyle2}></img>
         <div className="grid-container" style={gridContainerStyle}>
-          {parameterData && <Cells level={2} data={parameterData} />}
+          {parameterData && <Cells level={3} data={parameterData} />}
         </div>
         <div className="grid-container-2" style={{ ...gridContainerStyle, top: "50.5%" }}>
-          {parameterData && <Cells level={3} data={parameterData} />}
+          {parameterData && <Cells level={2} data={parameterData} />}
         </div>
         <div
           style={{
             fontSize: "4vh",
-            color: "white",
-            textShadow: `
-            -2px -2px 5px #7aa0b8,
-            2px -2px 10px black,
-            -2px 2px 10px black,
-            1px 1px 10px black
-          `,
+            color: "#7aa0b8",
             fontWeight: "bold",
             transform: "translate(-50%, -50%)",
             left: "50%",
-            top: "42.5%",
+            top: "15.5%",
             position: "absolute",
           }}
         >
@@ -127,13 +135,7 @@ function CameraContent() {
         <div
           style={{
             fontSize: "4vh",
-            color: "white",
-            textShadow: `
-            -2px -2px 5px #7aa0b8,
-            2px -2px 10px black,
-            -2px 2px 10px black,
-            1px 1px 10px black
-          `,
+            color: "#7aa0b8",
             fontWeight: "bold",
             transform: "translate(-50%, -50%)",
             left: "50%",
@@ -144,48 +146,12 @@ function CameraContent() {
           LEVEL 2
         </div>
       </div>
-
-      {/* Box Feature Section */}
-      {/* <div id="camera-container">
-        <div className="camera" id="camera1" style={{ display: "flex", justifyContent: "center" }}>
-          <img src={require("../images/LevelView.png")} alt="Status" style={{ width: "90vw", height: "50vh" }}></img>
-        </div>
-      </div>
-      <div
-        id="camera-content-header"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <p style={{ fontWeight: "bold", color: "#737373" }}>CAMERA ROW {index}</p>
-      </div> */}
-
-      {/* Camera item Section */}
-      {/* <div id="camera-item-container">
-        {cameraRow}
-
-        <div className="camera-item" style={{ height: "7vh", backgroundColor: "#7AA0B8" }}>
-          <div id="water-the-plant">
-            <p
-              style={{
-                fontSize: "2.25vh",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              WATER THE PLANT
-            </p>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 }
 
 function Cells(props) {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const cells = [];
   const level = props.level;
   const data = props.data;
@@ -216,9 +182,9 @@ function Cells(props) {
           fontWeight: "bold",
           fontSize: "16px",
           width: `100%`,
-          height: `100%`,
+          height: `3.5vh`,
         }}
-        onClick={() => navigate("/parameterdetails", {  state: { index: key ,levelid:level} })}
+        onClick={() => navigate("/parameterdetails", { state: { index: key, levelid: level } })}
       >
         {`${rowChar}${colNum}`}
       </div>
@@ -226,31 +192,5 @@ function Cells(props) {
   }
   return cells;
 }
-// function CameraItem(props) {
-//   var Status = props.status;
-//   var fontColor = statusDarkGreen;
-//   const type = props.type.toLowerCase().replace(/\s/g, "");
-//   console.log(require(`../images/blue${type}.png`));
 
-//   if (Status == "Bad") {
-//     fontColor = statusDarkRed;
-//   } else if (Status == "Moderate") {
-//     fontColor = statusDarkYellow;
-//   } else {
-//     fontColor = statusDarkGreen;
-//   }
-
-//   return (
-//     <div className="camera-item">
-//       <div>
-//         <img src={require(`../images/blue${type}.png`)} alt="Status"></img>
-//       </div>
-//       <div className="camera-row-status">
-//         <p>
-//           {props.type} : <span style={{ color: fontColor }}>{props.status}</span>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// }
 export { CameraContent, CameraTop };

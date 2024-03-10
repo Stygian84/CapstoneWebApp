@@ -2,16 +2,54 @@ import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
+import { getMessaging, getToken } from "firebase/messaging";
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyB4JN0YnRF_lK-VzZGuApX6v6cgPtZgnpg",
+  authDomain: "capstonenotification-bdce8.firebaseapp.com",
+  projectId: "capstonenotification-bdce8",
+  storageBucket: "capstonenotification-bdce8.appspot.com",
+  messagingSenderId: "11484582279",
+  appId: "1:11484582279:web:ebc3b220780505d7c48322",
+  measurementId: "G-76LBTFJV0M",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+console.log(analytics);
+function requestNotificationPermission() {
+  if (!("Notification" in window)) {
+    console.error("This browser does not support notifications");
+    return;
+  }
+
+  if (Notification.permission === "granted") {
+    console.log("Notification permission already granted");
+    return;
+  }
+
+  if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(function (permission) {
+      if (permission === "granted") {
+        console.log("Notification permission granted");
+      } else {
+        console.error("Notification permission denied");
+      }
+    });
+  }
+}
 
 function HomeMonitoringTop() {
-  if (!("Notification" in window)) {
-    console.error("This browser does not support desktop notification");
-  }
-  Notification.requestPermission().then(function (permission) {
-    if (permission !== "granted") {
-      console.error("Permission not granted for Notification");
-    }
-  });
+  requestNotificationPermission();
   function showNotification() {
     if (Notification.permission === "granted") {
       console.log("he");
@@ -25,6 +63,22 @@ function HomeMonitoringTop() {
       });
     }
   }
+  useEffect(() => {
+    const messaging = getMessaging();
+    getToken(messaging)
+      .then((token) => {
+        if (token) {
+          console.log("FCM Token:", token);
+          // Send the token to your server for storage
+        } else {
+          console.log("No registration token available. Request permission to generate one.");
+          // Request permission from the user to generate the token
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving FCM token:", error);
+      });
+  }, []);
 
   return (
     <div

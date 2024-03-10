@@ -22,7 +22,17 @@ import Stack from "@mui/material/Stack";
 import moment from "moment";
 import Rectangle from "../components/Rectangle";
 import AirQualityRectangle from "../components/AirQualityRectangle";
-
+// import html2canvas from "html2canvas";
+// function captureScreenshot() {
+//   const element = document.body; // or any other element you want to capture
+//   html2canvas(element).then((canvas) => {
+//     const imgData = canvas.toDataURL("image/png");
+//     const link = document.createElement("a");
+//     link.download = "screenshot.png";
+//     link.href = imgData;
+//     link.click();
+//   });
+// }
 function PlantStatusTop() {
   const navigate = useNavigate();
   const location = useLocation();

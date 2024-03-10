@@ -3,7 +3,7 @@ import axios from "axios";
 import "../index.css";
 import "../css/pages/status.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import {  fetchDataFromLinks } from "../javascript/utils";
+import { fetchDataFromLinks } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
 import {
   statusDarkGreen,
@@ -15,12 +15,21 @@ import {
 } from "../javascript/colors";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
+import html2canvas from "html2canvas";
+function captureScreenshot() {
+  const element = document.body; // or any other element you want to capture
+  html2canvas(element).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.download = "screenshot.png";
+    link.href = imgData;
+    link.click();
+  });
+}
 function StatusTop() {
   const navigate = useNavigate();
   const location = useLocation();
   const { levelid } = location.state || {};
-
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
