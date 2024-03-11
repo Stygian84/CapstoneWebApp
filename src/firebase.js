@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getAuth, signInAnonymously } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyB4JN0YnRF_lK-VzZGuApX6v6cgPtZgnpg",
   authDomain: "capstonenotification-bdce8.firebaseapp.com",
@@ -10,29 +11,33 @@ const firebaseConfig = {
   measurementId: "G-76LBTFJV0M",
 };
 
-initializeApp(firebaseConfig);
 const firebaseApp = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebaseApp);
 
-export const gettoken = (setTokenFound,setTokenValue) => {
-  return getToken(messaging, {
-    vapidKey: "BM9wWE0nKdE-Olhy8ZFwrEnUjP4jr0puqACCp-5z_f4kcPDN5Y0yLtQyO2upF5alxlsjOyWa6AX5sdqP3GZ-DlU",
-  })
+const auth = getAuth(firebaseApp);
+
+// Function to sign in anonymously and get the token and UID
+export const gettoken = (setUID, setTokenFound, setTokenValue) => {
+  const auth = getAuth(firebaseApp);
+  signInAnonymously(auth)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      setUID(user.uid);
+      return getToken(messaging, {
+        vapidKey: "BM9wWE0nKdE-Olhy8ZFwrEnUjP4jr0puqACCp-5z_f4kcPDN5Y0yLtQyO2upF5alxlsjOyWa6AX5sdqP3GZ-DlU",
+      });
+    })
     .then((currentToken) => {
       if (currentToken) {
         console.log("current token for client: ", currentToken);
         setTokenFound(true);
         setTokenValue(currentToken);
-        // Track the token -> client mapping, by sending to backend server
-        // show on the UI that permission is secured
       } else {
         console.log("No registration token available. Request permission to generate one.");
         setTokenFound(false);
-        // shows on the UI that permission is required
       }
     })
-    .catch((err) => {
-      console.log("An error occurred while retrieving token. ", err);
-      // catch error while creating client token
+    .catch((error) => {
+      console.error("Error during anonymous sign-in and token retrieval:", error);
     });
 };
