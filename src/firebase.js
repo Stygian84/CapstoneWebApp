@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_apiKey,
-  authDomain: process.env.REACT_APP_authDomain,
-  projectId: process.env.REACT_APP_projectId,
-  storageBucket: process.env.REACT_APP_storageBucket,
-  messagingSenderId: process.env.REACT_APP_messagingSenderId,
-  appId: process.env.REACT_APP_appId,
-  measurementId: process.env.REACT_APP_measurementId,
+  apiKey: "AIzaSyB4JN0YnRF_lK-VzZGuApX6v6cgPtZgnpg",
+  authDomain: "capstonenotification-bdce8.firebaseapp.com",
+  projectId: "capstonenotification-bdce8",
+  storageBucket: "capstonenotification-bdce8.appspot.com",
+  messagingSenderId: "11484582279",
+  appId: "1:11484582279:web:ebc3b220780505d7c48322",
+  measurementId: "G-76LBTFJV0M",
 };
 
 initializeApp(firebaseConfig);
