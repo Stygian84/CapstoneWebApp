@@ -13,7 +13,7 @@ import { PlantStatusContent, PlantStatusTop } from "./pages/plantstatus";
 import { Divider } from "@mui/material";
 import { ParameterDetailsContent, ParameterDetailsTop } from "./pages/parameterdetails";
 import { gettoken } from "./firebase";
-
+import axios from "axios";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -29,7 +29,23 @@ root.render(
 
 function Top() {
   const [isTokenFound, setTokenFound] = useState(false);
-  gettoken(setTokenFound);
+  const [tokenValue, setTokenValue] = useState(null);
+  gettoken(setTokenFound, setTokenValue);
+  if (isTokenFound) {
+    console.log(tokenValue);
+    axios.post(
+      process.env.REACT_APP_RENDER_URL+ "/post/token",
+      {
+        UserID: "1",
+        token: tokenValue,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
   // inside the jsx being returned:
   // {isTokenFound &&
   // Notification permission enabled 👍🏻
@@ -37,7 +53,7 @@ function Top() {
   // {!isTokenFound &&
   // Need notification permission ❗️
   // }
-  
+
   return (
     <Routes>
       <Route path="/" exact element={<HomeMonitoringTop />} />
