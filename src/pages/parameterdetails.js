@@ -34,7 +34,6 @@ function ParameterDetailsContent() {
   const location = useLocation();
   const { index, levelid } = location.state || {};
   const [plantRow, setPlantRow] = useState([]);
-  console.log(index);
   addVisitedPage(levelid + index);
 
   useEffect(() => {

@@ -155,7 +155,6 @@ function Cells(props) {
   const cells = [];
   const level = props.level;
   const data = props.data;
-  console.log(data);
   for (let i = 0; i < 16; i++) {
     const rowChar = String.fromCharCode(97 + (i % 4)).toUpperCase();
     const colNum = Math.floor(i / 4) + 1;

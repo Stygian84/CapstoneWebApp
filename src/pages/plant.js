@@ -48,7 +48,6 @@ function PlantContent() {
         const data = response.data;
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
-        console.log(data,index)
         var plantRow = [];
 
         for (let i = 0; i < 16; i++) {

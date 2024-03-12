@@ -1,6 +1,11 @@
 import axios from "axios";
 
 function addVisitedPage(page) {
+  // Check if localStorage is supported
+  if (typeof localStorage === 'undefined') {
+    console.error('localStorage is not supported');
+    return;
+  }
   const visitedPages = JSON.parse(localStorage.getItem("visitedPages")) || [];
   const filteredPages = visitedPages.filter((visitedPage) => visitedPage !== page);
   filteredPages.unshift(page);

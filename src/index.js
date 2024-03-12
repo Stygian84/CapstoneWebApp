@@ -47,14 +47,6 @@ function Top() {
       }
     );
   }
-  // inside the jsx being returned:
-  // {isTokenFound &&
-  // Notification permission enabled 👍🏻
-  // }
-  // {!isTokenFound &&
-  // Need notification permission ❗️
-  // }
-
   return (
     <Routes>
       <Route path="/" exact element={<HomeMonitoringTop />} />

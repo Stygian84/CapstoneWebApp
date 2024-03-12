@@ -21,7 +21,6 @@ function LevelTop() {
 function LevelContent() {
   const [jsonData, setJsonData] = useState(null);
   const [levelStatus, setLevelStatus] = useState([]);
-  console.log(levelStatus);
   useEffect(() => {
     const fetchData = async () => {
       try {
