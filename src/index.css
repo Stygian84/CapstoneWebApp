@@ -244,3 +244,7 @@ a:active {
 .recent-item img.new-image {
   display: none;
 }
+
+img {
+  pointer-events: none; /* Disable pointer events on the img element */
+}
