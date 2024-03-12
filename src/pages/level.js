@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../index.css";
 import "../css/pages/row.css";
-import { useNavigate, useLocation, json } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
 import { usePreventMobileHoldImage } from "../javascript/utils";
 

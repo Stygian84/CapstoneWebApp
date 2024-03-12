@@ -1,7 +1,6 @@
 // Not Used
 import React from "react";
 import "../index.css";
-import { usePreventMobileHoldImage } from "../javascript/utils";
 
 function SettingsTop() {
   return (

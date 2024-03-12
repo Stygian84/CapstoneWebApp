@@ -4,7 +4,7 @@ import "../index.css";
 import "../css/pages/camera.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { backgroundDarkGreen, backgroundDarkYellow, backgroundDarkRed } from "../javascript/colors";
-import html2canvas from "html2canvas";
+// import html2canvas from "html2canvas";
 import { usePreventMobileHoldImage } from "../javascript/utils";
 // function captureScreenshot() {
 //   const element = document.body; // or any other element you want to capture
