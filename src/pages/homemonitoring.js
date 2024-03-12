@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
+import $ from "jquery";
 
 function HomeMonitoringTop() {
   const [isReadyToHarvest, setIsReadyToHarvest] = useState(false);
@@ -73,7 +74,14 @@ function HomeMonitoringContent() {
   const navigate = useNavigate();
   const [cleared, setCleared] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  useEffect(() => {
+    // Add event handler to all image elements using jQuery
+    $('img').on('contextmenu dragstart', function(event) {
+      event.preventDefault(); // Prevent the default context menu and dragging behavior
+    });
+    // Set draggable="false" attribute to all image elements
+    $('img').attr('draggable', 'false');
+  }, []);
   // For Weather and Date
   const [weatherData, setWeatherData] = useState({
     name: "",
