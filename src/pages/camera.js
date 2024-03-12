@@ -5,6 +5,7 @@ import "../css/pages/camera.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { backgroundDarkGreen, backgroundDarkYellow, backgroundDarkRed } from "../javascript/colors";
 import html2canvas from "html2canvas";
+import { usePreventMobileHoldImage } from "../javascript/utils";
 // function captureScreenshot() {
 //   const element = document.body; // or any other element you want to capture
 //   html2canvas(element).then((canvas) => {
@@ -16,6 +17,7 @@ import html2canvas from "html2canvas";
 //   });
 // }
 function CameraTop() {
+  usePreventMobileHoldImage();
   const navigate = useNavigate();
   const location = useLocation();
   const { index } = location.state || {};
@@ -30,6 +32,7 @@ function CameraTop() {
 }
 
 function CameraContent() {
+  usePreventMobileHoldImage();
   const location = useLocation();
   const cameraNumber = location.pathname.split("/")[2];
   const { index = cameraNumber, overallstatus } = location.state || {};

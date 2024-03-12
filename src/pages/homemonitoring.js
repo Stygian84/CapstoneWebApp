@@ -1,8 +1,8 @@
-import React, { useState, useEffect ,useRef} from "react";
+import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
-import $ from "jquery";
+import { usePreventMobileHoldImage } from "../javascript/utils";
 
 function HomeMonitoringTop() {
   const [isReadyToHarvest, setIsReadyToHarvest] = useState(false);
@@ -71,18 +71,11 @@ const Timer = () => {
   // Timer logic to display remaining time until harvest
 };
 function HomeMonitoringContent() {
-  const parentDivRef = useRef(null);
+  usePreventMobileHoldImage();
   const navigate = useNavigate();
   const [cleared, setCleared] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  useEffect(() => {
-    // Add event handler to all image elements using jQuery
-    $("img").on("contextmenu dragstart", function (event) {
-      event.preventDefault(); // Prevent the default context menu and dragging behavior
-    });
-    // Set draggable="false" attribute to all image elements
-    $("img").attr("draggable", "false");
-  }, []);
+  
   // For Weather and Date
   const [weatherData, setWeatherData] = useState({
     name: "",
@@ -142,9 +135,7 @@ function HomeMonitoringContent() {
     let rowID = storedPages[i].slice(1);
     Recent.push(<RecentItem type={"status"} levelidx={levelID} idx={rowID} key={i} />);
   }
-  const handleImageClick = () => {
-    parentDivRef.current.click(); // Trigger click event of the parent div
-  };
+
   return (
     <div id="content" className="content">
       {/* Header Section */}
@@ -165,12 +156,7 @@ function HomeMonitoringContent() {
 
       {/* Box Feature Section */}
       <div id="feature-container">
-        <div
-          className="feature-item"
-          id="feature1"
-          ref={parentDivRef}
-          onClick={() => navigate("/row", { state: { prev: "Status" } })}
-        >
+        <div className="feature-item" id="feature1" onClick={() => navigate("/row", { state: { prev: "Status" } })}>
           {!imageLoaded && (
             <Skeleton
               className="skeleton"
@@ -184,7 +170,6 @@ function HomeMonitoringContent() {
             className="new-image"
             alt="Status"
             onLoad={() => setImageLoaded(true)}
-            onClick={handleImageClick}
           />
 
           <p style={{ color: "#8FA586" }}>Status</p>

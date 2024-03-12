@@ -14,8 +14,10 @@ import {
 import CircularSliderwithBg from "../components/CircularSliderwithBg";
 import Divider from "@mui/material/Divider";
 import { addVisitedPage } from "../javascript/utils";
+import { usePreventMobileHoldImage } from "../javascript/utils";
 
 function ParameterDetailsTop() {
+  usePreventMobileHoldImage();
   const navigate = useNavigate();
   const location = useLocation();
   const { index, levelid } = location.state || {};
@@ -31,6 +33,7 @@ function ParameterDetailsTop() {
   );
 }
 function ParameterDetailsContent() {
+  usePreventMobileHoldImage();
   const location = useLocation();
   const { index, levelid } = location.state || {};
   const [plantRow, setPlantRow] = useState([]);

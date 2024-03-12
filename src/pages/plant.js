@@ -13,8 +13,10 @@ import {
 } from "../javascript/colors";
 import CircularSliderwithBg from "../components/CircularSliderwithBg";
 import Divider from "@mui/material/Divider";
+import { usePreventMobileHoldImage } from "../javascript/utils";
 
 function PlantTop() {
+  usePreventMobileHoldImage();
   const navigate = useNavigate();
   const location = useLocation();
   const { levelid } = location.state || {};
@@ -29,6 +31,7 @@ function PlantTop() {
 }
 
 function PlantContent() {
+  usePreventMobileHoldImage();
   const location = useLocation();
   const { index,levelid } = location.state || {};
   const [plantRow, setPlantRow] = useState([]);

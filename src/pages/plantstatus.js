@@ -4,6 +4,7 @@ import "../index.css";
 import "../css/pages/plantstatus.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage, fetchDataFromLinks } from "../javascript/utils";
+import { usePreventMobileHoldImage } from "../javascript/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush, ResponsiveContainer } from "recharts";
 
 import {
@@ -34,6 +35,7 @@ import AirQualityRectangle from "../components/AirQualityRectangle";
 //   });
 // }
 function PlantStatusTop() {
+  usePreventMobileHoldImage();
   const navigate = useNavigate();
   const location = useLocation();
   const { row_idx, plant_id } = location.state || {};
@@ -53,6 +55,7 @@ function PlantStatusTop() {
 }
 
 function PlantStatusContent() {
+  usePreventMobileHoldImage();
   const [dot, setDot] = useState(true);
   const [chart, setChart] = useState([]);
   const location = useLocation();

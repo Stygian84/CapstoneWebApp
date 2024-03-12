@@ -3,7 +3,7 @@ import axios from "axios";
 import "../index.css";
 import "../css/pages/status.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { fetchDataFromLinks } from "../javascript/utils";
+import { usePreventMobileHoldImage } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
 import {
   statusDarkGreen,
@@ -27,6 +27,7 @@ function captureScreenshot() {
   });
 }
 function StatusTop() {
+  usePreventMobileHoldImage();
   const navigate = useNavigate();
   const location = useLocation();
   const { levelid } = location.state || {};
@@ -41,6 +42,7 @@ function StatusTop() {
 }
 
 function StatusContent() {
+  usePreventMobileHoldImage();
   const location = useLocation();
   const statusNumber = location.pathname.split("/")[2];
   const { row_index = statusNumber } = location.state || {};

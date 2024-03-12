@@ -1,9 +1,11 @@
 import axios from "axios";
+import React, { useEffect } from "react";
+import $ from "jquery";
 
 function addVisitedPage(page) {
   // Check if localStorage is supported
-  if (typeof localStorage === 'undefined') {
-    console.error('localStorage is not supported');
+  if (typeof localStorage === "undefined") {
+    console.error("localStorage is not supported");
     return;
   }
   const visitedPages = JSON.parse(localStorage.getItem("visitedPages")) || [];
@@ -44,6 +46,16 @@ const fetchDataFromLinks = async (suffix) => {
   return null; // Return null if no successful response received
 };
 
+function usePreventMobileHoldImage() {
+  useEffect(() => {
+    // Add event handler to all image elements using jQuery
+    $("img").on("contextmenu dragstart", function (event) {
+      event.preventDefault(); // Prevent the default context menu and dragging behavior
+    });
+    // Set draggable="false" attribute to all image elements
+    $("img").attr("draggable", "false");
+  }, []);
+}
 export default fetchDataFromLinks;
 
-export { addVisitedPage, fetchDataFromLinks };
+export { addVisitedPage, fetchDataFromLinks, usePreventMobileHoldImage };

@@ -4,9 +4,10 @@ import "../index.css";
 import "../css/pages/row.css";
 import { useNavigate, useLocation, json } from "react-router-dom";
 import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
-import { fetchDataFromLinks } from "../javascript/utils";
+import { usePreventMobileHoldImage } from "../javascript/utils";
 
 function LevelTop() {
+  usePreventMobileHoldImage();
   const navigate = useNavigate();
   return (
     <div id="top" className="top">
@@ -19,6 +20,7 @@ function LevelTop() {
 }
 
 function LevelContent() {
+  usePreventMobileHoldImage();
   const [jsonData, setJsonData] = useState(null);
   const [levelStatus, setLevelStatus] = useState([]);
   useEffect(() => {
