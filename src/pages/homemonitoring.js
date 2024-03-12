@@ -71,6 +71,7 @@ const Timer = () => {
   // Timer logic to display remaining time until harvest
 };
 function HomeMonitoringContent() {
+  const parentDivRef = useRef(null);
   const navigate = useNavigate();
   const [cleared, setCleared] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -81,10 +82,6 @@ function HomeMonitoringContent() {
     });
     // Set draggable="false" attribute to all image elements
     $("img").attr("draggable", "false");
-    $('img').on('touchend', function(event) {
-      event.preventDefault(); // Prevent default touch behavior
-      $(this).click(); // Trigger click event
-    });
   }, []);
   // For Weather and Date
   const [weatherData, setWeatherData] = useState({
@@ -145,7 +142,9 @@ function HomeMonitoringContent() {
     let rowID = storedPages[i].slice(1);
     Recent.push(<RecentItem type={"status"} levelidx={levelID} idx={rowID} key={i} />);
   }
-
+  const handleImageClick = () => {
+    parentDivRef.current.click(); // Trigger click event of the parent div
+  };
   return (
     <div id="content" className="content">
       {/* Header Section */}
@@ -166,7 +165,12 @@ function HomeMonitoringContent() {
 
       {/* Box Feature Section */}
       <div id="feature-container">
-        <div className="feature-item" id="feature1" onClick={() => navigate("/row", { state: { prev: "Status" } })}>
+        <div
+          className="feature-item"
+          id="feature1"
+          ref={parentDivRef}
+          onClick={() => navigate("/row", { state: { prev: "Status" } })}
+        >
           {!imageLoaded && (
             <Skeleton
               className="skeleton"
@@ -180,6 +184,7 @@ function HomeMonitoringContent() {
             className="new-image"
             alt="Status"
             onLoad={() => setImageLoaded(true)}
+            onClick={handleImageClick}
           />
 
           <p style={{ color: "#8FA586" }}>Status</p>
