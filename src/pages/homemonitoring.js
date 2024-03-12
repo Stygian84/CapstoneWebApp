@@ -76,11 +76,15 @@ function HomeMonitoringContent() {
   const [imageLoaded, setImageLoaded] = useState(false);
   useEffect(() => {
     // Add event handler to all image elements using jQuery
-    $('img').on('contextmenu dragstart', function(event) {
+    $("img").on("contextmenu dragstart", function (event) {
       event.preventDefault(); // Prevent the default context menu and dragging behavior
     });
     // Set draggable="false" attribute to all image elements
-    $('img').attr('draggable', 'false');
+    $("img").attr("draggable", "false");
+    $('img').on('touchend', function(event) {
+      event.preventDefault(); // Prevent default touch behavior
+      $(this).click(); // Trigger click event
+    });
   }, []);
   // For Weather and Date
   const [weatherData, setWeatherData] = useState({
