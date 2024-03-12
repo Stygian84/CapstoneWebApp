@@ -1,3 +1,7 @@
+@font-face {
+  font-family: "DM Sans";
+  src: url("./fonts/DMSans.ttf") format("truetype");
+}
 html,
 body {
   height: 100%;
@@ -54,7 +58,6 @@ body {
   max-width: 50%;
   max-height: 50%;
 }
-
 
 .top-title {
   /* margin-left: 15.5vw; */
