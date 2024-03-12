@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense  } from "react";
 import axios from "axios";
 import "../index.css";
 import "../css/pages/plant.css";

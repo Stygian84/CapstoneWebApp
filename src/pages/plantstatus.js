@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 import "../index.css";
 import "../css/pages/plantstatus.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addVisitedPage, fetchDataFromLinks } from "../javascript/utils";
 import { usePreventMobileHoldImage } from "../javascript/utils";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush, ResponsiveContainer } from "recharts";
-
+//import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush, ResponsiveContainer } from "recharts";
 import {
   statusDarkGreen,
   statusDarkRed,
@@ -18,7 +17,7 @@ import {
 import "react-circular-progressbar/dist/styles.css";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
-import moment from "moment";
+// import moment from "moment";
 import Rectangle from "../components/Rectangle";
 import AirQualityRectangle from "../components/AirQualityRectangle";
 // import html2canvas from "html2canvas";
@@ -32,6 +31,16 @@ import AirQualityRectangle from "../components/AirQualityRectangle";
 //     link.click();
 //   });
 // }
+
+const moment = lazy(() => import('moment'));
+const LineChart = lazy(() => import('recharts').then(module => ({ default: module.LineChart })));
+const Line = lazy(() => import('recharts').then(module => ({ default: module.Line })));
+const XAxis = lazy(() => import('recharts').then(module => ({ default: module.XAxis })));
+const YAxis = lazy(() => import('recharts').then(module => ({ default: module.YAxis })));
+const CartesianGrid = lazy(() => import('recharts').then(module => ({ default: module.CartesianGrid })));
+const Tooltip = lazy(() => import('recharts').then(module => ({ default: module.Tooltip })));
+const ResponsiveContainer = lazy(() => import('recharts').then(module => ({ default: module.ResponsiveContainer })));
+
 function PlantStatusTop() {
   usePreventMobileHoldImage();
   const navigate = useNavigate();
