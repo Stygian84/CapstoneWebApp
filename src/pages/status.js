@@ -51,19 +51,18 @@ function StatusContent() {
   const navigate = useNavigate();
   const { levelid } = location.state || {};
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const Status = [];
     const fetchData = async () => {
       try {
         const suffix = "/api/status";
         const tablesuffix = "/api/table";
-        // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
         const data = response.data;
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
         setJsonData(data);
+        
         // Mapping to convert string from DB to its respective display name
         const keyToDisplayName = {
           avgairquality: "AIR QUALITY",

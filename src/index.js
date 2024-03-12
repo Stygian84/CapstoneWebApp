@@ -31,22 +31,30 @@ function Top() {
   const [isTokenFound, setTokenFound] = useState(false);
   const [tokenValue, setTokenValue] = useState(null);
   const [UID, setUID] = useState(null);
-  gettoken(setUID,setTokenFound, setTokenValue);
-  if (isTokenFound && UID!=null) {
-    console.log(tokenValue);
-    axios.post(
-      process.env.REACT_APP_RENDER_URL+ "/post/token",
-      {
-        UserID: UID,
-        token: tokenValue,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+
+  //Retrieve Token
+  useEffect(() => {
+    gettoken(setUID, setTokenFound, setTokenValue);
+  }, []);
+
+  //Send Token
+  useEffect(() => {
+    if (isTokenFound && UID != null) {
+      axios.post(
+        process.env.REACT_APP_RENDER_URL + "/post/token",
+        {
+          UserID: UID,
+          token: tokenValue,
         },
-      }
-    );
-  }
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  }, [isTokenFound]);
+
   return (
     <Routes>
       <Route path="/" exact element={<HomeMonitoringTop />} />

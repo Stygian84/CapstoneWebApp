@@ -15,8 +15,6 @@ import {
   statusLightRed,
   statusLightYellow,
 } from "../javascript/colors";
-
-// import { ExpandingProgressBars } from "../components/ExpandingLinearProgress";
 import "react-circular-progressbar/dist/styles.css";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";

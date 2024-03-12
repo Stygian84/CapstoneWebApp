@@ -17,7 +17,14 @@ const messaging = getMessaging(firebaseApp);
 const auth = getAuth(firebaseApp);
 
 // Function to sign in anonymously and get the token and UID
+let tokenRetrieved = false;
+
 export const gettoken = (setUID, setTokenFound, setTokenValue) => {
+  if (tokenRetrieved) {
+    console.log("Token already retrieved.");
+    return;
+  }
+
   const auth = getAuth(firebaseApp);
   signInAnonymously(auth)
     .then((userCredential) => {
@@ -29,9 +36,10 @@ export const gettoken = (setUID, setTokenFound, setTokenValue) => {
     })
     .then((currentToken) => {
       if (currentToken) {
-        console.log("current token for client: ", currentToken);
+        console.log("Current token for client: ", currentToken);
         setTokenFound(true);
         setTokenValue(currentToken);
+        tokenRetrieved = true;
       } else {
         console.log("No registration token available. Request permission to generate one.");
         setTokenFound(false);
