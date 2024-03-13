@@ -1,0 +1,53 @@
+#harvest-selection-container {
+  margin: 0 5vw 0 5vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.harvest-level-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2vh;
+  border-radius: 20px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(143, 165, 134, 0.15);
+  transition: height 0.5s ease-in-out 0s;
+}
+.harvest-item {
+  display: none;
+  animation: slideDown 0.5s ease-in-out forwards;
+}
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.harvest-item.visible {
+  display: flex;
+  flex-direction: row;
+  background: white;
+  align-items: center;
+  opacity: 1;
+}
+
+.harvest-item img {
+  margin: 3% 3% 3% 3%;
+  padding: 3%;
+  width: 10%;
+}
+
+.harvest-row-status {
+  display: flex;
+  flex-direction: column;
+  padding: 4% 0 4% 0;
+}
+.harvest-row-status p {
+  margin: 0;
+}

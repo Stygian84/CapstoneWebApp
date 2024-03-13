@@ -14,6 +14,7 @@ import { Divider } from "@mui/material";
 import { ParameterDetailsContent, ParameterDetailsTop } from "./pages/parameterdetails";
 import { gettoken } from "./firebase";
 import axios from "axios";
+import { HarvestContent, HarvestTop } from "./pages/harvest";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -64,6 +65,7 @@ function Top() {
       <Route path="/plant/*" element={<PlantTop />} />
       <Route path="/details/*" element={<PlantStatusTop />} />
       {/* <Route path="/settings" element={<SettingsTop />} /> */}
+      <Route path="/harvest" element={<HarvestTop />} />
       <Route path="/settings" element={<HomeMonitoringTop />} />
       <Route path="/parameterdetails/*" element={<ParameterDetailsTop />} />
     </Routes>
@@ -80,6 +82,7 @@ function Content() {
       <Route path="/plant/*" element={<PlantContent />} />
       <Route path="/details/*" element={<PlantStatusContent />} />
       {/* <Route path="/settings" element={<SettingsContent />} /> */}
+      <Route path="/harvest" element={<HarvestContent />} />
       <Route path="/settings" element={<HomeMonitoringContent />} />
       <Route path="/parameterdetails/*" element={<ParameterDetailsContent />} />
     </Routes>

@@ -3,9 +3,26 @@ import "../index.css";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
 import { usePreventMobileHoldImage } from "../javascript/utils";
+import fetchDataFromFirestore from "../javascript/fetchFireStoreData";
 
 function HomeMonitoringTop() {
-  
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedData = await fetchDataFromFirestore();
+        setData(fetchedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  if (data.length !== 0) {
+    console.log(data);
+  }
   return (
     <div
       id="top"
@@ -23,7 +40,9 @@ function HomeMonitoringContent() {
   const navigate = useNavigate();
   const [cleared, setCleared] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  
+  const [imageLoaded2, setImageLoaded2] = useState(false);
+  const [imageLoaded3, setImageLoaded3] = useState(false);
+
   // For Weather and Date
   const [weatherData, setWeatherData] = useState({
     name: "",
@@ -109,7 +128,7 @@ function HomeMonitoringContent() {
             <Skeleton
               className="skeleton"
               variant="rounded"
-              style={{ width: "30vw", height: "10vh", marginTop: "2vh" }}
+              style={{ width: "25vw", height: "11.5vh", marginTop: "2vh" }}
             />
           )}
           <img src={require("../images/greenstatus.png")} alt="Status" onLoad={() => setImageLoaded(true)} />
@@ -128,24 +147,45 @@ function HomeMonitoringContent() {
           id="feature2"
           onClick={() => navigate("/camera/1", { state: { prev: "Camera" } })}
         >
-          {!imageLoaded && (
+          {!imageLoaded2 && (
             <Skeleton
               className="skeleton"
               variant="rounded"
-              style={{ width: "30vw", height: "10vh", marginTop: "2vh" }}
+              style={{ width: "25vw", height: "11.5vh", marginTop: "2vh" }}
             />
           )}
-          <img src={require("../images/equalizer.png")} alt="Camera" onLoad={() => setImageLoaded(true)}></img>
+          <img src={require("../images/equalizer.png")} alt="Camera" onLoad={() => setImageLoaded2(true)}></img>
           <img
             src={require("../images/whiteequalizer.png")}
             className="new-image"
             alt="Status"
-            onLoad={() => setImageLoaded(true)}
+            onLoad={() => setImageLoaded2(true)}
           ></img>
 
           <p style={{ color: "#8793AE" }}> Parameters</p>
         </div>
+        <div
+          className="feature-item"
+          id="feature3"
+          onClick={() => navigate("/harvest", { state: { prev: "Harvest" } })}
+        >
+          {!imageLoaded3 && (
+            <Skeleton
+              className="skeleton"
+              variant="rounded"
+              style={{ width: "25vw", height: "11.5vh", marginTop: "2vh" }}
+            />
+          )}
+          <img src={require("../images/harvest.png")} alt="Status" onLoad={() => setImageLoaded3(true)} />
+          <img
+            src={require("../images/whiteharvest.png")}
+            className="new-image"
+            alt="Status"
+            onLoad={() => setImageLoaded3(true)}
+          />
 
+          <p style={{ color: "#8FA586" }}>Status</p>
+        </div>
         {/* <div className="feature-item" id="feature3" onClick={() => navigate("/settings")}>
           <img src={require("../images/settings.png")} alt="Settings"></img>
           <img src={require("../images/whitesettings.png")} className="new-image" alt="Status"></img>

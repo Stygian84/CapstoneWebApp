@@ -55,7 +55,6 @@ function ParameterDetailsContent() {
         const data = response.data;
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
-        console.log(data, index);
         var plantRow = [];
 
         plantRow.push(

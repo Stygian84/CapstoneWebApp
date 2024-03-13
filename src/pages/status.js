@@ -62,7 +62,7 @@ function StatusContent() {
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
         setJsonData(data);
-        
+
         // Mapping to convert string from DB to its respective display name
         const keyToDisplayName = {
           avgairquality: "AIR QUALITY",
@@ -123,14 +123,22 @@ function StatusContent() {
             }
           }
           initialStatusRow.push(
-            <StatusItem
-              key={i}
-              type={keyToDisplayName[Status[i]]}
-              min={properties_min}
-              max={properties_max}
-              value={data_value}
-              status={properties_status}
-            />
+            {
+              key: i,
+              type: keyToDisplayName[Status[i]],
+              min: properties_min,
+              max: properties_max,
+              value: data_value,
+              status: properties_status,
+            }
+            // <StatusItem
+            //   key={i}
+            //   type={keyToDisplayName[Status[i]]}
+            //   min={properties_min}
+            //   max={properties_max}
+            //   value={data_value}
+            //   status={properties_status}
+            // />
           );
         }
         setStatusRow(initialStatusRow);
@@ -169,12 +177,11 @@ function StatusContent() {
     };
 
     fetchData();
-
-    const intervalId = setInterval(fetchData, 120000); // 6000 milliseconds (2 seconds)
+    const intervalId = setInterval(fetchData, 60000); // 6000 milliseconds (2 seconds)
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [jsonData]);
 
   // For ToggleSwitch Lights Display
   const [isToggleOn, setIsToggleOn] = useState(false);
@@ -224,7 +231,16 @@ function StatusContent() {
             <ToggleSwitch checked={isToggleOn} onChange={() => setIsToggleOn(!isToggleOn)} />
           </div>
         </div>
-        {statusRow}
+        {statusRow.map((item) => (
+          <StatusItem
+            key={item.key}
+            type={item.type}
+            min={item.min}
+            max={item.max}
+            value={item.value}
+            status={item.status}
+          />
+        ))}
       </div>
     </div>
   );

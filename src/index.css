@@ -157,8 +157,8 @@ a:active {
   border: 1px solid rgba(143, 165, 134, 0.15);
 }
 .feature-item img {
-  width: 55%;
-  height: 60%;
+  width: 25vw;
+  height: 11.5vh;
   margin-top: 20%;
 }
 .feature-item p {

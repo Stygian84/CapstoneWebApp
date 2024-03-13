@@ -33,7 +33,7 @@ function PlantTop() {
 function PlantContent() {
   usePreventMobileHoldImage();
   const location = useLocation();
-  const { index,levelid } = location.state || {};
+  const { index, levelid } = location.state || {};
   const [plantRow, setPlantRow] = useState([]);
 
   useEffect(() => {
@@ -54,22 +54,20 @@ function PlantContent() {
         var plantRow = [];
 
         for (let i = 0; i < 16; i++) {
-          plantRow.push(
-            <PlantItem
-              key={i}
-              levelid={levelid}
-              plantid={data[i]["rowid"]}
-              idx={data[i]["rowid"]}
-              name={data[i]["plantname"]}
-              airqualityValue={data[i]["airquality"]}
-              soilmoistureValue={data[i]["soilmoisture"]}
-              temperatureValue={data[i]["temperature"]}
-              soilphValue={data[i]["soilph"]}
-              humidityValue={data[i]["humidity"]}
-              status={data[i]["status"]}
-              table_data={table_data}
-            />
-          );
+          plantRow.push({
+            key: i,
+            levelid: levelid,
+            plantid: data[i]["rowid"],
+            idx: data[i]["rowid"],
+            name: data[i]["plantname"],
+            airqualityValue: data[i]["airquality"],
+            soilmoistureValue: data[i]["soilmoisture"],
+            temperatureValue: data[i]["temperature"],
+            soilphValue: data[i]["soilph"],
+            humidityValue: data[i]["humidity"],
+            status: data[i]["status"],
+            table_data: table_data,
+          });
         }
         setPlantRow(plantRow);
       } catch (error) {
@@ -87,7 +85,22 @@ function PlantContent() {
     <div id="content" className="content">
       <div id="plant-container">
         {/* Start */}
-        {plantRow}
+        {plantRow.map((item) => (
+          <PlantItem
+            key={item.key} // Use the key directly from the item
+            levelid={item.levelid}
+            plantid={item.plantid}
+            idx={item.idx}
+            name={item.name}
+            airqualityValue={item.airqualityValue}
+            soilmoistureValue={item.soilmoistureValue}
+            temperatureValue={item.temperatureValue}
+            soilphValue={item.soilphValue}
+            humidityValue={item.humidityValue}
+            status={item.status}
+            table_data={item.table_data}
+          />
+        ))}
         {/* STOP */}
       </div>
     </div>
@@ -97,9 +110,9 @@ function PlantContent() {
 // and navigation
 function PlantItem(props) {
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   // const statusNumber = location.pathname.split("/")[2];
-  const statusNumber= props.levelid
+  const statusNumber = props.levelid;
 
   var i = props.idx;
 
