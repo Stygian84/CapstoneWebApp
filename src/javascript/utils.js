@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect } from "react";
-import $ from "jquery";
+import { useEffect } from "react";
+// import $ from "jquery";
 
 function addVisitedPage(page) {
   // Check if localStorage is supported
@@ -48,6 +48,7 @@ const fetchDataFromLinks = async (suffix) => {
 
 function usePreventMobileHoldImage() {
   useEffect(() => {
+    const $ = require("jquery");
     // Add event handler to all image elements using jQuery
     $("img").on("contextmenu dragstart", function (event) {
       event.preventDefault(); // Prevent the default context menu and dragging behavior
