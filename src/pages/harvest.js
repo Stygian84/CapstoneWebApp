@@ -43,7 +43,7 @@ function HarvestContent() {
     const fetchData = async () => {
       try {
         const level2data = await fetchDataFromFirestore(2);
-        const level3data = await fetchDataFromFirestore(2);
+        const level3data = await fetchDataFromFirestore(3);
         setLevel2(level2data);
         setLevel3(level3data);
       } catch (error) {
