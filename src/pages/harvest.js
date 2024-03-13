@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/pages/harvest.css";
-import { useNavigate, useLocation } from "react-router-dom";
-import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
+import { useNavigate } from "react-router-dom";
 import { usePreventMobileHoldImage } from "../javascript/utils";
 import ToggleSwitch from "../components/ToggleSwitch";
 import fetchDataFromFirestore from "../javascript/fetchFireStoreData";
