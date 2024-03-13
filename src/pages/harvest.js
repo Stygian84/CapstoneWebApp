@@ -85,7 +85,7 @@ function HarvestContent() {
           });
           plantLevel3.push({
             key: i,
-            levelid: 2,
+            levelid: 3,
             plantid: data3[i]["rowid"],
             name: data3[i]["plantname"],
             days: level3[i].value,
@@ -100,7 +100,7 @@ function HarvestContent() {
 
     fetchData();
   }, [level2, level3, updateValue]);
-  
+
   const updateValueState = () => {
     setUpdateValue(!updateValue);
   };
