@@ -1,6 +1,4 @@
-import axios from "axios";
 import { useEffect } from "react";
-// import $ from "jquery";
 
 function addVisitedPage(page) {
   // Check if localStorage is supported
@@ -19,33 +17,6 @@ function addVisitedPage(page) {
   localStorage.setItem("visitedPages", JSON.stringify(filteredPages));
 }
 
-const fetchDataFromLinks = async (suffix) => {
-  const links = [
-    process.env.REACT_APP_RENDER_URL,
-    process.env.REACT_APP_AWS_URL,
-    // Add more links here
-  ];
-
-  let jsonData = null;
-
-  for (let i = 1; i < links.length; i++) {
-    try {
-      const response = await axios.get(links[i] + suffix, {
-        timeout: 5000, // Timeout in milliseconds (e.g., 5000 for 5 seconds)
-      });
-      jsonData = response.data;
-      console.log("Successfully receive data from " + links[i] + suffix);
-      return jsonData; // Return jsonData if successful
-    } catch (error) {
-      console.error("Error fetching URL:", links[i] + suffix);
-      console.error(error);
-    }
-  }
-
-  console.error("No successful response received.");
-  return null; // Return null if no successful response received
-};
-
 function usePreventMobileHoldImage() {
   useEffect(() => {
     const $ = require("jquery");
@@ -57,6 +28,5 @@ function usePreventMobileHoldImage() {
     $("img").attr("draggable", "false");
   }, []);
 }
-export default fetchDataFromLinks;
 
-export { addVisitedPage, fetchDataFromLinks, usePreventMobileHoldImage };
+export { addVisitedPage, usePreventMobileHoldImage };

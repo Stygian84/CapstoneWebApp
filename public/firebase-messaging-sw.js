@@ -27,24 +27,3 @@ messaging.onBackgroundMessage(function(payload) {
       self.registration.showNotification(notificationTitle, notificationOptions);
     }
   });
-// messaging.onBackgroundMessage(function() {
-//     const notificationTitle = 'AgroReach';
-//     const notificationOptions = {
-//       body: 'Custom Body',
-//       icon: '/path/to/custom-icon.png',
-//       // You can add more properties here as needed
-//     };
-  
-//     self.registration.showNotification(notificationTitle, notificationOptions);
-//   });
-  
-// messaging.onBackgroundMessage(function(payload) {
-//   console.log("Received background message ", payload);
-
-//   const notificationTitle = payload.notification.title;
-//   const notificationOptions = {
-//     body: payload.notification.body
-//   };
-
-//   self.registration.showNotification(notificationTitle, notificationOptions);
-// });
