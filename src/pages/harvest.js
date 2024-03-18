@@ -223,7 +223,6 @@ function HarvestItem({ isContainerVisible, plantid, name, days, level, updateVal
   }, [days]);
 
   const handleToggle = async (level, plantid, newValue) => {
-    captureScreenshot();
     // If isToggleOn is true, perform a single-click toggle, else double click
     if (isToggleOn) {
       setIsToggleOn((prevState) => !prevState);
@@ -287,7 +286,7 @@ function HarvestItem({ isContainerVisible, plantid, name, days, level, updateVal
       <div style={{ width: "40%", height: "10vh", display: "flex", alignItems: "center" }}>
         {!isToggleOn ? (
           <div style={containerStyle} onClick={() => handleToggle(level, plantid, 7)}>
-            {days} days left
+            {days} {roundedDays == 1 ? "day" : "days"} left
           </div>
         ) : (
           <div style={containerStyle} onClick={() => handleToggle(level, plantid, 7)}>
