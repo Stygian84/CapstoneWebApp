@@ -26,15 +26,11 @@ function LevelContent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Getting data
         const suffix = "/api/level";
 
-        // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
         const data = response.data;
 
-        // Use AWS
-        // const data = await fetchDataFromLinks(suffix);
         setJsonData(data);
 
         const newStatus = [];
@@ -44,19 +40,6 @@ function LevelContent() {
         }
 
         setLevelStatus(newStatus);
-
-        // old code to get json without aws
-        // const response = await axios.get(process.env.REACT_APP_JSON_URL);
-        // setJsonData(response.data);
-
-        // const newStatus = [];
-
-        // for (let i = 0; i < 12; i++) {
-        //   var overallStatusObject = response.data.Rows[i]["Overall Status"];
-        //   newStatus[i] = overallStatusObject.Status;
-        // }
-
-        // setRowStatus(newStatus);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

@@ -36,6 +36,7 @@ function PlantContent() {
   const { index, levelid } = location.state || {};
   const [plantRow, setPlantRow] = useState([]);
 
+  // Retrieve necessary data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -84,7 +85,6 @@ function PlantContent() {
   return (
     <div id="content" className="content">
       <div id="plant-container">
-        {/* Start */}
         {plantRow.map((item) => (
           <PlantItem
             key={item.key} // Use the key directly from the item
@@ -101,7 +101,6 @@ function PlantContent() {
             table_data={item.table_data}
           />
         ))}
-        {/* STOP */}
       </div>
     </div>
   );
@@ -110,8 +109,6 @@ function PlantContent() {
 // and navigation
 function PlantItem(props) {
   const navigate = useNavigate();
-  // const location = useLocation();
-  // const statusNumber = location.pathname.split("/")[2];
   const statusNumber = props.levelid;
 
   var i = props.idx;
@@ -129,7 +126,6 @@ function PlantItem(props) {
   } = props;
 
   const thresholdRanges = {};
-  const statusMap = {};
 
   for (const item of table_data) {
     const { property_name, value, bad_threshold, good_threshold, moderate_threshold } = item;

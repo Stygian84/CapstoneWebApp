@@ -467,22 +467,6 @@ function PlantStatusContent() {
                   />
                 </>
               )}
-
-              {/* <ExpandingProgressBars
-                value={100}
-                yellowValue={leftYellowValue}
-                greenValue={leftGreenValue}
-                redValue={leftRedValue}
-              />
-              <ExpandingProgressBars
-                value={100}
-                style={{ transform: "scaleX(-1)" }}
-                type="right"
-                yellowValue={rightYellowValue}
-                greenValue={rightGreenValue}
-                redValue={rightRedValue}
-                totalValue={propertyValue - leftRedValue}
-              /> */}
               {/* Pointer */}
               <div
                 style={{

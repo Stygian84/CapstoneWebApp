@@ -1,11 +1,12 @@
+// Graphic Page
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../index.css";
 import "../css/pages/camera.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { backgroundDarkGreen, backgroundDarkYellow, backgroundDarkRed } from "../javascript/colors";
-// import html2canvas from "html2canvas";
 import { usePreventMobileHoldImage } from "../javascript/utils";
+// import html2canvas from "html2canvas";
 // function captureScreenshot() {
 //   const element = document.body; // or any other element you want to capture
 //   html2canvas(element).then((canvas) => {
@@ -16,11 +17,9 @@ import { usePreventMobileHoldImage } from "../javascript/utils";
 //     link.click();
 //   });
 // }
-function CameraTop() {
+function GraphicTop() {
   usePreventMobileHoldImage();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { index } = location.state || {};
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
@@ -31,26 +30,16 @@ function CameraTop() {
   );
 }
 
-function CameraContent() {
+function GraphicContent() {
   usePreventMobileHoldImage();
-  const location = useLocation();
-  const cameraNumber = location.pathname.split("/")[2];
-  const { index = cameraNumber, overallstatus } = location.state || {};
-  const [cameraRow, setCameraRow] = useState([]);
-  const [jsonData, setJsonData] = useState(null);
   const [parameterData, setParameterData] = useState();
 
   useEffect(() => {
-    let initialCameraRow = [];
-    const Status = [];
     const fetchData = async () => {
       try {
         const suffix = "/api/parameter";
-        const tablesuffix = "/api/table";
-        // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix);
         const data = response.data;
-        // Initialize an empty object to store the transformed data
         const transformedData = {};
 
         // Iterate over the original data
@@ -74,8 +63,6 @@ function CameraContent() {
     const intervalId = setInterval(fetchData, 120000); // 120000 milliseconds
     return () => {
       clearInterval(intervalId);
-      initialCameraRow = [];
-      setCameraRow([]);
     };
   }, []);
 
@@ -108,7 +95,7 @@ function CameraContent() {
     gridTemplateRows: `repeat(4, 1fr)`,
     gap: "0px",
     margin: "0 2.5vw",
-    width: "94.5vw"
+    width: "94.5vw",
   };
 
   return (
@@ -195,4 +182,4 @@ function Cells(props) {
   return cells;
 }
 
-export { CameraContent, CameraTop };
+export { GraphicContent, GraphicTop };

@@ -1,3 +1,7 @@
+// Possible Navigation
+// Home -> Graphic -> Parameterdetails -> PlantStatus
+// Home -> Level -> Status -> Plant -> PlantStatus
+// Home -> Harvest
 import React, { useState, useEffect } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
@@ -91,11 +95,6 @@ function HomeMonitoringContent() {
 
   // For Recent Items logic
   const storedPages = JSON.parse(localStorage.getItem("visitedPages")) || [];
-  // const lastTwoSegmentsArray = storedPages.map((storedPages) => {
-  //   const segments = storedPages.split("/").filter(Boolean);
-  //   return segments.slice(-2);
-  // });
-
   let Recent = [];
   for (let i = 0; i < storedPages.length; i++) {
     let levelID = storedPages[i].charAt(0);
@@ -162,7 +161,7 @@ function HomeMonitoringContent() {
             onLoad={() => setImageLoaded2(true)}
           ></img>
 
-          <p style={{ color: "#8793AE" }}> Parameters</p>
+          <p style={{ color: "#8793AE" }}> Graphic</p>
         </div>
         <div
           className="feature-item"
@@ -219,9 +218,6 @@ function RecentItem(props) {
         <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "500" }}>
           Level {props.levelidx} Row {props.idx}
         </p>
-        {/* <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500" }}>
-          {props.type.charAt(0).toUpperCase() + props.type.slice(1)}
-        </p> */}
       </div>
       <p
         style={{

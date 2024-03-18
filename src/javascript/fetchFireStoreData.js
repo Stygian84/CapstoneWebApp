@@ -1,6 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../firebase";
 
+// To Check which Plant is ready to harvest
 const fetchDataFromFirestore = async (level) => {
   try {
     const collectionRef = collection(firestore, `Level${level}`);

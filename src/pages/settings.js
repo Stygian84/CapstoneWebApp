@@ -1,4 +1,4 @@
-// Not Used
+// This page is Not Used
 import React from "react";
 import "../index.css";
 

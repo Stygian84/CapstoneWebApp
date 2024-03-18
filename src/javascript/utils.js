@@ -17,14 +17,13 @@ function addVisitedPage(page) {
   localStorage.setItem("visitedPages", JSON.stringify(filteredPages));
 }
 
+// Prevent mobile from hold and drag images
 function usePreventMobileHoldImage() {
   useEffect(() => {
     const $ = require("jquery");
-    // Add event handler to all image elements using jQuery
     $("img").on("contextmenu dragstart", function (event) {
-      event.preventDefault(); // Prevent the default context menu and dragging behavior
+      event.preventDefault(); 
     });
-    // Set draggable="false" attribute to all image elements
     $("img").attr("draggable", "false");
   }, []);
 }

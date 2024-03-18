@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/33858cad-917e-4b25-ac35-c23157bc7e7d/deploy-status)](https://app.netlify.com/sites/agroreach/deploys)
 # Link
 1. The web app can be accessed [here](https://agroreach.netlify.app)
 
@@ -24,5 +25,8 @@ Targeted Device : IPhone 13 & 14 (390px x 844px)
 
 1. Recent visited pages in the homepage.
 2. Real-time Weather.  
+3. Notifaction when plants are ready to harvest.
+4. Data of the past days.
+5. Real-time images.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/33858cad-917e-4b25-ac35-c23157bc7e7d/deploy-status)](https://app.netlify.com/sites/agroreach/deploys)
+

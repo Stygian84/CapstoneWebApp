@@ -58,13 +58,13 @@ function ParameterDetailsContent() {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Get Data
   useEffect(() => {
     const fetchData = async () => {
       try {
         const suffix = `/api/row`;
         const tablesuffix = "/api/table";
 
-        // Use Render
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix, {
           params: {
             levelId: levelid,
@@ -117,9 +117,7 @@ function ParameterDetailsContent() {
             )}
           </div>
         </div>
-        {/* Start */}
         {plantRow}
-        {/* STOP */}
 
         <div id="camera-item-container">
           <div className="camera-item" style={{ height: "5vh", backgroundColor: "#7AA0B8" }}>
@@ -154,11 +152,9 @@ function ParameterDetailsContent() {
   );
 }
 
-// and navigation
 function PlantItem(props) {
   const navigate = useNavigate();
   const location = useLocation();
-  // const statusNumber = location.pathname.split("/")[2];
   const statusNumber = props.levelid;
 
   var i = props.idx;

@@ -1,3 +1,4 @@
+// This file is to initialise connection to firebase/storage + retrieve n store devices' token for notification purposes
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { getAuth, signInAnonymously } from "firebase/auth";

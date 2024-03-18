@@ -1,13 +1,13 @@
+// This file is to define all the routes
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import { HomeMonitoringContent, HomeMonitoringTop } from "./pages/homemonitoring";
-import { CameraContent, CameraTop } from "./pages/camera";
+import { GraphicContent, GraphicTop } from "./pages/graphic";
 import { LevelContent, LevelTop } from "./pages/level";
 import { StatusContent, StatusTop } from "./pages/status";
-// import { SettingsContent, SettingsTop } from "./pages/settings";
 import { PlantContent, PlantTop } from "./pages/plant";
 import { PlantStatusContent, PlantStatusTop } from "./pages/plantstatus";
 import { Divider } from "@mui/material";
@@ -60,7 +60,7 @@ function Top() {
     <Routes>
       <Route path="/" exact element={<HomeMonitoringTop />} />
       <Route path="/row" element={<LevelTop />} />
-      <Route path="/camera/*" element={<CameraTop />} />
+      <Route path="/camera/*" element={<GraphicTop />} />
       <Route path="/status/*" element={<StatusTop />} />
       <Route path="/plant/*" element={<PlantTop />} />
       <Route path="/details/*" element={<PlantStatusTop />} />
@@ -77,7 +77,7 @@ function Content() {
     <Routes>
       <Route path="/" exact element={<HomeMonitoringContent />} />
       <Route path="/row" element={<LevelContent />} />
-      <Route path="/camera/*" element={<CameraContent />} />
+      <Route path="/camera/*" element={<GraphicContent />} />
       <Route path="/status/*" element={<StatusContent />} />
       <Route path="/plant/*" element={<PlantContent />} />
       <Route path="/details/*" element={<PlantStatusContent />} />

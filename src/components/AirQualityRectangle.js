@@ -1,14 +1,6 @@
 import React from "react";
 import "../css/components/Rectangle.css";
 
-import {
-  statusDarkGreen,
-  statusDarkRed,
-  statusDarkYellow,
-  statusLightGreen,
-  statusLightRed,
-  statusLightYellow,
-} from "../javascript/colors";
 
 const AirQualityRectangle = ({
   redWidth,

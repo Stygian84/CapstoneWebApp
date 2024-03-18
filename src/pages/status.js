@@ -131,46 +131,10 @@ function StatusContent() {
               value: data_value,
               status: properties_status,
             }
-            // <StatusItem
-            //   key={i}
-            //   type={keyToDisplayName[Status[i]]}
-            //   min={properties_min}
-            //   max={properties_max}
-            //   value={data_value}
-            //   status={properties_status}
-            // />
           );
         }
         setStatusRow(initialStatusRow);
-        // ** old code without aws **
-        // const response = await axios.get(process.env.REACT_APP_JSON_URL);
-        // setJsonData(response.data);
-
-        // const initialStatusRow = [];
-
-        // // Extract keys from the first object in the array (assuming it's not empty)
-        // if (response.data.Rows && response.data.Rows.length > 0) {
-        //   const firstObject = response.data.Rows[row_index - 1];
-
-        //   for (const key in firstObject) {
-        //     if (firstObject.hasOwnProperty(key)) {
-        //       Status.push(key);
-        //     }
-        //   }
-        // }
-        // for (let i = 0; i < Status.length - 1; i++) {
-        //   initialStatusRow.push(
-        //     <StatusItem
-        //       key={i}
-        //       type={Status[i]}
-        //       min="0"
-        //       max="360"
-        //       value={response.data.Rows[row_index - 1][Status[i]].Value}
-        //       status={response.data.Rows[row_index - 1][Status[i]].Status}
-        //     />
-        //   );
-        // }
-        // setStatusRow(initialStatusRow);
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
