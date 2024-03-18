@@ -1,16 +1,14 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../index.css";
 import "../css/pages/plantstatus.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import { storage } from "../firebase";
+import { ref, getDownloadURL } from "firebase/storage";
 import { addVisitedPage } from "../javascript/utils";
 import { usePreventMobileHoldImage } from "../javascript/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush, ResponsiveContainer } from "recharts";
-import {
-  statusDarkGreen,
-  statusDarkRed,
-  statusDarkYellow,
-} from "../javascript/colors";
+import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
 import "react-circular-progressbar/dist/styles.css";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
@@ -28,7 +26,6 @@ import AirQualityRectangle from "../components/AirQualityRectangle";
 //     link.click();
 //   });
 // }
-
 
 function PlantStatusTop() {
   usePreventMobileHoldImage();
@@ -52,6 +49,7 @@ function PlantStatusTop() {
 
 function PlantStatusContent() {
   usePreventMobileHoldImage();
+  const [imageURL, setImageURL] = useState();
   const [dot, setDot] = useState(true);
   const [chart, setChart] = useState([]);
   const location = useLocation();
@@ -115,6 +113,22 @@ function PlantStatusContent() {
     pointPosition = (plant_value / rightRedValue) * 100;
   }
 
+  // Get Image
+  useEffect(() => {
+    const fetchIMGData = async () => {
+      try {
+        const storageRef = ref(storage, "images/1.jpg");
+        const url = await getDownloadURL(storageRef);
+        setImageURL(url);
+      } catch (error) {
+        console.error("Error fetching image data:", error);
+      }
+    };
+    const intervalId = setInterval(fetchIMGData, 120000); // 6000 milliseconds (6 seconds)
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Get Graph Data
   useEffect(() => {
     const Status = [];
     const fetchData = async () => {
@@ -332,11 +346,11 @@ function PlantStatusContent() {
         <div className="plant-status-item">
           <div id="camera-container">
             <div className="camera" id="camera1" style={{ display: "flex", justifyContent: "center" }}>
-              <img
-                src={require("../images/placeholder.png")}
-                alt="Status"
-                style={{ borderRadius: "20px", width: "90vw" }}
-              ></img>
+              {imageURL ? (
+                <img id="myimg" src={imageURL} alt="Status" style={{ borderRadius: "20px", width: "90vw" }}></img>
+              ) : (
+                <div />
+              )}
             </div>
           </div>
         </div>

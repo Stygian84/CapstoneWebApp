@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { getAuth, signInAnonymously } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyB4JN0YnRF_lK-VzZGuApX6v6cgPtZgnpg",
   authDomain: "capstonenotification-bdce8.firebaseapp.com",
@@ -15,6 +16,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebaseApp);
 const firestore = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 const auth = getAuth(firebaseApp);
 
@@ -52,4 +54,4 @@ export const gettoken = (setUID, setTokenFound, setTokenValue) => {
     });
 };
 
-export { firebaseApp, firestore };
+export { firebaseApp, firestore,storage };
