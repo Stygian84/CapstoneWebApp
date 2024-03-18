@@ -7,6 +7,19 @@ import ToggleSwitch from "../components/ToggleSwitch";
 import fetchDataFromFirestore from "../javascript/fetchFireStoreData";
 import { doc, updateDoc } from "firebase/firestore";
 import { firestore } from "../firebase";
+import BoxBar from "../components/Box";
+import html2canvas from "html2canvas";
+function captureScreenshot() {
+  const element = document.body; // or any other element you want to capture
+  html2canvas(element).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.download = "screenshot.png";
+    link.href = imgData;
+    link.click();
+  });
+}
+
 function HarvestTop() {
   usePreventMobileHoldImage();
   const navigate = useNavigate();
@@ -195,6 +208,13 @@ function HarvestItem({ isContainerVisible, plantid, name, days, level, updateVal
   const [clickCount, setClickCount] = useState(0);
   const [clickTimeout, setClickTimeout] = useState(null);
   var roundedDays = Math.max(days, 0);
+  const [activeBoxes, setActiveBoxes] = useState([0]);
+
+  useEffect(() => {
+    const allBoxes = [...Array(7)].map((_, index) => index);
+    const newActiveBoxes = allBoxes.slice(0, 7 - roundedDays);
+    setActiveBoxes(newActiveBoxes);
+  }, [days]);
 
   useEffect(() => {
     if (parseInt(days) <= 0) {
@@ -203,6 +223,7 @@ function HarvestItem({ isContainerVisible, plantid, name, days, level, updateVal
   }, [days]);
 
   const handleToggle = async (level, plantid, newValue) => {
+    captureScreenshot();
     // If isToggleOn is true, perform a single-click toggle, else double click
     if (isToggleOn) {
       setIsToggleOn((prevState) => !prevState);
@@ -217,9 +238,7 @@ function HarvestItem({ isContainerVisible, plantid, name, days, level, updateVal
       }
     } else {
       setClickCount((prevCount) => prevCount + 1);
-
       clearTimeout(clickTimeout);
-
       setClickTimeout(
         setTimeout(() => {
           if (clickCount >= 2) {
@@ -239,20 +258,42 @@ function HarvestItem({ isContainerVisible, plantid, name, days, level, updateVal
       );
     }
   };
-
+  const containerStyle = {
+    fontSize: "2vh",
+    fontWeight: "600",
+    width: "27.5vw",
+    height: "5vh",
+    borderRadius: "20px",
+    marginRight: "2vw",
+    backgroundColor: isToggleOn ? "#8FA586" : "#ccc",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+    padding: "0 2px",
+  };
   return (
     <div className={`harvest-item ${isContainerVisible ? "visible" : ""}`}>
       <img src={require(`../images/greenstatus.png`)} alt="Status" />
 
       <div className="harvest-row-status" style={{ width: "60%" }}>
-        <p style={{ fontSize: "2vh", color: "#737373", fontWeight: "bold" }}>
+        <p style={{ paddingLeft: "5px", fontSize: "2vh", color: "#737373", fontWeight: "bold" }}>
           {plantid}. {name}
         </p>
+        <BoxBar activeBoxes={activeBoxes} />
         <p style={{ fontSize: "1.5vh", color: "#A5A5A5", fontWeight: "500" }}>Days to harvest: {roundedDays}</p>
       </div>
-
-      <div style={{ width: "30%", height: "10vh", display: "flex", alignItems: "center" }}>
-        <ToggleSwitch checked={isToggleOn} onChange={() => handleToggle(level, plantid, 7)} />
+      {/* after harvest, becomes green, when u want harvest, its red */}
+      <div style={{ width: "40%", height: "10vh", display: "flex", alignItems: "center" }}>
+        {!isToggleOn ? (
+          <div style={containerStyle} onClick={() => handleToggle(level, plantid, 7)}>
+            {days} days left
+          </div>
+        ) : (
+          <div style={containerStyle} onClick={() => handleToggle(level, plantid, 7)}>
+            Harvest
+          </div>
+        )}
       </div>
     </div>
   );

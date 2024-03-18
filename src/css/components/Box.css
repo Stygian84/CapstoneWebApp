@@ -1,0 +1,19 @@
+.container {
+  margin-top: 0;
+}
+
+.box-container {
+  display: flex;
+  margin-top: 0;
+}
+
+.box {
+  width: 3.5vw;
+  height: 3.5vw;
+  margin: 0 2px;
+  background-color: #A5A5A5;
+}
+
+.active {
+  background-color: rgba(3, 164, 0, 0.54);
+}
