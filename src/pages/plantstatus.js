@@ -124,6 +124,7 @@ function PlantStatusContent() {
         console.error("Error fetching image data:", error);
       }
     };
+    fetchIMGData();
     const intervalId = setInterval(fetchIMGData, 120000); // 6000 milliseconds (6 seconds)
     return () => clearInterval(intervalId);
   }, []);
