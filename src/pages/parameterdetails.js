@@ -120,13 +120,13 @@ function ParameterDetailsContent() {
         await updateDoc(docRef, { Pump: true });
         console.log("Uploaded");
 
-        // Wait for 5 seconds
+        // Wait for 7 seconds
         setTimeout(() => {
           setIsButtonDisabled(false); // Enable the button
           setIsToggleOn(false); // Reset to false
           updateDoc(docRef, { Pump: false });
           console.log("Updated to false");
-        }, 5000);
+        }, 7000);
       } catch (error) {
         console.error("Error updating document: ", error);
       }
