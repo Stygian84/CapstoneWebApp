@@ -3,12 +3,13 @@ import axios from "axios";
 import "../index.css";
 import "../css/pages/plantstatus.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { storage } from "../firebase";
+import { storage, firestore } from "../firebase";
+import { doc, updateDoc } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 import { addVisitedPage } from "../javascript/utils";
 import { usePreventMobileHoldImage } from "../javascript/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Brush, ResponsiveContainer } from "recharts";
-import { statusDarkGreen, statusDarkRed, statusDarkYellow } from "../javascript/colors";
+import { statusDarkGreen, statusDarkRed, statusDarkYellow, statusLightRed } from "../javascript/colors";
 import "react-circular-progressbar/dist/styles.css";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
@@ -341,6 +342,34 @@ function PlantStatusContent() {
     transition: "height 0.5s ease-in-out",
     overflow: "hidden",
   };
+  // Water The Plant Button
+  // Function to set data in Firestore
+  const [isToggleOn, setIsToggleOn] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const handleToggle = async () => {
+    if (!isButtonDisabled) {
+      setIsToggleOn((prevState) => !prevState);
+      setIsButtonDisabled(true); // Disable the button
+
+      try {
+        const docRef = doc(firestore, "Pump", "Pump");
+        await updateDoc(docRef, { Pump: true });
+        console.log("Uploaded");
+
+        // Wait for 5 seconds
+        setTimeout(() => {
+          setIsButtonDisabled(false); // Enable the button
+          setIsToggleOn(false); // Reset to false
+          updateDoc(docRef, { Pump: false });
+          console.log("Updated to false");
+        }, 5000);
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    }
+  };
+
+  useEffect(() => {}, [isButtonDisabled]);
   return (
     <div id="content" className="content">
       <div id="plant-status-container">
@@ -515,8 +544,11 @@ function PlantStatusContent() {
       </div>
       <div id="plant-container">
         <div id="camera-item-container">
-          <div className="camera-item" style={{ height: "4.5vh", backgroundColor: "#7AA0B8" }}>
-            <div id="water-the-plant">
+          <div
+            className="camera-item"
+            style={{ height: "4.5vh", backgroundColor: isButtonDisabled ? statusLightRed : "#7AA0B8" }}
+          >
+            <div id="water-the-plant" onClick={isButtonDisabled ? null : handleToggle}>
               <p
                 style={{
                   fontSize: "2vh",
@@ -524,7 +556,7 @@ function PlantStatusContent() {
                   fontWeight: "bold",
                 }}
               >
-                WATER THE PLANT
+                {isButtonDisabled ? "PLANT IS WATERED" : "WATER THE PLANT"}
               </p>
             </div>
           </div>

@@ -8,17 +8,17 @@ import fetchDataFromFirestore from "../javascript/fetchFireStoreData";
 import { doc, updateDoc } from "firebase/firestore";
 import { firestore } from "../firebase";
 import BoxBar from "../components/Box";
-import html2canvas from "html2canvas";
-function captureScreenshot() {
-  const element = document.body; // or any other element you want to capture
-  html2canvas(element).then((canvas) => {
-    const imgData = canvas.toDataURL("image/png");
-    const link = document.createElement("a");
-    link.download = "screenshot.png";
-    link.href = imgData;
-    link.click();
-  });
-}
+// import html2canvas from "html2canvas";
+// function captureScreenshot() {
+//   const element = document.body; // or any other element you want to capture
+//   html2canvas(element).then((canvas) => {
+//     const imgData = canvas.toDataURL("image/png");
+//     const link = document.createElement("a");
+//     link.download = "screenshot.png";
+//     link.href = imgData;
+//     link.click();
+//   });
+// }
 
 function HarvestTop() {
   usePreventMobileHoldImage();

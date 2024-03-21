@@ -15,8 +15,9 @@ import CircularSliderwithBg from "../components/CircularSliderwithBg";
 import Divider from "@mui/material/Divider";
 import { addVisitedPage } from "../javascript/utils";
 import { usePreventMobileHoldImage } from "../javascript/utils";
-import { storage } from "../firebase";
+import { storage, firestore } from "../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
+import { doc, updateDoc } from "firebase/firestore";
 
 function ParameterDetailsTop() {
   usePreventMobileHoldImage();
@@ -105,6 +106,34 @@ function ParameterDetailsContent() {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Water The Plant Button
+  // Function to set data in Firestore
+  const [isToggleOn, setIsToggleOn] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const handleToggle = async () => {
+    if (!isButtonDisabled) {
+      setIsToggleOn((prevState) => !prevState);
+      setIsButtonDisabled(true); // Disable the button
+
+      try {
+        const docRef = doc(firestore, "Pump", "Pump");
+        await updateDoc(docRef, { Pump: true });
+        console.log("Uploaded");
+
+        // Wait for 5 seconds
+        setTimeout(() => {
+          setIsButtonDisabled(false); // Enable the button
+          setIsToggleOn(false); // Reset to false
+          updateDoc(docRef, { Pump: false });
+          console.log("Updated to false");
+        }, 5000);
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    }
+  };
+
+  useEffect(() => {}, [isButtonDisabled]);
   return (
     <div id="content" className="content">
       <div id="plant-container">
@@ -120,8 +149,11 @@ function ParameterDetailsContent() {
         {plantRow}
 
         <div id="camera-item-container">
-          <div className="camera-item" style={{ height: "5vh", backgroundColor: "#7AA0B8" }}>
-            <div id="water-the-plant">
+          <div
+            className="camera-item"
+            style={{ height: "5vh", backgroundColor: isButtonDisabled ? statusLightRed : "#7AA0B8" }}
+          >
+            <div id="water-the-plant" onClick={isButtonDisabled ? null : handleToggle}>
               <p
                 style={{
                   fontSize: "2.25vh",
@@ -129,7 +161,7 @@ function ParameterDetailsContent() {
                   fontWeight: "bold",
                 }}
               >
-                WATER THE PLANT
+                {isButtonDisabled ? "PLANT IS WATERED" : "WATER THE PLANT"}
               </p>
             </div>
           </div>
