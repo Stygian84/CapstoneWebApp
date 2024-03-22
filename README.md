@@ -1,6 +1,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/33858cad-917e-4b25-ac35-c23157bc7e7d/deploy-status)](https://app.netlify.com/sites/agroreach/deploys)
 # Link
 1. The web app can be accessed [here](https://agroreach.netlify.app)
+2. The Express Js can be accessed [here](https://github.com/Stygian84/CapstoneAWSNodeJs/tree/main)
 
 # IMPORTANT
 
@@ -30,3 +31,7 @@ Targeted Device : IPhone 13 & 14 (390px x 844px)
 5. Real-time images.
 
 
+# How to Host on Netlify
+1. Link this Github Link to Netlify.
+2. Insert `CI= npm run build` as the build command.
+3. Insert value for `REACT_APP_RENDER_URL` in the environment variables.
