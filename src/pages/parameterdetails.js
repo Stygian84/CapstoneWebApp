@@ -153,7 +153,7 @@ function ParameterDetailsContent() {
             className="camera-item"
             style={{ height: "5vh", backgroundColor: isButtonDisabled ? statusLightRed : "#7AA0B8" }}
           >
-            <div id="water-the-plant" onClick={isButtonDisabled ? null : handleToggle}>
+            <div id="water-the-plant" onClick={isButtonDisabled ? null : handleToggle} style={{userSelect: 'none'}}>
               <p
                 style={{
                   fontSize: "2.25vh",
