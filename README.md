@@ -31,3 +31,7 @@ Targeted Device : IPhone 13 & 14 (390px x 844px)
 5. Real-time images.
 
 
+# How to Host on Netlify
+1. Link this Github Link to Netlify.
+2. Insert `CI= npm run build` as the build command.
+3. Insert value for `REACT_APP_RENDER_URL` in the environment variables.
