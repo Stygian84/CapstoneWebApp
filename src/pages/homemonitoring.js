@@ -183,7 +183,7 @@ function HomeMonitoringContent() {
             onLoad={() => setImageLoaded3(true)}
           />
 
-          <p style={{ color: "#8FA586" }}>Status</p>
+          <p style={{ color: "#8FA586" }}>Harvest</p>
         </div>
         {/* <div className="feature-item" id="feature3" onClick={() => navigate("/settings")}>
           <img src={require("../images/settings.png")} alt="Settings"></img>
