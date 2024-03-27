@@ -56,6 +56,34 @@ function HarvestContent() {
       try {
         const level2data = await fetchDataFromFirestore(2);
         const level3data = await fetchDataFromFirestore(3);
+        // console.log(level2data)
+        // level2data.sort((a, b) => {
+        //   // Extract the letter and numerical parts of the IDs
+        //   let [letterA, numA] = a.id.match(/^([A-Z]+)(\d+)$/).slice(1);
+        //   let [letterB, numB] = b.id.match(/^([A-Z]+)(\d+)$/).slice(1);
+          
+        //   // Compare letters
+        //   if (letterA !== letterB) {
+        //     return letterA.localeCompare(letterB);
+        //   } else {
+        //     // If letters are equal, compare numerical parts
+        //     return parseInt(numA) - parseInt(numB);
+        //   }
+        // });
+        // level3data.sort((a, b) => {
+        //   // Extract the letter and numerical parts of the IDs
+        //   let [letterA, numA] = a.id.match(/^([A-Z]+)(\d+)$/).slice(1);
+        //   let [letterB, numB] = b.id.match(/^([A-Z]+)(\d+)$/).slice(1);
+          
+        //   // Compare letters
+        //   if (letterA !== letterB) {
+        //     return letterA.localeCompare(letterB);
+        //   } else {
+        //     // If letters are equal, compare numerical parts
+        //     return parseInt(numA) - parseInt(numB);
+        //   }
+        // });
+        // console.log(level2data)
         setLevel2(level2data);
         setLevel3(level3data);
       } catch (error) {
@@ -77,16 +105,43 @@ function HarvestContent() {
           },
         });
         const data2 = response2.data;
+        console.log(data2)
+        data2.sort((a, b) => {
+          // Extract the letter and numerical parts of the plantids
+          let [letterA, numA] = a.rowid.match(/^([A-Z]+)(\d+)$/).slice(1);
+          let [letterB, numB] = b.rowid.match(/^([A-Z]+)(\d+)$/).slice(1);
+        
+          // Compare letters
+          if (letterA !== letterB) {
+            return letterA.localeCompare(letterB);
+          } else {
+            // If letters are equal, compare numerical parts
+            return parseInt(numA) - parseInt(numB);
+          }
+        });
         const response3 = await axios.get(process.env.REACT_APP_RENDER_URL + suffix, {
           params: {
             levelId: 3,
           },
         });
         const data3 = response3.data;
+        data3.sort((a, b) => {
+          // Extract the letter and numerical parts of the plantids
+          let [letterA, numA] = a.rowid.match(/^([A-Z]+)(\d+)$/).slice(1);
+          let [letterB, numB] = b.rowid.match(/^([A-Z]+)(\d+)$/).slice(1);
+        
+          // Compare letters
+          if (letterA !== letterB) {
+            return letterA.localeCompare(letterB);
+          } else {
+            // If letters are equal, compare numerical parts
+            return parseInt(numA) - parseInt(numB);
+          }
+        });
         var plantLevel2 = [];
         var plantLevel3 = [];
 
-        for (let i = 0; i < 32; i++) {
+        for (let i = 0; i < 40; i++) {
           plantLevel2.push({
             key: i,
             levelid: 2,
@@ -116,7 +171,7 @@ function HarvestContent() {
     setUpdateValue(!updateValue);
   };
   const parentDivStyle = {
-    height: !isContainerVisible ? "3.4vh" : "325vh",
+    height: !isContainerVisible ? "3.4vh" : "406.25vh",
     width: "90vw",
     transition: "height 0.5s ease-in-out",
     overflow: "hidden",
@@ -127,7 +182,7 @@ function HarvestContent() {
     top: 0,
   };
   const parentDivStyle2 = {
-    height: !isContainerVisible2 ? "3.4vh" : "162.5vh",
+    height: !isContainerVisible2 ? "3.4vh" : "406.25vh",
     width: "90vw",
     transition: "height 0.5s ease-in-out",
     overflow: "hidden",
