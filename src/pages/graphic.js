@@ -202,6 +202,11 @@ function SoilCells(props) {
     } else if (status == "Bad") {
       bgcolor = backgroundDarkRed;
     }
+    // for showcase purpose put one red
+    if(level==2 & rowChar=="D" &colNum==10){
+      bgcolor=backgroundDarkRed
+    }
+    // delete the above
     cells.push(
       <div
         key={key}

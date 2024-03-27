@@ -56,34 +56,6 @@ function HarvestContent() {
       try {
         const level2data = await fetchDataFromFirestore(2);
         const level3data = await fetchDataFromFirestore(3);
-        // console.log(level2data)
-        // level2data.sort((a, b) => {
-        //   // Extract the letter and numerical parts of the IDs
-        //   let [letterA, numA] = a.id.match(/^([A-Z]+)(\d+)$/).slice(1);
-        //   let [letterB, numB] = b.id.match(/^([A-Z]+)(\d+)$/).slice(1);
-          
-        //   // Compare letters
-        //   if (letterA !== letterB) {
-        //     return letterA.localeCompare(letterB);
-        //   } else {
-        //     // If letters are equal, compare numerical parts
-        //     return parseInt(numA) - parseInt(numB);
-        //   }
-        // });
-        // level3data.sort((a, b) => {
-        //   // Extract the letter and numerical parts of the IDs
-        //   let [letterA, numA] = a.id.match(/^([A-Z]+)(\d+)$/).slice(1);
-        //   let [letterB, numB] = b.id.match(/^([A-Z]+)(\d+)$/).slice(1);
-          
-        //   // Compare letters
-        //   if (letterA !== letterB) {
-        //     return letterA.localeCompare(letterB);
-        //   } else {
-        //     // If letters are equal, compare numerical parts
-        //     return parseInt(numA) - parseInt(numB);
-        //   }
-        // });
-        // console.log(level2data)
         setLevel2(level2data);
         setLevel3(level3data);
       } catch (error) {
