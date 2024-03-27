@@ -54,7 +54,7 @@ function PlantContent() {
         const table_data = table_response.data;
         var plantRow = [];
 
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < 32; i++) {
           plantRow.push({
             key: i,
             levelid: levelid,

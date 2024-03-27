@@ -83,11 +83,10 @@ function HarvestContent() {
           },
         });
         const data3 = response3.data;
-
         var plantLevel2 = [];
         var plantLevel3 = [];
 
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < 32; i++) {
           plantLevel2.push({
             key: i,
             levelid: 2,
@@ -117,7 +116,7 @@ function HarvestContent() {
     setUpdateValue(!updateValue);
   };
   const parentDivStyle = {
-    height: !isContainerVisible ? "3.4vh" : "162.5vh",
+    height: !isContainerVisible ? "3.4vh" : "325vh",
     width: "90vw",
     transition: "height 0.5s ease-in-out",
     overflow: "hidden",

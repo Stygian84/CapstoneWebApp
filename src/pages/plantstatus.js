@@ -35,7 +35,6 @@ function PlantStatusTop() {
   const { row_idx, plant_id } = location.state || {};
   const properties = location.pathname.split("/")[3];
   addVisitedPage(row_idx + plant_id);
-
   return (
     <div id="top" className="top">
       <div className="img-container" onClick={() => navigate(-1)}>
@@ -543,6 +542,8 @@ function PlantStatusContent() {
         </div>
       </div>
       <div id="plant-container">
+        {/* IF index <=4 , is hydroponics , no water fertilising button */}
+        {plant_id.slice(-1)>4 ? 
         <div id="camera-item-container">
           <div
             className="camera-item"
@@ -574,6 +575,8 @@ function PlantStatusContent() {
             </div>
           </div>
         </div>
+        :
+        <div></div> }
       </div>
     </div>
   );

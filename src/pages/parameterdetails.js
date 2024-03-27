@@ -65,7 +65,6 @@ function ParameterDetailsContent() {
       try {
         const suffix = `/api/row`;
         const tablesuffix = "/api/table";
-
         const response = await axios.get(process.env.REACT_APP_RENDER_URL + suffix, {
           params: {
             levelId: levelid,
@@ -147,7 +146,8 @@ function ParameterDetailsContent() {
           </div>
         </div>
         {plantRow}
-
+        {/* IF index <=4 , is hydroponics , no water fertilising button */}
+        {index.slice(-1)>4 ? 
         <div id="camera-item-container">
           <div
             className="camera-item"
@@ -179,6 +179,9 @@ function ParameterDetailsContent() {
             </div>
           </div>
         </div>
+        :
+        <div></div> }
+        
       </div>
     </div>
   );
