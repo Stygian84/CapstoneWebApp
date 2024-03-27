@@ -50,11 +50,24 @@ function PlantContent() {
           },
         });
         const data = response.data;
+        
+        data.sort((a, b) => {
+          // Extract the letter and numerical parts of the rowids
+          let [letterA, numA] = a.rowid.match(/^([A-Z]+)(\d+)$/).slice(1);
+          let [letterB, numB] = b.rowid.match(/^([A-Z]+)(\d+)$/).slice(1);
+
+          // Compare letters
+          if (letterA !== letterB) {
+            return letterA.localeCompare(letterB);
+          } else {
+            // If letters are equal, compare numerical parts
+            return parseInt(numA) - parseInt(numB);
+          }
+        });
         const table_response = await axios.get(process.env.REACT_APP_RENDER_URL + tablesuffix);
         const table_data = table_response.data;
         var plantRow = [];
-
-        for (let i = 0; i < 32; i++) {
+        for (let i = 0; i < 40; i++) {
           plantRow.push({
             key: i,
             levelid: levelid,
