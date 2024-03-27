@@ -117,7 +117,12 @@ function PlantStatusContent() {
   useEffect(() => {
     const fetchIMGData = async () => {
       try {
-        const storageRef = ref(storage, "images/1.jpg");
+        let storageRef;
+        if (row_idx<=4){
+          storageRef = ref(storage, "images/1.jpg");}
+        else{
+          storageRef = ref(storage, "images/2.jpg");
+        }
         const url = await getDownloadURL(storageRef);
         setImageURL(url);
       } catch (error) {
