@@ -139,7 +139,7 @@ function ParameterDetailsContent() {
         <div id="camera-container" style={{ marginBottom: "2vh" }}>
           <div className="camera" id="camera1" style={{ display: "flex", justifyContent: "center" }}>
             {imageURL ? (
-              <img src={imageURL} alt="Status" style={{ borderRadius: "20px", width: "90vw" ,height:"41.5vh",objectFit: "contain"}}></img>
+              <img src={imageURL} alt="Status" style={{ borderRadius: "20px", width: "90vw" ,height:"41.5vh",objectFit: "fill"}}></img>
             ) : (
               <div />
             )}
