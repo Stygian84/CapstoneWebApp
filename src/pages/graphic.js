@@ -75,14 +75,14 @@ function GraphicContent() {
     position: "absolute",
     top: "10%",
     width: "94.5vw",
-    height: "29.5vh",
+    height: "32.5vh",
     margin: "0 2.5vw",
   };
   const centeredImageStyle2 = {
     position: "absolute",
     top: "50.5%",
     width: "94.5vw",
-    height: "29.5vh",
+    height: "32.5vh",
     margin: "0 2.5vw",
   };
 
@@ -132,7 +132,7 @@ function GraphicContent() {
             fontWeight: "bold",
             transform: "translate(-50%, -50%)",
             left: "50%",
-            top: "85.5%",
+            top: "90.5%",
             position: "absolute",
           }}
         >
@@ -174,7 +174,7 @@ function Cells(props) {
           fontWeight: "bold",
           fontSize: "16px",
           width: `100%`,
-          height: `3.5vh`,
+          height: `4vh`,
         }}
         onClick={() => navigate("/parameterdetails", { state: { index: key, levelid: level } })}
       >
@@ -220,7 +220,7 @@ function SoilCells(props) {
           fontWeight: "bold",
           fontSize: "16px",
           width: `100%`,
-          height: `2.25vh`,
+          height: `2.45vh`,
         }}
         onClick={() => navigate("/parameterdetails", { state: { index: key, levelid: level } })}
       >
