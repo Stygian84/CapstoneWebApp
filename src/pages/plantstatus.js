@@ -376,7 +376,7 @@ function PlantStatusContent() {
           <div id="camera-container">
             <div className="camera" id="camera1" style={{ display: "flex", justifyContent: "center" }}>
               {imageURL ? (
-                <img id="myimg" src={imageURL} alt="Status" style={{ borderRadius: "20px", width: "90vw",height:"40vh",objectFit: "contain" }}></img>
+                <img id="myimg" src={imageURL} alt="Status" style={{ borderRadius: "20px", width: "90vw",height:"41.5vh",objectFit: "contain" }}></img>
               ) : (
                 <div />
               )}
