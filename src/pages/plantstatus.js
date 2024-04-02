@@ -118,11 +118,7 @@ function PlantStatusContent() {
     const fetchIMGData = async () => {
       try {
         let storageRef;
-        if (row_idx<=4){
-          storageRef = ref(storage, "images/1.jpg");}
-        else{
-          storageRef = ref(storage, "images/2.jpg");
-        }
+        storageRef = ref(storage, `images/${plant_id.slice(1)}.jpg`);
         const url = await getDownloadURL(storageRef);
         setImageURL(url);
       } catch (error) {
