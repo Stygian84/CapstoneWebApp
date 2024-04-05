@@ -66,7 +66,7 @@ function HomeMonitoringContent() {
       fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
-          const adjustedTimeStamp = data.dt + 9 * 60;
+          const adjustedTimeStamp = new Date();
           setWeatherData({ ...data, dt: adjustedTimeStamp });
 
           const newFormattedDate = new Date(data.dt * 1000).toLocaleDateString("en-US", {
@@ -75,8 +75,8 @@ function HomeMonitoringContent() {
             minute: "numeric",
             timeZone: "Asia/Singapore",
           });
-          setFormattedDate(newFormattedDate);
         })
+
         .catch((error) => {
           console.error("Error fetching weather data:", error);
         });
@@ -101,7 +101,24 @@ function HomeMonitoringContent() {
     let rowID = storedPages[i].slice(1);
     Recent.push(<RecentItem type={"status"} levelidx={levelID} idx={rowID} key={i} />);
   }
-
+  // Real Time
+  useEffect(() => {
+    const updateFormattedDate = () => {
+      const now = new Date();
+      const formattedTime = now.toLocaleDateString("en-US", {
+        weekday: "long",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      });
+      console.log(formattedTime); 
+      setFormattedDate(formattedTime);
+    };
+    updateFormattedDate();
+    const intervalId = setInterval(updateFormattedDate, 60000);
+    return () => clearInterval(intervalId);
+  }, []);
+  
   return (
     <div id="content" className="content">
       {/* Header Section */}
