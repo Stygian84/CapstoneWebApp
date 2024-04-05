@@ -148,7 +148,7 @@ function ParameterDetailsContent() {
         </div>
         {plantRow}
         {/* IF index <=4 , is hydroponics , no water fertilising button */}
-        {index.slice(-1)>4 ? 
+        {index.slice(-1)>0 ? 
         <div id="camera-item-container">
           <div
             className="camera-item"

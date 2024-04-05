@@ -544,7 +544,7 @@ function PlantStatusContent() {
       </div>
       <div id="plant-container">
         {/* IF index <=4 , is hydroponics , no water fertilising button */}
-        {plant_id.slice(-1)>4 ? 
+        {plant_id.slice(-1)>0 ? 
         <div id="camera-item-container">
           <div
             className="camera-item"
