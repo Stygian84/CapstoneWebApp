@@ -67,7 +67,8 @@ webpack compiled successfully
 ### 5. Finish
 The web app should open automatically on your default browser.  
 If it doesn't open automatically, 
-open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+open [http://localhost:3000](http://localhost:3000) to view it in your browser.  
+Open browser console (`Ctrl+Shift+I`) and Toggle device toolbar (`Ctrl+Shift+M`) and select Responsive and edit the dimension to (390px x 844px)
 
 # IMPORTANT
 
