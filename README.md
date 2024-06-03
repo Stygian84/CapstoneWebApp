@@ -84,13 +84,17 @@ Targeted Device : IPhone 13 & 14 (390px x 844px)
 
 # Notable Features
 
-1. Recent visited pages in the homepage.
-2. Real-time Weather.  
-3. Notifaction when plants are ready to harvest.
-4. Data of the past days.
-5. Real-time images.
+1. Recent visited pages in the homepage are stored locally ( unique to each device ).
+2. Real-time Weather using [OpenWeather API](https://openweathermap.org/api).
+3. Integration with PostgreSQL Database.
+4. Graphs to show past data in the interval of 30 , 90 , 180 days.
+5. Notifaction when plants are ready to harvest using FCM. (disabled)
+6. Real-time images. (disabled)
 
 # How to Host on Netlify
 1. Link this Github Link to Netlify.
 2. Insert `CI= npm run build` as the build command.
 3. Insert value for `REACT_APP_RENDER_URL` in the environment variables.
+
+# Database
+![](https://github.com/Stygian84/CapstoneWebApp/blob/master/docs/image/sqldatabase.png)
